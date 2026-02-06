@@ -1,4 +1,5 @@
 package main;
+import javax.swing.JFrame;
 // import package title screen; 
 
 public class Main {
@@ -16,8 +17,27 @@ public class Main {
 		 * 
 		 * set up some vars? 
 		 * */
+
 		
+		
+		//Create the frame.
+		JFrame frame = new JFrame("Game Play Window");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setTitle("Prison Break... The Game");
+		
+		Modify_Frame frame_mod = new Modify_Frame();
+		frame.add(frame_mod);
+		
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 		//title_screen();
 	}
 }
-// typing a test comment
+
+
+//Sources:
+//https://docs.oracle.com/javase/tutorial/uiswing/components/frame.html
+//https://www.youtube.com/watch?v=om59cwR7psI (How to Make a 2D Game in Java #1 - The Mechanism of 2D Games -- RyiSnow)
+
+
