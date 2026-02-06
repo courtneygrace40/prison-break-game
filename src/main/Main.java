@@ -17,6 +17,6 @@ public class Main {
 		 * set up some vars? 
 		 * */
 		
-		title_screen();
+		//title_screen();
 	}
 }
