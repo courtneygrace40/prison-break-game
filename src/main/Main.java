@@ -32,6 +32,12 @@ public class Main {
 		frame.pack(); //sets window size to preferred window size indicated in modify_frame
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
+		
+		frame_mod.startGame();
+		
+		
+		
 		//title_screen();
 	}
 }
