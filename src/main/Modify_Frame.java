@@ -1,6 +1,7 @@
 package main;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
@@ -11,14 +12,30 @@ public class Modify_Frame extends JPanel implements Runnable{
 	final int frameWidth = 640;
 	final int charSize = 64;
 	
+	
 	// create a game timeline / thread 
+	
+	KeyHandler controls = new KeyHandler();
 	Thread timeline;
+	
+	//set player default position
+	int playerX = 100;
+	int playerY = 100;
+	int playerSpeed = 4;
+	
+	//we need to set a fps rate ... for now I am setting it to 60 fps
+	//check curr time
+	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)
+	int FPS = 60;
+	
 	
 	public Modify_Frame() {
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
+		this.addKeyListener(controls);
+		this.setFocusable(true);
 	}
 	
 	public void startGame() {
@@ -28,28 +45,67 @@ public class Modify_Frame extends JPanel implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		//when call modify_frame, call run
+		//when call modify_frame, call run automatically
+		
+		//creating vars to control frames per second speed
+		double drawInterval = 1000000000/FPS; //1 second (1 billion nano seconds/ frames per seconds)
+		double nextDrawTime = System.nanoTime()+drawInterval; //curr time plus draw interval (when to draw next movement)
+		
+		
+		
 		while(timeline != null) {
+
 			//update the information needed for the game (char position etc)
 			update();
 			//Draw the screen with the updated information
 			repaint(); // how to call paintComponent method
 			
+			//check if time passed is = to next draw time
+			double remainingTime = nextDrawTime - System.nanoTime();
+			
+			//sleep for remaining time
+			try {
+				remainingTime = remainingTime/100000; //get time from nano secs to millisecs
+				if (remainingTime < 0) {
+					remainingTime = 0;
+				}
+				Thread.sleep((long)remainingTime);
+				
+				nextDrawTime += drawInterval;
+			} catch (InterruptedException e) {
+				//error
+				e.printStackTrace();
+			}
+			
 		}
+	}
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setColor(Color.white);
-			g2.fillRect(100, 100, charSize, charSize);
+			g2.fillRect(playerX, playerY, charSize, charSize);
 			g2.dispose();
 		}
 				
 	public void update() {
-		//empty for now
-		
-	}
+		//update player position
+		if(controls.uppressed){
+			playerY -= playerSpeed; //movement depending on player speed
+			
+		}
+		else if(controls.downpressed) {
+			playerY += playerSpeed;
+	
+		}
+		else if (controls.rightpressed) {
+			playerX += playerSpeed;
+		}
+		else if (controls.leftpressed) {
+			playerX -= playerSpeed;
+		}
 	
 
 	}
 }
+
+//https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2 (Game Loop and Key Input - How to Make a 2D Game in Java #2)
