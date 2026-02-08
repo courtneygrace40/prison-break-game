@@ -15,5 +15,6 @@ public class Modify_Frame extends JPanel{
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setBackground(Color.black);
+		this.setDoubleBuffered(true);
 	}
 }

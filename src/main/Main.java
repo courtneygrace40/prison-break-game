@@ -29,6 +29,7 @@ public class Main {
 		Modify_Frame frame_mod = new Modify_Frame();
 		frame.add(frame_mod);
 		
+		frame.pack(); //sets window size to preferred window size indicated in modify_frame
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		//title_screen();
