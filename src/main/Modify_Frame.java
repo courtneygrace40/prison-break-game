@@ -40,7 +40,7 @@ public class Modify_Frame extends JPanel implements Runnable{
 	public Modify_Frame() {
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
-		this.setBackground(Color.black);
+		this.setBackground(Color.pink);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(controls);
 		this.setFocusable(true);
