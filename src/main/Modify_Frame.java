@@ -20,11 +20,6 @@ public class Modify_Frame extends JPanel implements Runnable{
 	KeyHandler controls = new KeyHandler();
 	Thread timeline;
 	
-	//set player default position
-	int playerX = 100;
-	int playerY = 100;
-	int playerSpeed = 4;
-	
 	//we need to set a fps rate ... for now I am setting it to 60 fps
 	//check curr time
 	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)

@@ -62,7 +62,5 @@ public class KeyHandler implements KeyListener{
 }
 
 
-//deeply unfinished code
-
 //src: https://docs.oracle.com/javase/8/docs/api/java/awt/event/KeyListener.html
 //https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2 (Game Loop and Key Input - How to Make a 2D Game in Java #2)

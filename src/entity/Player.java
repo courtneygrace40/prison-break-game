@@ -17,7 +17,7 @@ public class Player extends Entity{
 		
 		this.mf = mf;
 		this.controls = kh;
-		//this.direction = "forward"; will use when we have a front and back but not of use yet
+		this.direction = "back";
 		
 		setDefaults();
 		getPlayerImage();
@@ -26,6 +26,7 @@ public class Player extends Entity{
 	public void getPlayerImage() {
 		try{
 			front = ImageIO.read(getClass().getResourceAsStream("/player/player1.png"));
+			back = ImageIO.read(getClass().getResourceAsStream("/player/player1back.png"));
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -36,27 +37,39 @@ public class Player extends Entity{
 		x = 100;
 		y = 100;
 		speed = 4;
+		direction = "back";
 		
 	}
+	
 	public void update() {
 		//update player position
 		if(controls.uppressed){
+			direction = "back";
 			y -= speed; //movement depending on player speed	
 				}
 		else if(controls.downpressed) {
+			direction = "back";
 			y += speed;
 			}
 		else if (controls.rightpressed) {
+			direction = "front";
 			x += speed;
 				}
 		else if (controls.leftpressed) {
+			direction = "front";
 			x -= speed;
 				}
 	}
+	
 	public void draw(Graphics2D g2) {
-		BufferedImage image = front;
-		//add if else for front and back when front and back exist
-		
+		BufferedImage image = null;
+		if (direction.equals("front")) {
+			image = front;
+		}
+		else if (direction.equals("back")) {
+			image = back;
+		}
+			
 		g2.drawImage(image, x, y, mf.charSize, mf.charSize, null);
 		
 	}

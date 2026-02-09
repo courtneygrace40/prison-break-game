@@ -9,9 +9,8 @@ public class Entity {
 	
 	public int speed;
 	
-	public BufferedImage front;
-	//back;
-	// public String direction; will use when we have a front and a back but not of use yet
+	public BufferedImage front, back;
+	public String direction;
 	
 	
 }
