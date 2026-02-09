@@ -6,11 +6,13 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import entity.Player;
+
 public class Modify_Frame extends JPanel implements Runnable{
 	// final variables are unchangeable : we are using them here to set pixel size of the window. 
 	final int frameHeight = 640;
 	final int frameWidth = 640;
-	final int charSize = 64;
+	public int charSize = 64;
 	
 	
 	// create a game timeline / thread 
@@ -27,6 +29,12 @@ public class Modify_Frame extends JPanel implements Runnable{
 	//check curr time
 	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)
 	int FPS = 60;
+	
+	
+	//make player inside of this frame
+	Player player1 = new Player(this, controls);
+	
+	
 	
 	
 	public Modify_Frame() {
@@ -82,28 +90,13 @@ public class Modify_Frame extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
-			g2.setColor(Color.white);
-			g2.fillRect(playerX, playerY, charSize, charSize);
+			player1.draw(g2);
 			g2.dispose();
 		}
 				
 	public void update() {
-		//update player position
-		if(controls.uppressed){
-			playerY -= playerSpeed; //movement depending on player speed
-			
-		}
-		else if(controls.downpressed) {
-			playerY += playerSpeed;
-	
-		}
-		else if (controls.rightpressed) {
-			playerX += playerSpeed;
-		}
-		else if (controls.leftpressed) {
-			playerX -= playerSpeed;
-		}
-	
+		//update player1 position
+		player1.update();
 
 	}
 }
