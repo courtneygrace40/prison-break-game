@@ -1,11 +1,13 @@
 package main;
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import backgrounds.Background;
 import entity.Player;
 
 public class Modify_Frame extends JPanel implements Runnable{
@@ -25,17 +27,16 @@ public class Modify_Frame extends JPanel implements Runnable{
 	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)
 	int FPS = 60;
 	
+	//set background
+	Background background1 = new Background(this, controls, "/backgrounds/mazeBackground.png");
 	
 	//make player inside of this frame
 	Player player1 = new Player(this, controls);
 	
-	
-	
-	
 	public Modify_Frame() {
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
-		this.setBackground(Color.pink);
+		//this.setBackground(Color.pink);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(controls);
 		this.setFocusable(true);
@@ -85,7 +86,9 @@ public class Modify_Frame extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
+			background1.draw(g2);
 			player1.draw(g2);
+			
 			g2.dispose();
 		}
 				
@@ -93,6 +96,10 @@ public class Modify_Frame extends JPanel implements Runnable{
 		//update player1 position
 		player1.update();
 
+	}
+	
+	public void updateBackground() {
+		
 	}
 }
 
