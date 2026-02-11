@@ -12,9 +12,10 @@ import entity.Player;
 
 public class Modify_Frame extends JPanel implements Runnable{
 	// final variables are unchangeable : we are using them here to set pixel size of the window. 
-	final int frameHeight = 640;
-	final int frameWidth = 640;
 	public int charSize = 64;
+	final int frameHeight = charSize*8;
+	final int frameWidth = charSize*8;
+
 	
 	
 	// create a game timeline / thread 
