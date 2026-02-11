@@ -1,6 +1,4 @@
 package main;
-import java.awt.Color;
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,10 +9,11 @@ import backgrounds.Background;
 import entity.Player;
 
 public class Modify_Frame extends JPanel implements Runnable{
+	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
 	// final variables are unchangeable : we are using them here to set pixel size of the window. 
 	public int charSize = 64;
-	final int frameHeight = charSize*8;
-	final int frameWidth = charSize*8;
+	public int frameHeight = charSize*10;
+	public int frameWidth = charSize*10;
 
 	
 	
@@ -26,10 +25,11 @@ public class Modify_Frame extends JPanel implements Runnable{
 	//we need to set a fps rate ... for now I am setting it to 60 fps
 	//check curr time
 	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)
-	int FPS = 60;
+	int FPS = 90;
 	
 	//set background
-	Background background1 = new Background(this, controls, "/backgrounds/mazeBackground.png");
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png");
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png");
 	
 	//make player inside of this frame
 	Player player1 = new Player(this, controls);
@@ -87,7 +87,7 @@ public class Modify_Frame extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
-			background1.draw(g2);
+			mazeBackground.draw(g2);
 			player1.draw(g2);
 			
 			g2.dispose();

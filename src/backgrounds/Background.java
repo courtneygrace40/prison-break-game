@@ -1,6 +1,7 @@
 package backgrounds;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -36,8 +37,17 @@ public class Background {
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		// Source - https://stackoverflow.com/a/9417836
+		// Posted by Ocracoke, modified by community. See post 'Timeline' for change history
+		// Retrieved 2026-02-11, License - CC BY-SA 3.0
+		    Image tmp = bg.getScaledInstance(mf.frameWidth, mf.frameHeight, Image.SCALE_SMOOTH);
+		    bg = new BufferedImage(mf.frameWidth, mf.frameHeight, BufferedImage.TYPE_INT_ARGB);  
+		    Graphics2D g2d = bg.createGraphics();
+		    g2d.drawImage(tmp, 0, 0, null);
+		    g2d.dispose();
 	}
-	
+    
 	public Background getNextBackground() {
 		return this.nextBackground;
 	}
