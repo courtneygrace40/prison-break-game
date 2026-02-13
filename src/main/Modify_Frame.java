@@ -67,8 +67,10 @@ public class Modify_Frame extends JPanel implements Runnable{
 			while (!startGame){
 				//doesnt work yet but we want it to set start game to true eventually and run main screen? idk
 				if (mouse.click) {
-					//if(mouse.x <= 100 && mouse.x >= 0) // coords of buttons eventually or make a button?
-						//if(mouse.y <= 100 && mouse.y >=0)
+					if(mouse.x <= 640 && mouse.x >= 0) // coords of buttons eventually or make a button?
+						if(mouse.y <= 640 && mouse.y >=0)
+							//System.out.println("X = "+mouse.x);
+							//System.out.println("Y = "+mouse.y);
 							startGame = true;
 							break;
 				}
