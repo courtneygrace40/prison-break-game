@@ -21,7 +21,7 @@ public class Background {
 	Background previousBackground;
 	boolean currBackground;
 	
-	BufferedImage bg;
+	public BufferedImage bg;
 	
 	public Background(Modify_Frame mf, KeyHandler kh, String f) {
 		this.mf = mf;
@@ -55,9 +55,26 @@ public class Background {
 		return this.previousBackground;
 	}
 	
-	public void update() {
-			//if player hits left right up down wall go to next background 
+	public void setNextBackground(Background b) {
+		this.nextBackground = b;
 		
+	}
+	
+	public void setPreviousBackground(Background b) {
+		this.previousBackground = b;
+	}
+	
+	public void setCurrentBackground(boolean x) {
+		this.currBackground = x;
+	}
+	
+	public void update() {
+			//if player hits left right up down wall go to next background  (not implemented)
+			if (mf.startGame == false) {
+				if (controls.enterpressed) {
+					mf.startGame =true;
+				}
+			}
 	}
 	
 	public void draw(Graphics2D g2) {

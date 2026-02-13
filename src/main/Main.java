@@ -4,21 +4,6 @@ import javax.swing.JFrame;
 
 public class Main {
 	public static void main(String [] args) {
-		//In main() our goals are: 
-		/*
-		 * set up screen specs
-		 * 
-		 * 
-		 * exposition
-		 * 
-		 * 
-		 * call title screen
-		 * 
-		 * 
-		 * set up some vars? 
-		 * */
-
-		
 		
 		//Create the frame.
 		JFrame frame = new JFrame("Game Play Window");
@@ -35,14 +20,8 @@ public class Main {
 		
 		
 		frame_mod.startGame();
-		
-		
-		
-		//title_screen();
-		
-		//character selection 
-		
-		// game play segment
+	
+
 	}
 }
 

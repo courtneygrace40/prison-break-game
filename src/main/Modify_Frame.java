@@ -10,6 +10,7 @@ import entity.Player;
 
 public class Modify_Frame extends JPanel implements Runnable{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
+	
 	// final variables are unchangeable : we are using them here to set pixel size of the window. 
 	public int charSize = 64;
 	public int frameHeight = charSize*10;
@@ -18,8 +19,9 @@ public class Modify_Frame extends JPanel implements Runnable{
 	
 	
 	// create a game timeline / thread 
-	
+	public boolean startGame = false;
 	KeyHandler controls = new KeyHandler();
+	MouseHandler mouse = new MouseHandler();
 	Thread timeline;
 	
 	//we need to set a fps rate ... for now I am setting it to 60 fps
@@ -28,8 +30,10 @@ public class Modify_Frame extends JPanel implements Runnable{
 	int FPS = 90;
 	
 	//set background
+	//this will change to implementing a linked list at some point?
 	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png");
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png");
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png");
 	
 	//make player inside of this frame
 	Player player1 = new Player(this, controls);
@@ -40,6 +44,7 @@ public class Modify_Frame extends JPanel implements Runnable{
 		//this.setBackground(Color.pink);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(controls);
+		this.addMouseListener(mouse);
 		this.setFocusable(true);
 	}
 	
@@ -55,15 +60,28 @@ public class Modify_Frame extends JPanel implements Runnable{
 		//creating vars to control frames per second speed
 		double drawInterval = 1000000000/FPS; //1 second (1 billion nano seconds/ frames per seconds)
 		double nextDrawTime = System.nanoTime()+drawInterval; //curr time plus draw interval (when to draw next movement)
-		
+
 		
 		
 		while(timeline != null) {
-
-			//update the information needed for the game (char position etc)
-			update();
+			while (!startGame){
+				//doesnt work yet but we want it to set start game to true eventually and run main screen? idk
+				if (mouse.click) {
+					//if(mouse.x <= 100 && mouse.x >= 0) // coords of buttons eventually or make a button?
+						//if(mouse.y <= 100 && mouse.y >=0)
+							startGame = true;
+							break;
+				}
+				else if (controls.enterpressed) {
+					startGame = true;
+				}
+			}
+			
 			//Draw the screen with the updated information
 			repaint(); // how to call paintComponent method
+			
+			//update the information needed for the game (char position etc)
+			update();
 			
 			//check if time passed is = to next draw time
 			double remainingTime = nextDrawTime - System.nanoTime();
@@ -87,21 +105,24 @@ public class Modify_Frame extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
+			if (startGame){
 			mazeBackground.draw(g2);
 			player1.draw(g2);
+			}
+			else {
+				mainScreen.draw(g2);
+			}
 			
 			g2.dispose();
 		}
 				
 	public void update() {
+		mainScreen.update();
 		//update player1 position
 		player1.update();
 
 	}
 	
-	public void updateBackground() {
-		
-	}
 }
 
 //https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2 (Game Loop and Key Input - How to Make a 2D Game in Java #2)
