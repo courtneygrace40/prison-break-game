@@ -25,8 +25,8 @@ public class Player extends Entity{
 	
 	public void getPlayerImage() {
 		try{
-			front = ImageIO.read(getClass().getResourceAsStream("/player/player1.png"));
-			back = ImageIO.read(getClass().getResourceAsStream("/player/player1back.png"));
+			front = ImageIO.read(getClass().getResourceAsStream("/player/Main_Front.png"));
+			back = ImageIO.read(getClass().getResourceAsStream("/player/Main_Back.png"));
 		}
 		catch(IOException e) {
 			e.printStackTrace();
