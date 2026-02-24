@@ -1,5 +1,8 @@
 package main;
 import javax.swing.JFrame;
+import java.awt.*;
+
+import ChatBox.ChatGui;
 // import package title screen; 
 
 public class Main {
@@ -11,6 +14,9 @@ public class Main {
 		frame.setResizable(false);
 		frame.setTitle("Prison Break... The Game");
 		
+		ChatGui chatGui = new ChatGui();
+		frame.add(chatGui, BorderLayout.EAST);
+		
 		Modify_Frame frame_mod = new Modify_Frame();
 		frame.add(frame_mod);
 		
@@ -20,6 +26,11 @@ public class Main {
 		
 		
 		frame_mod.startGame();
+		
+	
+		
+
+		
 	
 
 	}
