@@ -12,6 +12,7 @@ public class MouseHandler implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 
 	@Override

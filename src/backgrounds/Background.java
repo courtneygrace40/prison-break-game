@@ -9,8 +9,12 @@ import javax.imageio.ImageIO;
 
 import main.KeyHandler;
 import main.Modify_Frame;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
-public class Background {
+public class Background extends JPanel{
 	
 	//implementing a linked list of background objects 
 	
@@ -20,12 +24,26 @@ public class Background {
 	Background nextBackground;
 	Background previousBackground;
 	boolean currBackground;
-	
+	public enum ProgressionType {CLICK, AUTO, TRIGGER};
+	public ProgressionType currentProgressionType;
 	public BufferedImage bg;
 	
-	public Background(Modify_Frame mf, KeyHandler kh, String f) {
+	
+	//When sending in the type of background, must be "CLICK" as a string exactly 
+	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType) {
 		this.mf = mf;
 		this.controls = kh;
+		
+		
+		if (ProgressiveType.equals("CLICK")) {
+			this.currentProgressionType = ProgressionType.CLICK;
+		} else if (ProgressiveType.equals("Trigger")) {
+			this.currentProgressionType = ProgressionType.TRIGGER;
+		}
+		else {
+			this.currentProgressionType = ProgressionType.AUTO;
+		}
+		
 		setBackgroundImage(f);
 		
 	}
@@ -37,15 +55,16 @@ public class Background {
 		catch(IOException e) {
 			e.printStackTrace();
 		}
-		
 		// Source - https://stackoverflow.com/a/9417836
 		// Posted by Ocracoke, modified by community. See post 'Timeline' for change history
 		// Retrieved 2026-02-11, License - CC BY-SA 3.0
+			System.out.println(filename + " is being set up.");
 		    Image tmp = bg.getScaledInstance(mf.frameWidth, mf.frameHeight, Image.SCALE_SMOOTH);
 		    bg = new BufferedImage(mf.frameWidth, mf.frameHeight, BufferedImage.TYPE_INT_ARGB);  
 		    Graphics2D g2d = bg.createGraphics();
 		    g2d.drawImage(tmp, 0, 0, null);
 		    g2d.dispose();
+		    
 	}
     
 	public Background getNextBackground() {
@@ -81,5 +100,14 @@ public class Background {
 		BufferedImage image = bg;
 		g2.drawImage(image, 0, 0, null);
 		
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		
+		if (bg != null) {
+	        g2.drawImage(bg, 0, 0, null);
+	    }
 	}
 }
