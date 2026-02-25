@@ -1,6 +1,6 @@
 package main;
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.*; 
 
 import ChatBox.ChatGui;
 // import package title screen; 
