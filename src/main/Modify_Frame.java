@@ -2,25 +2,38 @@ package main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.CardLayout;
+import java.awt.Container; // Or use JPanel
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.JFrame;
+import javax.swing.*;
 
 import javax.swing.JPanel;
 
 import backgrounds.Background;
 import entity.Player;
+import java.util.LinkedList;
 
-public class Modify_Frame extends JPanel implements Runnable{
+public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
 	
 	// final variables are unchangeable : we are using them here to set pixel size of the window. 
 	public int charSize = 64;
 	public int frameHeight = charSize*10;
 	public int frameWidth = charSize*10;
-
+	
+	//This is the progression type information and implementation of JPanel
+	public enum ProgressionType {CLICK, AUTO, TRIGGER};
+	CardLayout bgLayout;
+	JPanel masterPanel = new JPanel();
+	LinkedList<Background> bg = new LinkedList <Background>();
 	
 	
 	// create a game timeline / thread 
 	public boolean startGame = false;
 	KeyHandler controls = new KeyHandler();
+	
 	MouseHandler mouse = new MouseHandler();
 	Thread timeline;
 	
@@ -29,14 +42,23 @@ public class Modify_Frame extends JPanel implements Runnable{
 	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)
 	int FPS = 90;
 	
+	int indexBG = 0;
+	
 	//set background
 	//this will change to implementing a linked list at some point?
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png");
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png");
-	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png");
+	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO");
+	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO");
+	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO");
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER");
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER");
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK");
+	
+	Timer myTimer;
 	
 	//make player inside of this frame
 	Player player1 = new Player(this, controls);
+	
+	
 	
 	public Modify_Frame() {
 		
@@ -46,7 +68,52 @@ public class Modify_Frame extends JPanel implements Runnable{
 		this.addKeyListener(controls);
 		this.addMouseListener(mouse);
 		this.setFocusable(true);
-	}
+		this.requestFocusInWindow();	
+		
+		//Creates CardLayout information
+		bgLayout = new CardLayout();
+		masterPanel.setLayout(bgLayout);
+		masterPanel.setPreferredSize(new Dimension(frameWidth, frameHeight));
+		
+		//Implements the linked list, which is built into Java 
+		this.bg.add(prologue1);
+		this.bg.add(prologue2);
+		this.bg.add(prologue3);
+		this.bg.add(mainScreen);
+		this.bg.add(mazeBackground);
+		
+		//Iterates through the linked list and adds them to the MasterPanel
+		int j = 0;
+		
+		for (Background i : bg) {
+			this.masterPanel.add(i, Integer.toString(j));
+			j++;
+		}
+		
+		//Configures with JPanel
+		this.setLayout(new BorderLayout());
+		this.add(masterPanel, BorderLayout.CENTER);
+				
+		bgLayout.show(masterPanel, "0");
+		
+		//Timer to trigger events -> could this be moved to be started with screens that are auto? can we make it an attribute?
+		this.myTimer = new Timer(7000, this);
+		this.myTimer.start();
+		
+		//So that the JPanel also listens to the mouse and can receive input from the mouse
+		masterPanel.addMouseListener(mouse);
+		masterPanel.setFocusable(true);
+		
+		//Right now, this is a mini/anonymous class in the class, which is not ideal. this should be moved if possible
+		masterPanel.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mousePressed(MouseEvent e) {
+				Modify_Frame.this.screenProgressionLogic(e);
+		        
+		    }
+		});
+
+		}
 	
 	public void startGame() {
 		timeline = new Thread(this);
@@ -61,7 +128,6 @@ public class Modify_Frame extends JPanel implements Runnable{
 		double drawInterval = 1000000000/FPS; //1 second (1 billion nano seconds/ frames per seconds)
 		double nextDrawTime = System.nanoTime()+drawInterval; //curr time plus draw interval (when to draw next movement)
 
-		
 		
 		while(timeline != null) {
 			while (!startGame){
@@ -79,8 +145,13 @@ public class Modify_Frame extends JPanel implements Runnable{
 				}
 			}
 			
+			
+			
 			//Draw the screen with the updated information
 			repaint(); // how to call paintComponent method
+			
+			//masterPanel.setBackground(Color.MAGENTA);
+			//bgLayout.show(masterPanel, "0");
 			
 			//update the information needed for the game (char position etc)
 			update();
@@ -104,27 +175,65 @@ public class Modify_Frame extends JPanel implements Runnable{
 			
 		}
 	}
+	//Is this function constantly checking the state? 
+	//Change this to be able to be applied to many components in the future 
+	//THIS FUNCTION IS NOW BROKEN
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
 			if (startGame){
-			mazeBackground.draw(g2);
-			player1.draw(g2);
+				player1.draw(g2);
+				mazeBackground.draw(g2);
 			}
-			else {
-				mainScreen.draw(g2);
-			}
-			
 			g2.dispose();
 		}
 				
+	
+	//not sure if this is correct? 
 	public void update() {
 		mainScreen.update();
+		masterPanel.updateUI();
 		//update player1 position
 		player1.update();
 
 	}
 	
+	//This is the screenProgression Logic, which checks to make sure that the type of screen matches the action
+	public void screenProgressionLogic(MouseEvent actionType) {
+		if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK){
+				this.advanceScreen();
+		}
+	}
+	
+	public void screenProgressionLogic(ActionEvent actionType) {
+		if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.AUTO){
+			if (this.indexBG < 4) {
+				this.advanceScreen();
+			} 
+			//AFTER updating to the next one (here, the door), the timer needs to stop 
+			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK) {
+				this.myTimer.stop();
+			}
+		} 
+	}
+	
+	//https://www.geeksforgeeks.org/java/java-awt-cardlayout-class/
+	//Action Handler -> the "action" is the timer running down, which is a global variable 
+	public void actionPerformed(ActionEvent e) {
+			this.screenProgressionLogic(e);
+		}
+	
+	//ONLY USE THIS TO ADVANCE SCREEN
+	public void advanceScreen(){
+		bgLayout.next(masterPanel);
+		this.indexBG ++; 
+	}
+
+	
 }
+		
+	
+	
+
 
 //https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2 (Game Loop and Key Input - How to Make a 2D Game in Java #2)
