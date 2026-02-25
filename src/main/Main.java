@@ -1,6 +1,6 @@
 package main;
-import javax.swing.JFrame;
-import java.awt.*; 
+import javax.swing.JFrame; 
+import java.awt.*;  
 
 import ChatBox.ChatGui;
 // import package title screen; 
@@ -35,7 +35,7 @@ public class Main {
 
 	}
 }
-
+ 
 
 //Sources:
 //https://docs.oracle.com/javase/tutorial/uiswing/components/frame.html
