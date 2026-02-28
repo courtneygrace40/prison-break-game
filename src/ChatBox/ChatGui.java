@@ -13,8 +13,12 @@ public class ChatGui extends JPanel {
 	public ChatGui() {
 		newChat = new chat();
 		messageArea = new JTextArea(10,20); //creates a text box area to displayb all of the lines 
-		textField = new JTextField(); //creates the ability to add a line of text into the box
+		textField = new JTextField(10); //creates the ability to add a line of text into the box
 		sendButton = new JButton("Send"); //creates a send button to use
+		
+		//set text to wrap
+		messageArea.setLineWrap(true);
+		messageArea.setWrapStyleWord(true);
 		
 		//create a layout on how everything will be placed in the game
 		setLayout(new BorderLayout()); 
