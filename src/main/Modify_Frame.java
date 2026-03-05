@@ -56,7 +56,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Timer myTimer;
 	
 	//make player inside of this frame
-	Player player1 = new Player(this, controls);
+	public Player player1 = new Player(this, controls);
 	
 	
 	
@@ -182,8 +182,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
 			if (startGame){
-				player1.draw(g2);
 				mazeBackground.draw(g2);
+				player1.draw(g2);
 			}
 			g2.dispose();
 		}
@@ -192,7 +192,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//not sure if this is correct? 
 	public void update() {
 		mainScreen.update();
-		masterPanel.updateUI();
+		//masterPanel.updateUI();
 		//update player1 position
 		player1.update();
 
