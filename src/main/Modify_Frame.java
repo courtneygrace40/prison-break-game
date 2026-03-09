@@ -3,10 +3,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.CardLayout;
-import java.awt.Container; // Or use JPanel
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.JFrame;
 import javax.swing.*;
 
 import javax.swing.JPanel;
@@ -18,7 +16,7 @@ import java.util.LinkedList;
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
 	
-	// final variables are unchangeable : we are using them here to set pixel size of the window. 
+	//set pixel size of the window. 
 	public int charSize = 64;
 	public int frameHeight = charSize*10;
 	public int frameWidth = charSize*10;
@@ -32,12 +30,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	// create a game timeline / thread 
 	public boolean startGame = false;
-	KeyHandler controls = new KeyHandler();
 	
+	KeyHandler controls = new KeyHandler();
 	MouseHandler mouse = new MouseHandler();
+	
 	Thread timeline;
 	
-	//we need to set a fps rate ... for now I am setting it to 60 fps
+	//we need to set a fps rate ... for now I am setting it to 90 fps
 	//check curr time
 	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)
 	int FPS = 90;
@@ -63,10 +62,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public Modify_Frame() {
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
-		//this.setBackground(Color.pink);
 		this.setDoubleBuffered(true);
+		
 		this.addKeyListener(controls);
 		this.addMouseListener(mouse);
+		
 		this.setFocusable(true);
 		this.requestFocusInWindow();	
 		
@@ -122,7 +122,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 
 	@Override
 	public void run() {
-		//when call modify_frame, call run automatically
+		//when you call modify_frame, it calls run automatically
 		
 		//creating vars to control frames per second speed
 		double drawInterval = 1000000000/FPS; //1 second (1 billion nano seconds/ frames per seconds)

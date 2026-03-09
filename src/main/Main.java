@@ -1,5 +1,5 @@
 package main;
-import javax.swing.JFrame; 
+import javax.swing.*; 
 import java.awt.*;  
 
 import ChatBox.ChatGui;
@@ -14,10 +14,14 @@ public class Main {
 		frame.setResizable(false);
 		frame.setTitle("Prison Break... The Game");
 		
+		//create the jpanel
+		//JPanel masterPanel = new JPanel();
+		
 		ChatGui chatGui = new ChatGui();
 		frame.add(chatGui, BorderLayout.EAST);
 		
 		Modify_Frame frame_mod = new Modify_Frame();
+		//masterPanel.add(frame_mod);
 		frame.add(frame_mod);
 		
 		frame.pack(); //sets window size to preferred window size indicated in modify_frame

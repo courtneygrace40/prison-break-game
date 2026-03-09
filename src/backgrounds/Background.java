@@ -9,14 +9,13 @@ import javax.imageio.ImageIO;
 
 import main.KeyHandler;
 import main.Modify_Frame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
 
 public class Background extends JPanel{
 	
 	//implementing a linked list of background objects 
+	private static final long serialVersionUID = 1L;
 	
 	Modify_Frame mf;
 	KeyHandler controls;
@@ -89,11 +88,7 @@ public class Background extends JPanel{
 	
 	public void update() {
 			//if player hits left right up down wall go to next background  (not implemented)
-			if (mf.startGame == false) {
-				if (controls.enterpressed) {
-					mf.startGame =true;
-				}
-			}
+			
 	}
 	
 	public void draw(Graphics2D g2) {
