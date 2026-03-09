@@ -97,12 +97,18 @@ public class Background extends JPanel{
 		
 	}
 	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		
-		if (bg != null) {
-	        g2.drawImage(bg, 0, 0, null);
-	    }
-	}
+	@Override
+	protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			Graphics2D g2 = (Graphics2D) g;
+			
+			if (bg != null) {
+		        g2.drawImage(bg, 0, 0, null);
+		    }
+			//this is not rly a great fix but it just changes the draw order and put it on the correct baackground 
+			if (mf.startGame) {
+				mf.player1.draw(g2);
+			}
+		}
+
 }
