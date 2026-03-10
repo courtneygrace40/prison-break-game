@@ -24,7 +24,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//This is the progression type information and implementation of JPanel
 	public enum ProgressionType {CLICK, AUTO, TRIGGER};
 	CardLayout bgLayout;
-	JPanel masterPanel = new JPanel();
+	//JPanel masterPanel = new JPanel();
 	LinkedList<Background> bg = new LinkedList <Background>();
 	
 	
@@ -72,8 +72,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		//Creates CardLayout information
 		bgLayout = new CardLayout();
-		masterPanel.setLayout(bgLayout);
-		masterPanel.setPreferredSize(new Dimension(frameWidth, frameHeight));
+		this.setLayout(bgLayout);
+		//masterPanel.setPreferredSize(new Dimension(frameWidth, frameHeight));
 		
 		//Implements the linked list, which is built into Java 
 		this.bg.add(prologue1);
@@ -86,32 +86,32 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		int j = 0;
 		
 		for (Background i : bg) {
-			this.masterPanel.add(i, Integer.toString(j));
+			this.add(i, Integer.toString(j));
 			j++;
 		}
 		
 		//Configures with JPanel
-		this.setLayout(new BorderLayout());
-		this.add(masterPanel, BorderLayout.CENTER);
+		//this.setLayout(new BorderLayout());
+		//this.add(masterPanel, BorderLayout.CENTER);
 				
-		bgLayout.show(masterPanel, "0");
+		bgLayout.show(this, "0");
 		
 		//Timer to trigger events -> could this be moved to be started with screens that are auto? can we make it an attribute?
 		this.myTimer = new Timer(7000, this);
 		this.myTimer.start();
 		
 		//So that the JPanel also listens to the mouse and can receive input from the mouse
-		masterPanel.addMouseListener(mouse);
-		masterPanel.setFocusable(true);
+		//this.addMouseListener(mouse);
+		//this.setFocusable(true);
 		
 		//Right now, this is a mini/anonymous class in the class, which is not ideal. this should be moved if possible
-		masterPanel.addMouseListener(new MouseAdapter() {
+		/*masterPanel.addMouseListener(new MouseAdapter() {
 		    @Override
 		    public void mousePressed(MouseEvent e) {
 				Modify_Frame.this.screenProgressionLogic(e);
 		        
 		    }
-		});
+		});*/
 
 		}
 	
@@ -225,7 +225,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//ONLY USE THIS TO ADVANCE SCREEN
 	public void advanceScreen(){
-		bgLayout.next(masterPanel);
+		bgLayout.next(this);
 		this.indexBG ++; 
 	}
 
