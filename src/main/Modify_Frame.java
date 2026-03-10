@@ -182,8 +182,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
 			if (startGame){
-				player1.draw(g2);
 				mazeBackground.draw(g2);
+				player1.draw(g2);
 			}
 			g2.dispose();
 		}
