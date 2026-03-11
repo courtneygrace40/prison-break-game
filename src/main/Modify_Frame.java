@@ -3,7 +3,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.CardLayout;
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -177,12 +176,15 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	}
 	//Is this function constantly checking the state? 
 	//Change this to be able to be applied to many components in the future 
-	//THIS FUNCTION IS NOW BROKEN
+	//THIS FUNCTION SHOULD NOW WORK
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
+			if (indexBG == 4) { 
+				startGame = true;
+			}
 			if (startGame){
-				mazeBackground.draw(g2);
+				//mazeBackground.draw(g2);
 				player1.draw(g2);
 			}
 			g2.dispose();

@@ -1,4 +1,6 @@
-package ChatBox;
+//NOTE THIS CLASS IS NOT CURRENTLY IN USE
+
+/*package ChatBox;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,3 +32,4 @@ public class chat {
     	}
     }
 }
+*/

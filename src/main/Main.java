@@ -1,7 +1,5 @@
 package main;
 import javax.swing.*; 
-import java.awt.*;  
-
 import ChatBox.ChatGui;
 // import package title screen; 
 
@@ -14,22 +12,28 @@ public class Main {
 		frame.setResizable(false);
 		frame.setTitle("Prison Break... The Game");
 		
-		//create the jpanel
-		//JPanel masterPanel = new JPanel();
+		//create a split Jpanel
+		JSplitPane split = new JSplitPane();
 		
-		ChatGui chatGui = new ChatGui();
-		frame.add(chatGui, BorderLayout.EAST);
+		ChatGui chatGui_R = new ChatGui();
+		//frame.add(chatGui, BorderLayout.EAST);
 		
-		Modify_Frame frame_mod = new Modify_Frame();
+		Modify_Frame frame_mod_L = new Modify_Frame();
 		//masterPanel.add(frame_mod);
-		frame.add(frame_mod);
+		//frame.add(frame_mod);
 		
+		split.setOrientation(JSplitPane.HORIZONTAL_SPLIT);  
+        //split.setDividerLocation(250);                    
+        split.setLeftComponent(frame_mod_L);                  
+        split.setRightComponent(chatGui_R);
+		
+        frame.add(split);
 		frame.pack(); //sets window size to preferred window size indicated in modify_frame
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
 		
-		frame_mod.startGame();
+		frame_mod_L.startGame();
 		
 	
 		

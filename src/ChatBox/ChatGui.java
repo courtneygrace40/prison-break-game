@@ -1,5 +1,6 @@
 package ChatBox;
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -8,13 +9,19 @@ public class ChatGui extends JPanel {
 	private JTextArea messageArea;
 	private JTextField textField;
 	private JButton sendButton;
-	private chat newChat;
+	//private chat newChat;
+	KeyHandler typing = new KeyHandler();
+	
 	
 	public ChatGui() {
-		newChat = new chat();
+		//newChat = new chat();
 		messageArea = new JTextArea(10,20); //creates a text box area to displayb all of the lines 
 		textField = new JTextField(10); //creates the ability to add a line of text into the box
 		sendButton = new JButton("Send"); //creates a send button to use
+		
+		
+		//add a key listener to textfield
+		//this.addKeyListener(typing);
 		
 		//set text to wrap
 		messageArea.setLineWrap(true);
@@ -35,13 +42,21 @@ public class ChatGui extends JPanel {
             }
         });
 		
+		//also send button if enter pressed
+		//DOESN'T WORK BUT A GIRL CAN DREAM
+		//if (typing.enterpressed) {
+		//	sendMessage();
+		//}
+		
+		
+		
 	}
 	//method to create and send messages in the chat box
 	private void sendMessage() {
-		String text = textField.getText(); //gets text from textField box
-		if (!text.isEmpty()) {
-			newChat.addMessage(text); //adds new message into the array list 
-			messageArea.append(text + "\n"); //allows the box area to display the line and then produce a new one
+		String text = textField.getText();
+		if (text != "") {
+			//typing.addMessage(text); //adds new message into the array list 
+			messageArea.append( text + "\n"); //allows the box area to display the line and then produce a new one
 			textField.setText(""); //resets box to blank
 		}
 		
