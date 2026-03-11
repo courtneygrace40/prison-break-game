@@ -106,10 +106,9 @@ public class Background extends JPanel{
 		        g2.drawImage(bg, 0, 0, null);
 		    }
 			//this is not rly a great fix but it just changes the draw order and put it on the correct baackground 
-			//AK: This was a great fix but I went back and solved the initial problem so now the player should move correctly
-			//if (mf.startGame) {
-		//		mf.player1.draw(g2);
-		//	}
+			if (mf.startGame) {
+				mf.player1.draw(g2);
+			}
 		}
 
 }

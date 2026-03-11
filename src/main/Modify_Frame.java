@@ -105,13 +105,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//this.setFocusable(true);
 		
 		//Right now, this is a mini/anonymous class in the class, which is not ideal. this should be moved if possible
-		/*masterPanel.addMouseListener(new MouseAdapter() {
+		this.addMouseListener(new MouseAdapter() {
 		    @Override
 		    public void mousePressed(MouseEvent e) {
 				Modify_Frame.this.screenProgressionLogic(e);
 		        
 		    }
-		});*/
+		});
 
 		}
 	
