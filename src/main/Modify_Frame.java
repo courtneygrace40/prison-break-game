@@ -21,7 +21,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public int frameWidth = charSize*10;
 	
 	//This is the progression type information and implementation of JPanel
-	public enum ProgressionType {CLICK, AUTO, TRIGGER};
+	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP}; //Can this be some sort of component that we are able to just use? should i create a sep class?
 	CardLayout bgLayout;
 	//JPanel masterPanel = new JPanel();
 	LinkedList<Background> bg = new LinkedList <Background>();
@@ -44,12 +44,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//set background
 	//this will change to implementing a linked list at some point?
-	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false);
-	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false);
-	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false);
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true);
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true);
-	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false);
+	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP");
+	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP");
+	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP");
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null);
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null);
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null);
+	
+	
 	
 	Timer myTimer;
 	
@@ -111,6 +113,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		        
 		    }
 		});
+		
+	
 
 		}
 	
@@ -204,7 +208,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void screenProgressionLogic(MouseEvent actionType) {
 		if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK){
 				this.advanceScreen();
+		} 
+		else if (bg.get(indexBG).secondaryProgressionType == Background.ProgressionType.SKIP){
+				this.skipToMain(indexBG);
 		}
+		
 	}
 	
 	public void screenProgressionLogic(ActionEvent actionType) {
@@ -229,6 +237,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void advanceScreen(){
 		bgLayout.next(this);
 		this.indexBG ++; 
+	}
+	
+	public void skipToMain(int indexBG){
+		int skipNum = 3 - indexBG; 
+		for (int i = 0; i<skipNum; i++) {
+			this.advanceScreen();
+		}
 	}
 
 	

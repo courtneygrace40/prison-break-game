@@ -23,15 +23,16 @@ public class Background extends JPanel{
 	Background nextBackground;
 	Background previousBackground;
 	boolean currBackground;
-	public enum ProgressionType {CLICK, AUTO, TRIGGER};
+	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP};
 	public ProgressionType currentProgressionType;
 	public BufferedImage bg;
 	public boolean characterPaint; 
+	public ProgressionType secondaryProgressionType;
 	
 	
 	
 	//When sending in the type of background, must be "CLICK" as a string exactly 
-	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp) {
+	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp, String sPT) {
 		this.mf = mf;
 		this.controls = kh;
 		this.characterPaint = charp;
@@ -43,6 +44,12 @@ public class Background extends JPanel{
 		}
 		else {
 			this.currentProgressionType = ProgressionType.AUTO;
+		}
+		if (sPT != null) {
+			if(sPT.equals("SKIP")){
+		
+			this.secondaryProgressionType = ProgressionType.SKIP;
+			}
 		}
 		
 		setBackgroundImage(f);
@@ -98,6 +105,7 @@ public class Background extends JPanel{
 		g2.drawImage(image, 0, 0, null);
 		
 	}
+
 	
 	@Override
 	protected void paintComponent(Graphics g) {
