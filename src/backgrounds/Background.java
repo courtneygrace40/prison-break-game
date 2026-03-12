@@ -26,13 +26,15 @@ public class Background extends JPanel{
 	public enum ProgressionType {CLICK, AUTO, TRIGGER};
 	public ProgressionType currentProgressionType;
 	public BufferedImage bg;
+	public boolean characterPaint; 
+	
 	
 	
 	//When sending in the type of background, must be "CLICK" as a string exactly 
-	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType) {
+	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp) {
 		this.mf = mf;
 		this.controls = kh;
-		
+		this.characterPaint = charp;
 		
 		if (ProgressiveType.equals("CLICK")) {
 			this.currentProgressionType = ProgressionType.CLICK;
@@ -106,7 +108,7 @@ public class Background extends JPanel{
 		        g2.drawImage(bg, 0, 0, null);
 		    }
 			//this is not rly a great fix but it just changes the draw order and put it on the correct baackground 
-			if (mf.startGame) {
+			if (this.characterPaint) {
 				mf.player1.draw(g2);
 			}
 		}

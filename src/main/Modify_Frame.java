@@ -44,12 +44,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//set background
 	//this will change to implementing a linked list at some point?
-	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO");
-	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO");
-	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO");
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER");
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER");
-	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK");
+	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false);
+	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false);
+	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false);
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true);
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true);
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false);
 	
 	Timer myTimer;
 	
@@ -183,7 +183,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			if (indexBG == 4) { 
 				startGame = true;
 			}
-			if (startGame){
+			if (bg.get(indexBG).characterPaint){
 				//mazeBackground.draw(g2);
 				player1.draw(g2);
 			}
