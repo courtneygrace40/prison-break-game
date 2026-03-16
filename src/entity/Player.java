@@ -59,6 +59,9 @@ public class Player extends Entity{
 			direction = "front";
 			x -= speed;
 				}
+		x = Math.max(0, Math.min(x, mf.frameWidth - mf.charSize)); //helps make sure that character stays in bound of the screen by measuring the coordinates 
+	    y = Math.max(0, Math.min(y, mf.frameHeight - mf.charSize));
+		
 	}
 	
 	public void draw(Graphics2D g2) {
