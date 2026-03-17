@@ -1,6 +1,7 @@
 package backgrounds;
 
 import java.awt.Graphics2D;
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import main.KeyHandler;
 import main.Modify_Frame;
 import javax.swing.*;
 import java.awt.Graphics;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 public class Background extends JPanel{
 	
@@ -30,9 +33,8 @@ public class Background extends JPanel{
 	public ProgressionType secondaryProgressionType;
 	
 	
-	
 	//When sending in the type of background, must be "CLICK" as a string exactly 
-	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp, String sPT) {
+	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp, String sPT, boolean sb, boolean main) {
 		this.mf = mf;
 		this.controls = kh;
 		this.characterPaint = charp;
@@ -53,6 +55,20 @@ public class Background extends JPanel{
 		}
 		
 		setBackgroundImage(f);
+		
+		this.setLayout(new BorderLayout());
+		
+		
+		if (sb) {
+			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "SKIP");
+			skipButton.addActionListener(mf);
+			}
+		
+		if (main) {
+			JButton startButton = this.buttonCreator("/buttons/buttontest.png", "CENTER", "SOUTH", "START");
+			startButton.addActionListener(mf);
+		}
+		
 		
 	}
 	
@@ -120,5 +136,30 @@ public class Background extends JPanel{
 				mf.player1.draw(g2);
 			}
 		}
+	
+	public JButton buttonCreator(String imagePath, String fl, String bl, String name) {
+		int align;
+		if (fl.equals("RIGHT")) {
+			align = FlowLayout.RIGHT;
+		} else {
+			align = FlowLayout.CENTER;
+		}
+		
+		String borderAlign;
+		if (bl.equals("SOUTH")) {
+			borderAlign = BorderLayout.SOUTH;
+		} else {
+			borderAlign = BorderLayout.CENTER;
+		}
+		
+		JPanel buttonContainer = new JPanel(new FlowLayout(align));
+		buttonContainer.setOpaque(false);
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource(imagePath));
+		JButton button = new JButton(imageIcon);
+		button.setActionCommand(name);
+		buttonContainer.add(button);
+        this.add(buttonContainer, borderAlign);
+		return(button);
+	}
 
 }

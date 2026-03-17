@@ -44,13 +44,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//set background
 	//this will change to implementing a linked list at some point?
-	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP");
-	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP");
-	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP");
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null);
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null);
-	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null);
+	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP", true, false);
+	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP", true, false);
+	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP", true, false);
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false);
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false);
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null, false, true);
 	
+	public JButton skipButton = new JButton("Skip");
 	
 	
 	Timer myTimer;
@@ -91,6 +92,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			j++;
 		}
 		
+		
+		//???? but I don't know where this needs to be added? like does it need to be added somewhere else?
+		this.add(skipButton);
+		repaint();
+		update();
+		
+		
 		//Configures with JPanel
 		//this.setLayout(new BorderLayout());
 		//this.add(masterPanel, BorderLayout.CENTER);
@@ -105,16 +113,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//this.addMouseListener(mouse);
 		//this.setFocusable(true);
 		
+		
+		//COMMENTED OUT -> does there need to be a mouse listener currently? or do we just need buttons? right now, there is no purpose 
 		//Right now, this is a mini/anonymous class in the class, which is not ideal. this should be moved if possible
-		this.addMouseListener(new MouseAdapter() {
+		/*this.addMouseListener(new MouseAdapter() {
 		    @Override
 		    public void mousePressed(MouseEvent e) {
 				Modify_Frame.this.screenProgressionLogic(e);
 		        
 		    }
-		});
-		
+		});*/
 	
+		
 
 		}
 	
@@ -205,7 +215,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	}
 	
 	//This is the screenProgression Logic, which checks to make sure that the type of screen matches the action
-	public void screenProgressionLogic(MouseEvent actionType) {
+	/*public void screenProgressionLogic(MouseEvent actionType) {
 		if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK){
 				this.advanceScreen();
 		} 
@@ -213,24 +223,38 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				this.skipToMain(indexBG);
 		}
 		
-	}
+	}*/
 	
-	public void screenProgressionLogic(ActionEvent actionType) {
-		if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.AUTO){
-			if (this.indexBG < 4) {
-				this.advanceScreen();
+	public void screenProgressionLogic(ActionEvent actionType, Object source, String command) {
+		if (source == this.myTimer) {
+			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.AUTO){
+				if (this.indexBG < 4) {
+					this.advanceScreen();
+				} 
+				//AFTER updating to the next one (here, the door), the timer needs to stop 
+				if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK) {
+					this.myTimer.stop();
+				}
 			} 
-			//AFTER updating to the next one (here, the door), the timer needs to stop 
-			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK) {
-				this.myTimer.stop();
+		}
+		else if (command.equals("SKIP")) {
+			if (bg.get(indexBG).secondaryProgressionType == Background.ProgressionType.SKIP){
+				this.skipToMain(indexBG);
 			}
 		} 
+		else if (command.equals("START")){
+			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK){
+				this.advanceScreen();
+		} 
+		}
 	}
 	
 	//https://www.geeksforgeeks.org/java/java-awt-cardlayout-class/
 	//Action Handler -> the "action" is the timer running down, which is a global variable 
 	public void actionPerformed(ActionEvent e) {
-			this.screenProgressionLogic(e);
+		Object source = e.getSource();
+		String command = e.getActionCommand();
+		this.screenProgressionLogic(e, source, command);
 		}
 	
 	//ONLY USE THIS TO ADVANCE SCREEN
@@ -245,6 +269,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			this.advanceScreen();
 		}
 	}
+	
 
 	
 }
