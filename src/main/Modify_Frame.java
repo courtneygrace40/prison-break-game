@@ -44,12 +44,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//set background
 	//this will change to implementing a linked list at some point?
-	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP", true, false);
-	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP", true, false);
-	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP", true, false);
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false);
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false);
-	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null, false, true);
+	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP", true, false, false);
+	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP", true, false, false);
+	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP", true, false, false);
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false, true); // last bg for now
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false, false);
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null, false, true, false);
 	
 	public JButton skipButton = new JButton("Skip");
 	
@@ -83,7 +83,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.bg.add(prologue3);
 		this.bg.add(mainScreen);
 		this.bg.add(mazeBackground);
-		
+		this.bg.add(hallway1);		
 		//Iterates through the linked list and adds them to the MasterPanel
 		int j = 0;
 		
@@ -211,6 +211,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//masterPanel.updateUI();
 		//update player1 position
 		player1.update();
+		if (this.frameWidth - this.charSize <= player1.x && mainScreen.lastBackground == false) {
+			player1.setDefaults();
+			this.advanceScreen();
+		}
 
 	}
 	

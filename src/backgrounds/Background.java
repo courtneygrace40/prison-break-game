@@ -31,13 +31,15 @@ public class Background extends JPanel{
 	public BufferedImage bg;
 	public boolean characterPaint; 
 	public ProgressionType secondaryProgressionType;
+	public boolean lastBackground;
 	
 	
 	//When sending in the type of background, must be "CLICK" as a string exactly 
-	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp, String sPT, boolean sb, boolean main) {
+	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp, String sPT, boolean sb, boolean main, boolean lastFrame) {
 		this.mf = mf;
 		this.controls = kh;
 		this.characterPaint = charp;
+		this.lastBackground = lastFrame;
 		
 		if (ProgressiveType.equals("CLICK")) {
 			this.currentProgressionType = ProgressionType.CLICK;
