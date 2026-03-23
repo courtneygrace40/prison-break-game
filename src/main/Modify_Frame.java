@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.JPanel;
 
 import backgrounds.Background;
+import entity.Door;
 import entity.Player;
 import java.util.LinkedList;
 
@@ -59,6 +60,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//make player inside of this frame
 	public Player player1 = new Player(this, controls);
 	
+	//door
+	public Door door1 = new Door(this);
 	
 	
 	public Modify_Frame() {
@@ -200,6 +203,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			if (bg.get(indexBG).characterPaint){
 				//mazeBackground.draw(g2);
 				player1.draw(g2);
+				door1.draw(g2);
 			}
 			g2.dispose();
 		}
@@ -211,7 +215,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//masterPanel.updateUI();
 		//update player1 position
 		player1.update();
-		if (this.frameWidth - this.charSize <= player1.x && mainScreen.lastBackground == false) {
+		door1.update(); 
+		// to check if near door idk why it doesn't work with last background 
+		if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false ) {
 			player1.setDefaults();
 			this.advanceScreen();
 		}

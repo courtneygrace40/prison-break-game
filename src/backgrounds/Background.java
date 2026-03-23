@@ -136,7 +136,9 @@ public class Background extends JPanel{
 			//this is not rly a great fix but it just changes the draw order and put it on the correct baackground 
 			if (this.characterPaint) {
 				mf.player1.draw(g2);
+				mf.door1.draw(g2);
 			}
+			
 		}
 	
 	public JButton buttonCreator(String imagePath, String fl, String bl, String name) {
