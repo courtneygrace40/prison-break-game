@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import backgrounds.Background;
 import entity.Door;
 import entity.Player;
+import entity.Guard;
 import java.util.LinkedList;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
@@ -63,6 +64,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//door
 	public Door door1 = new Door(this);
 	
+	//guard
+	public Guard guard1 = new Guard(this);
 	
 	public Modify_Frame() {
 		
@@ -203,6 +206,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			if (bg.get(indexBG).characterPaint){
 				//mazeBackground.draw(g2);
 				player1.draw(g2);
+				guard1.draw(g2);
 				door1.draw(g2);
 			}
 			g2.dispose();

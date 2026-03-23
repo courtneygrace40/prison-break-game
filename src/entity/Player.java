@@ -19,6 +19,7 @@ public class Player extends Entity{
 		this.controls = kh;
 		this.direction = "back";
 		
+		
 		setDefaults();
 		getPlayerImage();
 	}

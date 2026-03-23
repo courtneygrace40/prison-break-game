@@ -33,10 +33,8 @@ public class Guard extends Entity {
             e.printStackTrace();
         }
     }
+// commenting just to see if this will allow me to push code, because it keeps saying that there are no changes to stage
 
-    public void update() {
-        // No movement
-    }
 
     public void draw(Graphics2D g2) {
         if (guardImage != null) {
