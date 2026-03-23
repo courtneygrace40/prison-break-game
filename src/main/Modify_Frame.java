@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import backgrounds.Background;
 import entity.Door;
 import entity.Player;
-import entity.Guard;
 import java.util.LinkedList;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
@@ -60,7 +59,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//make player inside of this frame
 	public Player player1 = new Player(this, controls);
-	public Guard guard1 = new Guard(this);
 	
 	//door
 	public Door door1 = new Door(this);
