@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.JPanel;
 
 import backgrounds.Background;
+import entity.Door;
 import entity.Player;
 import entity.Guard;
 import java.util.LinkedList;
@@ -45,12 +46,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//set background
 	//this will change to implementing a linked list at some point?
-	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP", true, false);
-	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP", true, false);
-	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP", true, false);
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false);
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false);
-	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null, false, true);
+	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP", true, false, false);
+	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP", true, false, false);
+	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP", true, false, false);
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false, true); // last bg for now
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false, false);
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null, false, true, false);
 	
 	public JButton skipButton = new JButton("Skip");
 	
@@ -61,6 +62,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public Player player1 = new Player(this, controls);
 	public Guard guard1 = new Guard(this);
 	
+	//door
+	public Door door1 = new Door(this);
 	
 	
 	public Modify_Frame() {
@@ -85,7 +88,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.bg.add(prologue3);
 		this.bg.add(mainScreen);
 		this.bg.add(mazeBackground);
-		
+		this.bg.add(hallway1);		
 		//Iterates through the linked list and adds them to the MasterPanel
 		int j = 0;
 		
@@ -202,6 +205,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			if (bg.get(indexBG).characterPaint){
 				//mazeBackground.draw(g2);
 				player1.draw(g2);
+				door1.draw(g2);
 			}
 			g2.dispose();
 		}
@@ -213,6 +217,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//masterPanel.updateUI();
 		//update player1 position
 		player1.update();
+		door1.update(); 
+		// to check if near door idk why it doesn't work with last background 
+		if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false ) {
+			player1.setDefaults();
+			this.advanceScreen();
+		}
 
 	}
 	
