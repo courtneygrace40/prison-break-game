@@ -202,3 +202,4 @@ public class Background extends JPanel{
 
 //have to redo this to make coordinates work and thenn  implement it above in  sb and main
 }
+
