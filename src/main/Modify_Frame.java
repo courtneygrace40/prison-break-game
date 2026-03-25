@@ -21,12 +21,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public int charSize = 64;
 	public int frameHeight = charSize*10;
 	public int frameWidth = charSize*10;
+	public Player player1;
 	
 	//This is the progression type information and implementation of JPanel
 	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP}; //Can this be some sort of component that we are able to just use? should i create a sep class?
 	CardLayout bgLayout;
 	//JPanel masterPanel = new JPanel();
-	LinkedList<Background> bg = new LinkedList <Background>();
+	public LinkedList<Background> bg = new LinkedList <Background>();
 	
 	
 	// create a game timeline / thread 
@@ -42,24 +43,27 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	long currentTime = System.nanoTime(); // 1 billion nano seconds = 1 second (very precise)
 	int FPS = 90;
 	
-	int indexBG = 0;
+	public int indexBG = 0;
 	
 	//set background
 	//this will change to implementing a linked list at some point?
 	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP", true, false, false);
 	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP", true, false, false);
 	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP", true, false, false);
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false, true); // last bg for now
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false, false);
+	
+	Background outside = new Background(this, controls, "/backgrounds/outsidePrison.png", "TRIGGER", true, null, false, false, false);
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false, false); 
+	Background hallway2 = new Background(this, controls, "/backgrounds/hallway2.png", "TRIGGER", true, null, false, false, false);
+	Background hallway3 = new Background(this, controls, "/backgrounds/hallway3.png", "TRIGGER", true, null, false, false, false);
+	
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false, true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null, false, true, false);
+	
 	
 	public JButton skipButton = new JButton("Skip");
 	
 	
 	Timer myTimer;
-	
-	//make player inside of this frame
-	public Player player1 = new Player(this, controls);
 	
 	//door
 	public Door door1 = new Door(this);
@@ -67,7 +71,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//guard
 	public Guard guard1 = new Guard(this);
 	
+	
 	public Modify_Frame() {
+		
+		//set specific player coords if needed
+		outside.setPlayerCoords(64,64);
+		hallway1.setPlayerCoords(320,320);
+		hallway2.setPlayerCoords(0, 320);
+		hallway3.setPlayerCoords(0, 320);
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setDoubleBuffered(true);
@@ -83,13 +94,19 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.setLayout(bgLayout);
 		//masterPanel.setPreferredSize(new Dimension(frameWidth, frameHeight));
 		
+		
 		//Implements the linked list, which is built into Java 
 		this.bg.add(prologue1);
 		this.bg.add(prologue2);
 		this.bg.add(prologue3);
 		this.bg.add(mainScreen);
+		
+		this.bg.add(outside);
+		this.bg.add(hallway1);	
+		this.bg.add(hallway2);	
+		this.bg.add(hallway3);	
 		this.bg.add(mazeBackground);
-		this.bg.add(hallway1);		
+			
 		//Iterates through the linked list and adds them to the MasterPanel
 		int j = 0;
 		
@@ -97,6 +114,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			this.add(i, Integer.toString(j));
 			j++;
 		}
+		
+		//make player inside of this frame
+		player1 = new Player(this, controls, bg);
 		
 		
 		//???? but I don't know where this needs to be added? like does it need to be added somewhere else?
@@ -129,7 +149,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		        
 		    }
 		});*/
-	
 		
 
 		}
