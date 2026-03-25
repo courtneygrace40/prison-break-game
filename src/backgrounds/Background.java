@@ -58,17 +58,32 @@ public class Background extends JPanel{
 		
 		setBackgroundImage(f);
 		
-		this.setLayout(new BorderLayout());
+		this.setLayout(null);
 		
 		
 		if (sb) {
-			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "SKIP");
+			//JButton skipButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "SKIP");
+			
+			
+			//will havbe to add coordinates to create the button placemenet, then implement addActionListener afterwards 
+			int w = 64;
+			int h = 64;
+			int x = mf.frameWidth - w - 20;
+			int y = mf.frameHeight - h - 20;
+			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "SKIP");
 			skipButton.addActionListener(mf);
 			}
 		
 		if (main) {
-			JButton startButton = this.buttonCreator("/buttons/buttontest.png", "CENTER", "SOUTH", "START");
-			startButton.addActionListener(mf);
+			//JButton startButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "START");
+			//startButton.addActionListener(mf);
+			int w = 64;
+			int h = 64;
+			int x = mf.frameWidth - w - 20;
+			int y = mf.frameHeight - h - 20;
+			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "START");
+			skipButton.addActionListener(mf);
+			
 		}
 		
 		
@@ -144,7 +159,7 @@ public class Background extends JPanel{
 			
 		}
 	
-	public JButton buttonCreator(String imagePath, String fl, String bl, String name) {
+	public JButton buttonCreatorr(String imagePath, String fl, String bl, String name) {
 		int align;
 		if (fl.equals("RIGHT")) {
 			align = FlowLayout.RIGHT;
@@ -168,5 +183,22 @@ public class Background extends JPanel{
         this.add(buttonContainer, borderAlign);
 		return(button);
 	}
+	
+	public JButton buttonCreator(String imagePath, int x, int y, int h, int w, String name) {
+		//buttonContainer.setOpaque(false);
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource(imagePath));
+		JButton button = new JButton(imageIcon);
+		button.setBounds(x, y, w, h);
+		button.setActionCommand(name);
+		button.setBorderPainted(false);
+	    button.setContentAreaFilled(false);
+	    button.setFocusPainted(false);
+	    button.setOpaque(false);
+		this.add(button);
+		return(button);
+		
 
+	}
+
+//have to redo this to make coordinates work and thenn  implement it above in  sb and main
 }
