@@ -32,6 +32,8 @@ public class Background extends JPanel{
 	public boolean characterPaint; 
 	public ProgressionType secondaryProgressionType;
 	public boolean lastBackground;
+	public int playerx = 100;
+	public int playery = 100;
 	
 	
 	//When sending in the type of background, must be "CLICK" as a string exactly 
@@ -72,6 +74,11 @@ public class Background extends JPanel{
 		}
 		
 		
+	}
+	
+	public void setPlayerCoords(int x, int y) {
+		playerx = x;
+		playery = y;
 	}
 	
 	public void setBackgroundImage(String filename) {

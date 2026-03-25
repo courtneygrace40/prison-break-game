@@ -3,20 +3,24 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
+import backgrounds.Background;
 import main.KeyHandler;
 import main.Modify_Frame;
 
 public class Player extends Entity{
 	Modify_Frame mf;
 	KeyHandler controls;
+	LinkedList<Background> bg;
 	
-	public Player(Modify_Frame mf, KeyHandler kh) {
+	public Player(Modify_Frame mf, KeyHandler kh, LinkedList<Background> bg) {
 		
 		this.mf = mf;
 		this.controls = kh;
+		this.bg = bg;
 		this.direction = "back";
 		
 		
@@ -35,8 +39,8 @@ public class Player extends Entity{
 	}
 	
 	public void setDefaults() {
-		x = 100;
-		y = 100;
+		x = bg.get(mf.indexBG).playerx;
+		y = bg.get(mf.indexBG).playery;
 		speed = 2;
 		direction = "back";
 		
