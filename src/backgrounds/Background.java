@@ -22,72 +22,42 @@ public class Background extends JPanel{
 	
 	Modify_Frame mf;
 	KeyHandler controls;
-	
 	Background nextBackground;
 	Background previousBackground;
 	boolean currBackground;
+	
 	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP};
 	public ProgressionType currentProgressionType;
-	public BufferedImage bg;
-	public boolean characterPaint; 
 	public ProgressionType secondaryProgressionType;
+	
+	public BufferedImage bg;
+	
+	public boolean characterPaint = false; 
+	
 	public boolean lastBackground;
+	
 	public int playerx = 100;
 	public int playery = 100;
 	
 	
+	public BG_Node top_node; //location 0
+	public BG_Node right_node; //location 1
+	public BG_Node bottom_node; //location 2
+	public BG_Node left_node; //location 3
+	
+	
 	//When sending in the type of background, must be "CLICK" as a string exactly 
-	public Background(Modify_Frame mf, KeyHandler kh, String f, String ProgressiveType, boolean charp, String sPT, boolean sb, boolean main, boolean lastFrame) {
+	public Background(Modify_Frame mf, KeyHandler kh, String f, boolean lastFrame) {
 		this.mf = mf;
 		this.controls = kh;
-		this.characterPaint = charp;
 		this.lastBackground = lastFrame;
 		
-		if (ProgressiveType.equals("CLICK")) {
-			this.currentProgressionType = ProgressionType.CLICK;
-		} else if (ProgressiveType.equals("Trigger")) {
-			this.currentProgressionType = ProgressionType.TRIGGER;
-		}
-		else {
-			this.currentProgressionType = ProgressionType.AUTO;
-		}
-		if (sPT != null) {
-			if(sPT.equals("SKIP")){
-		
-			this.secondaryProgressionType = ProgressionType.SKIP;
-			}
-		}
+		this.currentProgressionType = ProgressionType.TRIGGER;
+		this.secondaryProgressionType = null;
 		
 		setBackgroundImage(f);
 		
 		this.setLayout(null);
-		
-		
-		if (sb) {
-			//JButton skipButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "SKIP");
-			
-			
-			//will havbe to add coordinates to create the button placemenet, then implement addActionListener afterwards 
-			int w = 64;
-			int h = 64;
-			int x = mf.frameWidth - w - 20;
-			int y = mf.frameHeight - h - 20;
-			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "SKIP");
-			skipButton.addActionListener(mf);
-			}
-		
-		if (main) {
-			//JButton startButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "START");
-			//startButton.addActionListener(mf);
-			int w = 64;
-			int h = 64;
-			int x = mf.frameWidth - w - 20;
-			int y = mf.frameHeight - h - 20;
-			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "START");
-			skipButton.addActionListener(mf);
-			
-		}
-		
 		
 	}
 	
@@ -145,7 +115,77 @@ public class Background extends JPanel{
 		g2.drawImage(image, 0, 0, null);
 		
 	}
-
+	
+	public void setCharPaint(boolean x) {
+		this.characterPaint = x;
+	}
+	
+	public void setProgressionType(String progressionType, String sPT) {
+		
+		if (progressionType.equals("CLICK")) {
+			this.currentProgressionType = ProgressionType.CLICK;
+		} else if (progressionType.equals("Trigger")) {
+			this.currentProgressionType = ProgressionType.TRIGGER;
+		}
+		else {
+			this.currentProgressionType = ProgressionType.AUTO;
+		}
+		if (sPT != null) {
+			if(sPT.equals("SKIP")){
+		
+			this.secondaryProgressionType = ProgressionType.SKIP;
+			}
+		}
+		
+	}
+	
+	
+	public void setButtons(boolean sb, boolean main) {
+		
+		
+		if (sb) {
+			//JButton skipButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "SKIP");
+		
+			//will havbe to add coordinates to create the button placemenet, then implement addActionListener afterwards 
+			int w = 64;
+			int h = 64;
+			int x = mf.frameWidth - w - 20;
+			int y = mf.frameHeight - h - 20;
+			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "SKIP");
+			skipButton.addActionListener(mf);
+			
+			}
+		
+		if (main) {
+			//JButton startButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "START");
+			//startButton.addActionListener(mf);
+			int w = 64;
+			int h = 64;
+			int x = mf.frameWidth - w - 20;
+			int y = mf.frameHeight - h - 20;
+			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "START");
+			skipButton.addActionListener(mf);
+			
+		}
+		
+		
+	}
+	
+public void setNode(Background bg, int playerx, int playery, int location) {
+		BG_Node newNode = new BG_Node(playerx, playery, bg);
+		if (location == 0) {
+			this.top_node = newNode;
+		}
+		if (location == 1) {
+			this.right_node = newNode;
+		}
+		if (location == 2) {
+			this.bottom_node = newNode;
+		}
+		if (location == 3) {
+			this.left_node = newNode;
+		}
+}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
