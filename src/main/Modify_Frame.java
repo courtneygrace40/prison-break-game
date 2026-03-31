@@ -12,6 +12,7 @@ import backgrounds.Background;
 import entity.Door;
 import entity.Player;
 import entity.Guard;
+import entity.PlayerGuardCostume;
 import java.util.LinkedList;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
@@ -70,6 +71,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//guard
 	public Guard guard1 = new Guard(this);
+	
+	//player in guard costume
+	public PlayerGuardCostume playerGuard = new PlayerGuardCostume(this, controls);
+	
 	
 	
 	public Modify_Frame() {
@@ -222,12 +227,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			if (indexBG == 4) { 
 				startGame = true;
 			}
-			if (bg.get(indexBG).characterPaint){
+			//if (bg.get(indexBG).characterPaint){
 				//mazeBackground.draw(g2);
-				player1.draw(g2);
-				guard1.draw(g2);
-				door1.draw(g2);
-			}
+				//player1.draw(g2);
+				//playerGuard.draw(g2);
+				//guard1.draw(g2);
+				//door1.draw(g2);
+			//}
 			g2.dispose();
 		}
 				
@@ -238,12 +244,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//masterPanel.updateUI();
 		//update player1 position
 		player1.update();
+		playerGuard.update();
 		door1.update(); 
 		// to check if near door idk why it doesn't work with last background 
 		if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false ) {
 			player1.setDefaults();
 			this.advanceScreen();
 		}
+		
 
 	}
 	

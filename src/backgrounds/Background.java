@@ -12,8 +12,8 @@ import main.KeyHandler;
 import main.Modify_Frame;
 import javax.swing.*;
 import java.awt.Graphics;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+//import java.awt.BorderLayout;
+//import java.awt.FlowLayout;
 
 public class Background extends JPanel{
 	
@@ -156,40 +156,23 @@ public class Background extends JPanel{
 		        g2.drawImage(bg, 0, 0, null);
 		    }
 			//this is not rly a great fix but it just changes the draw order and put it on the correct baackground 
-			if (this.characterPaint) {
-				mf.player1.draw(g2);
-				mf.guard1.draw(g2); 
-	
-				mf.door1.draw(g2);
-
+			
+			if(this.characterPaint) {
+				if (mf.indexBG >=4 && mf.indexBG < 5) {
+					mf.player1.draw(g2);
+					mf.guard1.draw(g2);
+					mf.door1.draw(g2);
+				}
+				else if (mf.indexBG >= 5) {
+					mf.playerGuard.draw(g2);
+					mf.guard1.draw(g2);
+					mf.door1.draw(g2);
+				}
 			}
 			
+
 		}
-	
-	public JButton buttonCreatorr(String imagePath, String fl, String bl, String name) {
-		int align;
-		if (fl.equals("RIGHT")) {
-			align = FlowLayout.RIGHT;
-		} else {
-			align = FlowLayout.CENTER;
-		}
-		
-		String borderAlign;
-		if (bl.equals("SOUTH")) {
-			borderAlign = BorderLayout.SOUTH;
-		} else {
-			borderAlign = BorderLayout.CENTER;
-		}
-		
-		JPanel buttonContainer = new JPanel(new FlowLayout(align));
-		buttonContainer.setOpaque(false);
-		ImageIcon imageIcon = new ImageIcon(getClass().getResource(imagePath));
-		JButton button = new JButton(imageIcon);
-		button.setActionCommand(name);
-		buttonContainer.add(button);
-        this.add(buttonContainer, borderAlign);
-		return(button);
-	}
+
 	
 	public JButton buttonCreator(String imagePath, int x, int y, int h, int w, String name) {
 		//buttonContainer.setOpaque(false);
