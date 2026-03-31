@@ -146,7 +146,6 @@ public class Background extends JPanel{
 		if (sb) {
 			//JButton skipButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "SKIP");
 		
-			//will havbe to add coordinates to create the button placemenet, then implement addActionListener afterwards 
 			int w = 64;
 			int h = 64;
 			int x = mf.frameWidth - w - 20;
@@ -208,7 +207,7 @@ public void setNode(Background bg, int playerx, int playery, int location) {
 					mf.guard1.draw(g2);
 					mf.door1.draw(g2);
 				}
-			}
+			} //paints the character in the specific order needed (for now, we can change if we need to)
 			
 
 		}
@@ -230,6 +229,6 @@ public void setNode(Background bg, int playerx, int playery, int location) {
 
 	}
 
-//have to redo this to make coordinates work and thenn  implement it above in  sb and main
+
 }
 

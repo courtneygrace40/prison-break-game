@@ -23,7 +23,7 @@ public class PlayerGuardCostume extends Entity{
 		
 	}
 	
-	private void setDefaults() {
+	public void setDefaults() {
         x = 150;
         y = 150;
 		speed = 2; //no movement yet

@@ -267,27 +267,47 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				//playerGuard.draw(g2);
 				//guard1.draw(g2);
 				//door1.draw(g2);
-			//}
+			//} //had to comment it out to paint characters the right way 
 			g2.dispose();
 		}
 				
 	
 	//not sure if this is correct? 
+	
+	//updated code to allow the character switch to work between screens
 	public void update() {
 		mainScreen.update();
-		//masterPanel.updateUI();
-		//update player1 position
-		player1.update();
-		playerGuard.update();
-		door1.update(); 
-		// to check if near door idk why it doesn't work with last background 
-		if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false ) {
-			player1.setDefaults();
-			this.advanceScreen();
+		if (indexBG < 5) {
+			player1.update(); 
+			if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false) {
+				player1.setDefaults();
+				this.advanceScreen();
+			}	
+		} else {
+			playerGuard.update();
+			if ((door1.x == playerGuard.x && door1.y == playerGuard.y) && bg.get(indexBG).lastBackground == false) {
+				playerGuard.setDefaults();
+				this.advanceScreen();
+			}
 		}
-		
+		door1.update();
 
 	}
+//updated code to allow the character switch to work between screens
+
+		//masterPanel.updateUI();
+		//update player1 position
+		//player1.update();
+		//playerGuard.update();
+		//door1.update(); 
+		// to check if near door idk why it doesn't work with last background 
+		//if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false ) {
+			//player1.setDefaults();
+			//this.advanceScreen();
+		//}
+//updated code above just keeping it just in case !!
+
+	
 	
 	//This is the screenProgression Logic, which checks to make sure that the type of screen matches the action
 	/*public void screenProgressionLogic(MouseEvent actionType) {
