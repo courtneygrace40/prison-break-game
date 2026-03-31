@@ -48,17 +48,17 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//set background
 	//this will change to implementing a linked list at some point?
-	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", "AUTO", false, "SKIP", true, false, false);
-	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png", "AUTO", false, "SKIP", true, false, false);
-	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png", "AUTO", false, "SKIP", true, false, false);
+	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", false);
+	Background prologue2 = new Background(this, controls, "/backgrounds/prologue2.png",  false);
+	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png",  false);
 	
-	Background outside = new Background(this, controls, "/backgrounds/outsidePrison.png", "TRIGGER", true, null, false, false, false);
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", "TRIGGER", true, null, false, false, false); 
-	Background hallway2 = new Background(this, controls, "/backgrounds/hallway2.png", "TRIGGER", true, null, false, false, false);
-	Background hallway3 = new Background(this, controls, "/backgrounds/hallway3.png", "TRIGGER", true, null, false, false, false);
+	Background outside = new Background(this, controls, "/backgrounds/outsidePrison.png", false);
+	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", false); 
+	Background hallway2 = new Background(this, controls, "/backgrounds/hallway2.png",  false);
+	Background hallway3 = new Background(this, controls, "/backgrounds/hallway3.png", false);
 	
-	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", "TRIGGER", true, null, false, false, true);// last bg for now
-	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", "CLICK", false, null, false, true, false);
+	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
+	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
 	
 	
 	public JButton skipButton = new JButton("Skip");
@@ -84,6 +84,32 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		hallway1.setPlayerCoords(320,320);
 		hallway2.setPlayerCoords(0, 320);
 		hallway3.setPlayerCoords(0, 320);
+		
+		outside.setCharPaint(true);
+		hallway1.setCharPaint(true);
+		hallway2.setCharPaint(true);
+		hallway3.setCharPaint(true);
+		mazeBackground.setCharPaint(true);
+		
+		prologue1.setProgressionType("AUTO", "SKIP");
+		prologue2.setProgressionType("AUTO", "SKIP");
+		prologue3.setProgressionType("AUTO", "SKIP");
+		
+		prologue1.setButtons(true, false);
+		prologue2.setButtons(true, false);
+		prologue3.setButtons(true, false);
+		
+		mainScreen.setProgressionType("CLICK", null);
+		mainScreen.setButtons(false, true);
+		
+		mainScreen.setNode(hallway1, 100, 100, 0);
+		hallway1.setNode(mainScreen, 100, 100, 2 );
+		hallway1.setNode(hallway3, 100, 100, 1);
+		hallway1.setNode(hallway2, 100, 100, 0);
+		
+		hallway2.setNode(hallway1, 100, 100, 2);
+		hallway3.setNode(hallway1, 100, 100, 3);
+		
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setDoubleBuffered(true);
@@ -111,14 +137,22 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.bg.add(hallway2);	
 		this.bg.add(hallway3);	
 		this.bg.add(mazeBackground);
-			
-		//Iterates through the linked list and adds them to the MasterPanel
-		int j = 0;
 		
-		for (Background i : bg) {
-			this.add(i, Integer.toString(j));
-			j++;
-		}
+		this.add(prologue1, "prologue1");
+		this.add(prologue2, "prologue2");
+		this.add(prologue3, "prologue3");
+		this.add(mainScreen, "mainScreen");
+		this.add(outside, "outside");
+		this.add(hallway1, "hallway1");
+		this.add(hallway2, "hallway2");
+		this.add(hallway3, "hallway3");
+		//Iterates through the linked list and adds them to the MasterPanel
+		//int j = 0;
+		
+		//for (Background i : bg) {
+			//this.add(i, Integer.toString(j));
+			//j++;
+		//}
 		
 		//make player inside of this frame
 		player1 = new Player(this, controls, bg);

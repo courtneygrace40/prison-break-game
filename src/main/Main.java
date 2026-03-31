@@ -34,9 +34,6 @@ public class Main {
 		
 		
 		frame_mod_L.startGame();
-		
-	
-		
 
 		
 	
