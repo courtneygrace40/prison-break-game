@@ -1,5 +1,6 @@
 package main;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.CardLayout;
@@ -18,9 +19,12 @@ import java.util.LinkedList;
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
 	
+	//location of door: 30 over, 20 up so 300-400 px, 200-300 px 
+	//
+	
 	//set pixel size of the window. 
 	public int charSize = 64;
-	public int frameHeight = charSize*10;
+	public int frameHeight = charSize*10; 
 	public int frameWidth = charSize*10;
 	public Player player1;
 	
@@ -45,6 +49,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	int FPS = 90;
 	
 	public int indexBG = 0;
+	public int indexBGCollection = 0;
 	
 	//set background
 	//this will change to implementing a linked list at some point?
@@ -74,6 +79,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//player in guard costume
 	public PlayerGuardCostume playerGuard = new PlayerGuardCostume(this, controls);
+	ArrayList<ArrayList<Background>> locations = new ArrayList<>();
 	
 	
 	
@@ -91,6 +97,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		hallway3.setCharPaint(true);
 		mazeBackground.setCharPaint(true);
 		
+		outside.setKey("outside");
+		hallway1.setKey("hallway1");
+		hallway2.setKey("hallway2");
+		hallway3.setKey("hallway3");
+
+		
 		prologue1.setProgressionType("AUTO", "SKIP");
 		prologue2.setProgressionType("AUTO", "SKIP");
 		prologue3.setProgressionType("AUTO", "SKIP");
@@ -102,13 +114,46 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
 		
-		mainScreen.setNode(hallway1, 100, 100, 0);
-		hallway1.setNode(mainScreen, 100, 100, 2 );
-		hallway1.setNode(hallway3, 100, 100, 1);
-		hallway1.setNode(hallway2, 100, 100, 0);
+		/*outside.setNode("hallway1", 100, 100, 0);
+		hallway1.setNode("outside", 100, 100, 2 );
+		hallway1.setNode("hallway3", 100, 100, 1);
+		hallway1.setNode("hallway2", 100, 100, 0);
 		
-		hallway2.setNode(hallway1, 100, 100, 2);
-		hallway3.setNode(hallway1, 100, 100, 3);
+		hallway2.setNode("hallway1", 100, 100, 2);
+		hallway3.setNode("hallway1", 100, 100, 3);*/
+		
+		
+		
+		ArrayList<Background> groupA = new ArrayList<>();
+        groupA.add(hallway1);
+        groupA.add(null);
+        groupA.add(null);
+        groupA.add(null);
+        locations.add(groupA);
+        
+        ArrayList<Background> groupB = new ArrayList<>();
+        groupB.add(hallway1);
+        groupB.add(hallway3);
+        groupB.add(outside);
+        groupB.add(null);
+        locations.add(groupB);
+        
+        ArrayList<Background> groupC = new ArrayList<>();
+        groupC.add(null);
+        groupC.add(null);
+        groupC.add(hallway1);
+        groupC.add(null);
+        locations.add(groupC);
+        
+        ArrayList<Background> groupD = new ArrayList<>();
+        groupD.add(null);
+        groupD.add(null);
+        groupD.add(null);
+        groupD.add(hallway1);
+        locations.add(groupD);
+        
+        
+       
 		
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
@@ -363,6 +408,22 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		for (int i = 0; i<skipNum; i++) {
 			this.advanceScreen();
 		}
+	}
+	
+	
+	//four types of trigger events: 0, 1, 2, 3 corresponding to someone going through the top of a screen, right, bottom, or left 
+	//need to program that, but we need to declare action events somehow; maybe an action handler? 
+	//not sure how we wanna do this, I can research this today/tomorrow 
+	public void advanceList() {
+		//get action event type 
+		int index = 0; //this wouldn't be declared, it would be received by the action 
+		ArrayList<Background> current = new ArrayList<>(); //creates empty list to store all of the possible background nodes
+		current = this.locations.get(indexBGCollection); //this stores the current node that it is on
+		Background next = current.get(index); //switches to this background 
+		String bgName = next.getKey(); //gets the key/string that represents that specific card
+		indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
+		bgLayout.show(this, bgName); //shows the correct card
+		
 	}
 	
 

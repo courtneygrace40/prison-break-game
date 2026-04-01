@@ -3,6 +3,7 @@ package backgrounds;
 import java.awt.Graphics2D;
 
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -44,6 +45,9 @@ public class Background extends JPanel{
 	public BG_Node right_node; //location 1
 	public BG_Node bottom_node; //location 2
 	public BG_Node left_node; //location 3
+	
+	public String key;
+	public int location;
 	
 	
 	//When sending in the type of background, must be "CLICK" as a string exactly 
@@ -139,6 +143,22 @@ public class Background extends JPanel{
 		
 	}
 	
+	public void setKey(String s) {
+		this.key = s;
+	}
+	
+	public void setLocation(int i) {
+		this.location = i;
+	}
+	
+	public String getKey() {
+		return this.key;
+	}
+	
+	public int getMyLocation() {
+		return this.location;
+	}
+	
 	
 	public void setButtons(boolean sb, boolean main) {
 		
@@ -170,8 +190,8 @@ public class Background extends JPanel{
 		
 	}
 	
-public void setNode(Background bg, int playerx, int playery, int location) {
-		BG_Node newNode = new BG_Node(playerx, playery, bg);
+public void setNode(String key, int playerx, int playery, int location) {
+		BG_Node newNode = new BG_Node(playerx, playery, key);
 		if (location == 0) {
 			this.top_node = newNode;
 		}

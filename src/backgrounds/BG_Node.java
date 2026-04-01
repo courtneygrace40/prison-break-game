@@ -7,15 +7,15 @@ public class BG_Node {
 		public int playerx;
 		public int playery;
 		
-		public Background nextBG;
+		public String key;
 		
 		
 		
-		public BG_Node(int playerx, int playery, Background nextBG) {
+		public BG_Node(int playerx, int playery, String key) {
 			
 			this.playerx = playerx;
 			this.playery = playery;
-			this.nextBG = nextBG;
+			this.key = key;
 		
 		}
 		
