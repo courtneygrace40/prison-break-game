@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.JPanel;
 
 import backgrounds.Background;
+import backgrounds.Entrance;
 import entity.Door;
 import entity.Player;
 import entity.Guard;
@@ -20,7 +21,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
 	
 	//location of door: 30 over, 20 up so 300-400 px, 200-300 px 
-	//
+	//CODE DIFFERENT ENTRANCE TYPES TO MAKE IT EASIER 
 	
 	//set pixel size of the window. 
 	public int charSize = 64;
@@ -33,7 +34,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	CardLayout bgLayout;
 	//JPanel masterPanel = new JPanel();
 	public LinkedList<Background> bg = new LinkedList <Background>();
-	
+	public Background currentBackground;
 	
 	// create a game timeline / thread 
 	public boolean startGame = false;
@@ -114,15 +115,17 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
 		
-		/*outside.setNode("hallway1", 100, 100, 0);
-		hallway1.setNode("outside", 100, 100, 2 );
-		hallway1.setNode("hallway3", 100, 100, 1);
-		hallway1.setNode("hallway2", 100, 100, 0);
+		outside.addEntrance(0, 300, 340, 339, 429);
+		this.currentBackground = outside;
 		
-		hallway2.setNode("hallway1", 100, 100, 2);
-		hallway3.setNode("hallway1", 100, 100, 3);*/
+		hallway1.addEntrance(0, 280, 0, 370,  25);
+		hallway1.addEntrance(1, 550, 300, 640, 450);
+		hallway2.addEntrance(2, 280, 550, 370, 640);
 		
-		
+		hallway1.setLocation(1);
+		hallway2.setLocation(2);
+		hallway3.setLocation(3);
+	
 		
 		ArrayList<Background> groupA = new ArrayList<>();
         groupA.add(hallway1);
@@ -132,7 +135,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
         locations.add(groupA);
         
         ArrayList<Background> groupB = new ArrayList<>();
-        groupB.add(hallway1);
+        groupB.add(hallway2);
         groupB.add(hallway3);
         groupB.add(outside);
         groupB.add(null);
@@ -322,8 +325,21 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//updated code to allow the character switch to work between screens
 	public void update() {
 		mainScreen.update();
+		
 		if (indexBG < 5) {
 			player1.update(); 
+			if (this.currentBackground.entrances.size() > 0) {
+				for (Entrance e : currentBackground.entrances) {
+				    if (player1.x >= e.xMin && player1.x <= e.xMax && 
+				        player1.y >= e.yMin && player1.y <= e.yMax) {
+				        
+				        this.advanceList(e.entranceType);
+				        break; // 
+				    }
+				}
+			}
+			
+			
 			if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false) {
 				player1.setDefaults();
 				this.advanceScreen();
@@ -414,15 +430,15 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//four types of trigger events: 0, 1, 2, 3 corresponding to someone going through the top of a screen, right, bottom, or left 
 	//need to program that, but we need to declare action events somehow; maybe an action handler? 
 	//not sure how we wanna do this, I can research this today/tomorrow 
-	public void advanceList() {
-		//get action event type 
-		int index = 0; //this wouldn't be declared, it would be received by the action 
-		ArrayList<Background> current = new ArrayList<>(); //creates empty list to store all of the possible background nodes
-		current = this.locations.get(indexBGCollection); //this stores the current node that it is on
+	public void advanceList(int index) {
+		//get action event types
+		System.out.println("made it here!");
+		ArrayList <Background> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
 		Background next = current.get(index); //switches to this background 
 		String bgName = next.getKey(); //gets the key/string that represents that specific card
 		indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
 		bgLayout.show(this, bgName); //shows the correct card
+		this.currentBackground = next;
 		
 	}
 	

@@ -1,4 +1,5 @@
 package backgrounds;  
+import java.util.ArrayList;
 
 import java.awt.Graphics2D;
 
@@ -12,6 +13,9 @@ import javax.imageio.ImageIO;
 import main.KeyHandler;
 import main.Modify_Frame;
 import javax.swing.*;
+
+import entity.PlayerGuardCostume;
+
 import java.awt.Graphics;
 //import java.awt.BorderLayout;
 //import java.awt.FlowLayout;
@@ -40,11 +44,13 @@ public class Background extends JPanel{
 	public int playerx = 100;
 	public int playery = 100;
 	
+	public Entrance top;
+	public Entrance right;
+	public Entrance bottom;
+	public Entrance left;
 	
-	public BG_Node top_node; //location 0
-	public BG_Node right_node; //location 1
-	public BG_Node bottom_node; //location 2
-	public BG_Node left_node; //location 3
+	public ArrayList<Entrance> entrances = new ArrayList<>();
+	
 	
 	public String key;
 	public int location;
@@ -159,6 +165,29 @@ public class Background extends JPanel{
 		return this.location;
 	}
 	
+	public void addEntrance(int entranceType, int xMin, int yMin, int xMax, int yMax) {
+		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
+		
+		switch(entranceType) {
+		case 0:
+			this.top = newEntrance;
+		case 1:
+			this.right = newEntrance;
+		case 2: 
+			this.bottom = newEntrance;
+		case 3:
+			this.left = newEntrance;	
+		}
+		
+		this.entrances.add(newEntrance);
+		
+	}
+	
+		
+		
+		
+	
+	
 	
 	public void setButtons(boolean sb, boolean main) {
 		
@@ -190,21 +219,6 @@ public class Background extends JPanel{
 		
 	}
 	
-public void setNode(String key, int playerx, int playery, int location) {
-		BG_Node newNode = new BG_Node(playerx, playery, key);
-		if (location == 0) {
-			this.top_node = newNode;
-		}
-		if (location == 1) {
-			this.right_node = newNode;
-		}
-		if (location == 2) {
-			this.bottom_node = newNode;
-		}
-		if (location == 3) {
-			this.left_node = newNode;
-		}
-}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
