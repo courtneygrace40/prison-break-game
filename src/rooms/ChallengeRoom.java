@@ -15,5 +15,4 @@ public class ChallengeRoom extends Room{
 	
 	
 	
-	
 }
