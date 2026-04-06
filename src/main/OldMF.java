@@ -14,15 +14,13 @@ import javax.swing.Timer;
 
 import backgrounds.Background;
 import backgrounds.Entrance;
-import backgrounds.Space;
 import entity.Door;
 import entity.Guard;
 import entity.Player;
 import entity.PlayerGuardCostume;
 import rooms.ChallengeRoom;
-import rooms.Room;
 
-public class Modify_Frame extends JPanel implements Runnable, ActionListener{
+public class OldMF extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
 	
 	//location of door: 30 over, 20 up so 300-400 px, 200-300 px 
@@ -71,7 +69,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
 	
-	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
+	ChallengeRoom testRoom = new ChallengeRoom(this, controls, 320, 320, "/backgrounds/Room1.png"); //test
 	
 	public JButton skipButton = new JButton("Skip");
 	
@@ -86,7 +84,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//player in guard costume
 	public PlayerGuardCostume playerGuard = new PlayerGuardCostume(this, controls);
-	ArrayList<ArrayList<Space>> locations = new ArrayList<>();
+	ArrayList<ArrayList<Background>> locations = new ArrayList<>();
 	
 	
 	
@@ -108,7 +106,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		hallway1.setKey("hallway1");
 		hallway2.setKey("hallway2");
 		hallway3.setKey("hallway3");
-		testRoom.setKey("testRoom");
 
 		
 		prologue1.setProgressionType("AUTO", "SKIP");
@@ -129,37 +126,33 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		hallway1.addEntrance(1, 550, 300, 640, 450);
 		hallway2.addEntrance(2, 280, 550, 370, 640);
 		
-		//trial add room to entrances 
-		hallway1.addEntrance(4, 310, 330, 310, 330);
-		
 		hallway1.setLocation(1);
 		hallway2.setLocation(2);
 		hallway3.setLocation(3);
+	
 		
-		
-		ArrayList<Space> groupA = new ArrayList<>();
+		ArrayList<Background> groupA = new ArrayList<>();
         groupA.add(hallway1);
         groupA.add(null);
         groupA.add(null);
         groupA.add(null);
-        groupA.add(testRoom); 
         locations.add(groupA);
         
-        ArrayList<Space> groupB = new ArrayList<>();
+        ArrayList<Background> groupB = new ArrayList<>();
         groupB.add(hallway2);
         groupB.add(hallway3);
         groupB.add(outside);
         groupB.add(null);
         locations.add(groupB);
         
-        ArrayList<Space> groupC = new ArrayList<>();
+        ArrayList<Background> groupC = new ArrayList<>();
         groupC.add(null);
         groupC.add(null);
         groupC.add(hallway1);
         groupC.add(null);
         locations.add(groupC);
         
-        ArrayList<Space> groupD = new ArrayList<>();
+        ArrayList<Background> groupD = new ArrayList<>();
         groupD.add(null);
         groupD.add(null);
         groupD.add(null);
@@ -205,7 +198,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(hallway1, "hallway1");
 		this.add(hallway2, "hallway2");
 		this.add(hallway3, "hallway3");
-		this.add(testRoom, "testRoom");
 		//Iterates through the linked list and adds them to the MasterPanel
 		//int j = 0;
 		
@@ -267,9 +259,28 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 
 		
 		while(timeline != null) {
+//			while (!startGame){
+//				//doesnt work yet but we want it to set start game to true eventually and run main screen? idk
+//				if (mouse.click) {
+//					if(mouse.x <= 640 && mouse.x >= 0) // coords of buttons eventually or make a button?
+//						if(mouse.y <= 640 && mouse.y >=0)
+//							//System.out.println("X = "+mouse.x);
+//							//System.out.println("Y = "+mouse.y);
+//							startGame = true;
+//							break;
+//				}
+//				else if (controls.enterpressed) {
+//					startGame = true;
+//				}
+//			}
+			
+			
 			
 			//Draw the screen with the updated information
 			repaint(); // how to call paintComponent method
+			
+			//masterPanel.setBackground(Color.MAGENTA);
+			//bgLayout.show(masterPanel, "0");
 			
 			//update the information needed for the game (char position etc)
 			update();
@@ -293,7 +304,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			
 		}
 	}
-
+	//Is this function constantly checking the state? 
+	//Change this to be able to be applied to many components in the future 
+	//THIS FUNCTION SHOULD NOW WORK
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
@@ -310,6 +323,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			g2.dispose();
 		}
 				
+	
+	//not sure if this is correct? 
 	
 	//updated code to allow the character switch to work between screens
 	public void update() {
@@ -343,6 +358,19 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		door1.update();
 
 	}
+//updated code to allow the character switch to work between screens
+
+		//masterPanel.updateUI();
+		//update player1 position
+		//player1.update();
+		//playerGuard.update();
+		//door1.update(); 
+		// to check if near door idk why it doesn't work with last background 
+		//if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false ) {
+			//player1.setDefaults();
+			//this.advanceScreen();
+		//}
+//updated code above just keeping it just in case !!
 
 	
 	
@@ -409,32 +437,21 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void advanceList(int index) {
 		//get action event types
 		System.out.println("made it here!");
-		ArrayList <Space> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
-		
-		if (current.get(index) instanceof Background) {
-		Space nextSpace = current.get(index); //switches to this background 
-		Background next = (Background) nextSpace;
+		ArrayList <Background> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
+		Background next = current.get(index); //switches to this background 
 		String bgName = next.getKey(); //gets the key/string that represents that specific card
 		indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
 		bgLayout.show(this, bgName); //shows the correct card
 		this.currentBackground = next;
-		}
-		else if (current.get(index) instanceof Room) {
-			Space nextSpace = current.get(index); //switches to this background 
-			Room next = (Room) nextSpace;
-			
-			//FIX HERE
-			String bgName = next.getKey(); //gets the key/string that represents that specific card
-			indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
-			bgLayout.show(this, bgName); //shows the correct card
-			//this.currentBackground = next;
-			
-		}
 		
 	}
 	
 
 	
 }
+		
+	
+	
+
 
 //https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2 (Game Loop and Key Input - How to Make a 2D Game in Java #2)

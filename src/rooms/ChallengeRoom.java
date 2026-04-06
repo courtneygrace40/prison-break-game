@@ -6,17 +6,15 @@ import main.Modify_Frame;
 
 public class ChallengeRoom extends Room{
 	
-	public String challengeType;
-	
-	public ChallengeRoom(Modify_Frame mf, KeyHandler kh, int x, int y, String filename) {
-		
-		this.playerx = x;
-		this.playery = y;
-		this.mf = mf;
-		this.kh = kh;
-		this.setImage(filename); //pretty sure this will work but not completely
-		
+	public ChallengeRoom(Modify_Frame mf, KeyHandler kh, String f, boolean lastFrame) {
+		super(mf, kh, f, lastFrame);
+		// TODO Auto-generated constructor stub
 	}
+
+	public String challengeType;
+
+	
+	
 	
 	
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.awt.Graphics2D;
 
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,13 +13,11 @@ import main.KeyHandler;
 import main.Modify_Frame;
 import javax.swing.*;
 
-import entity.PlayerGuardCostume;
-
 import java.awt.Graphics;
 //import java.awt.BorderLayout;
 //import java.awt.FlowLayout;
 
-public class Background extends JPanel{
+public class Background extends JPanel implements Space{
 	
 	//implementing a linked list of background objects 
 	private static final long serialVersionUID = 1L;
@@ -48,6 +45,7 @@ public class Background extends JPanel{
 	public Entrance right;
 	public Entrance bottom;
 	public Entrance left;
+	public Entrance room;
 	
 	public ArrayList<Entrance> entrances = new ArrayList<>();
 	
@@ -177,6 +175,8 @@ public class Background extends JPanel{
 			this.bottom = newEntrance;
 		case 3:
 			this.left = newEntrance;	
+		case 4:
+			this.room = newEntrance;
 		}
 		
 		this.entrances.add(newEntrance);
