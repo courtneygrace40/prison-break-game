@@ -40,6 +40,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//JPanel masterPanel = new JPanel();
 	public LinkedList<Background> bg = new LinkedList <Background>();
 	public Background currentBackground;
+	public Room currentRoom;
 	
 	// create a game timeline / thread 
 	public boolean startGame = false;
@@ -410,6 +411,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//get action event types
 		System.out.println("made it here!");
 		ArrayList <Space> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
+		System.out.println(current);
 		
 		if (current.get(index) instanceof Background) {
 		Space nextSpace = current.get(index); //switches to this background 
@@ -425,9 +427,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			
 			//FIX HERE
 			String bgName = next.getKey(); //gets the key/string that represents that specific card
+			System.out.println("Get Key");
 			indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
+			System.out.println("get my loc");
 			bgLayout.show(this, bgName); //shows the correct card
-			//this.currentBackground = next;
+			System.out.println("show");
+			this.currentRoom = next;
+			System.out.println("next");
 			
 		}
 		
