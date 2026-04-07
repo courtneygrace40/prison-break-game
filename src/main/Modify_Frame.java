@@ -98,12 +98,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		hallway1.setPlayerCoords(320,320);
 		hallway2.setPlayerCoords(0, 320);
 		hallway3.setPlayerCoords(0, 320);
+		testRoom.setPlayerCoords(320, 320);
 		
 		outside.setCharPaint(true);
 		hallway1.setCharPaint(true);
 		hallway2.setCharPaint(true);
 		hallway3.setCharPaint(true);
 		mazeBackground.setCharPaint(true);
+		testRoom.setCharPaint(true);
 		
 		outside.setKey("outside");
 		hallway1.setKey("hallway1");
@@ -131,7 +133,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		hallway2.addEntrance(2, 280, 550, 370, 640);
 		
 		//trial add room to entrances 
-		hallway1.addEntrance(4, 310, 330, 310, 330);
+		hallway1.addEntrance(4, 280, 550, 370, 640);
 		
 		hallway1.setLocation(1);
 		hallway2.setLocation(2);
@@ -143,7 +145,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
         groupA.add(null);
         groupA.add(null);
         groupA.add(null);
-        groupA.add(testRoom); 
+        groupA.add(null); 
         locations.add(groupA);
         
         ArrayList<Space> groupB = new ArrayList<>();
@@ -151,12 +153,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
         groupB.add(hallway3);
         groupB.add(outside);
         groupB.add(null);
+        groupB.add(testRoom);
         locations.add(groupB);
         
         ArrayList<Space> groupC = new ArrayList<>();
         groupC.add(null);
         groupC.add(null);
         groupC.add(hallway1);
+        groupC.add(null);
         groupC.add(null);
         locations.add(groupC);
         
@@ -165,6 +169,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
         groupD.add(null);
         groupD.add(null);
         groupD.add(hallway1);
+        groupD.add(null);
         locations.add(groupD);
         
         
@@ -412,6 +417,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		System.out.println("made it here!");
 		ArrayList <Space> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
 		System.out.println(current);
+		System.out.println(current.get(index));
 		
 		if (current.get(index) instanceof Background) {
 		Space nextSpace = current.get(index); //switches to this background 
