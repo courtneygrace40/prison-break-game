@@ -15,6 +15,7 @@ import javax.swing.*;
 
 import backgrounds.Entrance;
 import backgrounds.Space;
+import backgrounds.Background.ProgressionType;
 
 import java.awt.Graphics;
 
@@ -28,27 +29,30 @@ public class Room extends JPanel implements Space{
 	KeyHandler controls;
 	
 	public BufferedImage bg;
-	
 	public boolean characterPaint = false; 
-	
 	public boolean lastBackground;
 	
 	public int playerx = 100;
 	public int playery = 100;
 	
 	public Entrance exit;
-	
 	public ArrayList<Entrance> entrances = new ArrayList<>();
 	
 	
 	public String key;
 	public int location;
 	
+	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP};
+	public ProgressionType currentProgressionType;
+	public ProgressionType secondaryProgressionType;
 	
 	public Room(Modify_Frame mf, KeyHandler kh, String f, boolean lastFrame) {
 		this.mf = mf;
 		this.controls = kh;
 		this.lastBackground = lastFrame;
+		
+		this.currentProgressionType = ProgressionType.SKIP;
+		this.secondaryProgressionType = null;
 		
 		setBackgroundImage(f);
 		
@@ -95,6 +99,25 @@ public class Room extends JPanel implements Space{
 		this.characterPaint = x;
 	}
 	
+	public void setProgressionType(String progressionType, String sPT) {
+		
+		if (progressionType.equals("CLICK")) {
+			this.currentProgressionType = ProgressionType.CLICK;
+		} else if (progressionType.equals("Trigger")) {
+			this.currentProgressionType = ProgressionType.TRIGGER;
+		}
+		else {
+			this.currentProgressionType = ProgressionType.AUTO;
+		}
+		if (sPT != null) {
+			if(sPT.equals("SKIP")){
+		
+			this.secondaryProgressionType = ProgressionType.SKIP;
+			}
+		}
+		
+	}
+	
 	
 	public void setKey(String s) {
 		this.key = s;
@@ -130,7 +153,7 @@ public class Room extends JPanel implements Space{
 	
 	
 	
-	public void setButtons(boolean sb, boolean main) {
+	public void setButtons(boolean sb) {
 		
 		
 		if (sb) {
@@ -141,18 +164,6 @@ public class Room extends JPanel implements Space{
 			int x = mf.frameWidth - w - 20;
 			int y = mf.frameHeight - h - 20;
 			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "SKIP");
-			skipButton.addActionListener(mf);
-			
-			}
-		
-		if (main) {
-			//JButton startButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "START");
-			//startButton.addActionListener(mf);
-			int w = 64;
-			int h = 64;
-			int x = mf.frameWidth - w - 20;
-			int y = mf.frameHeight - h - 20;
-			JButton skipButton = this.buttonCreator("/buttons/buttontest.png", x, y, w, h, "START");
 			skipButton.addActionListener(mf);
 			
 		}

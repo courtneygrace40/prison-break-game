@@ -40,7 +40,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//JPanel masterPanel = new JPanel();
 	public LinkedList<Background> bg = new LinkedList <Background>();
 	public Background currentBackground;
-	public Room currentRoom;
+	public Room currentRoom = null;
 	
 	// create a game timeline / thread 
 	public boolean startGame = false;
@@ -122,6 +122,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		prologue2.setButtons(true, false);
 		prologue3.setButtons(true, false);
 		
+		testRoom.setButtons(true);
+		
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
 		
@@ -134,6 +136,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		//trial add room to entrances 
 		hallway1.addEntrance(4, 280, 550, 370, 640);
+		testRoom.addEntrance(5, 280, 550, 370, 640);
 		
 		hallway1.setLocation(1);
 		hallway2.setLocation(2);
@@ -385,6 +388,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				this.advanceScreen();
 		} 
 		}
+		
 	}
 	
 	//https://www.geeksforgeeks.org/java/java-awt-cardlayout-class/
@@ -419,6 +423,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		System.out.println(current);
 		System.out.println(current.get(index));
 		
+		if (index == 5) {
+			//if currently in a room... 
+			//return to previous hallway based on room number
+			//this is unimplemented so far
+		}
+		else {
 		if (current.get(index) instanceof Background) {
 		Space nextSpace = current.get(index); //switches to this background 
 		Background next = (Background) nextSpace;
@@ -431,7 +441,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			Space nextSpace = current.get(index); //switches to this background 
 			Room next = (Room) nextSpace;
 			
-			//FIX HERE
 			String bgName = next.getKey(); //gets the key/string that represents that specific card
 			System.out.println("Get Key");
 			indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
@@ -443,6 +452,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			
 		}
 		
+	}
 	}
 	
 

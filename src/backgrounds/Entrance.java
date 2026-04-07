@@ -3,7 +3,7 @@ package backgrounds;
 
 public class Entrance {
 	
-	public int entranceType; //0 1 2 3 for top, right, bottom, left 
+	public int entranceType; //0 1 2 3 for top, right, bottom, left, 4 = exit 
 	public Space bg;
 	public int xMin;
 	public int yMin;
