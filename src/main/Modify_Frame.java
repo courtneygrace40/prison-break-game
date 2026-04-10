@@ -447,7 +447,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		    bgLayout.show(this, bgName); 
 		    this.currentRoom = next;
 
-		    if (next.getChallengeType().equals("Slide Puzzle")) {
+		    if (next.getChallengeType().equals("Slider Puzzle")) {
 		        // Use invokeLater to ensure the window pops up smoothly over the JPanel
 		        javax.swing.SwingUtilities.invokeLater(() -> {
 		        SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
