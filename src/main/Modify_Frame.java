@@ -21,6 +21,7 @@ import entity.Player;
 import entity.PlayerGuardCostume;
 import rooms.ChallengeRoom;
 import rooms.Room;
+import rooms.SliderPuzzleRoom;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
@@ -123,6 +124,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		prologue3.setButtons(true, false);
 		
 		testRoom.setButtons(true);
+		testRoom.setChallengeType("Slider Puzzle");
 		
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
@@ -438,18 +440,24 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.currentBackground = next;
 		}
 		else if (current.get(index) instanceof Room) {
-			Space nextSpace = current.get(index); //switches to this background 
-			Room next = (Room) nextSpace;
-			
-			String bgName = next.getKey(); //gets the key/string that represents that specific card
-			System.out.println("Get Key");
-			indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
-			System.out.println("get my loc");
-			bgLayout.show(this, bgName); //shows the correct card
-			System.out.println("show");
-			this.currentRoom = next;
-			System.out.println("next");
-			
+		    Space nextSpace = current.get(index); 
+		    Room next = (Room) nextSpace;
+		    
+		    String bgName = next.getKey(); 
+		    bgLayout.show(this, bgName); 
+		    this.currentRoom = next;
+
+		    if (next.getChallengeType().equals("Slide Puzzle")) {
+		        // Use invokeLater to ensure the window pops up smoothly over the JPanel
+		        javax.swing.SwingUtilities.invokeLater(() -> {
+		        SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
+		            
+		            // Center it on the Modify_Frame
+		            puzzle.setLocationRelativeTo(this); 
+		            puzzle.setVisible(true);
+		            puzzle.toFront();
+		        });
+		    }
 		}
 		
 	}

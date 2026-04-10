@@ -215,6 +215,11 @@ public class Room extends JPanel implements Space{
 
 	}
 
+	public String getChallengeType() {
+		// TODO Auto-generated method stub
+		return "No Challenge Type" ;
+	}
+
 
 }
 
