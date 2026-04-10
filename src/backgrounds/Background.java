@@ -32,6 +32,9 @@ public class Background extends JPanel implements Space{
 	public ProgressionType currentProgressionType;
 	public ProgressionType secondaryProgressionType;
 	
+	public enum HType {HType1, HType2, HType3, HType4, HType5, HType6, HType7, HType8, HType9, HType10, HType11, HType12}
+	public HType bgHType;
+	
 	public BufferedImage bg;
 	
 	public boolean characterPaint = false; 
@@ -66,6 +69,19 @@ public class Background extends JPanel implements Space{
 		setBackgroundImage(f);
 		
 		this.setLayout(null);
+		
+	}
+	
+	public Background(Modify_Frame mf, KeyHandler kh, boolean lastFrame, int hType, String key) {
+		this.mf = mf;
+		this.controls = kh;
+		this.lastBackground = lastFrame;
+		this.currentProgressionType = ProgressionType.TRIGGER;
+		this.secondaryProgressionType = null;
+		
+		this.setHType(hType);
+		this.setLayout(null);
+		this.setKey(key);
 		
 	}
 	
@@ -163,6 +179,47 @@ public class Background extends JPanel implements Space{
 		return this.location;
 	}
 	
+	public void setHType(int i) {
+		switch(i) {
+		case 1: 
+			this.bgHType = HType.HType1;
+			this.setBackgroundImage("/backgrounds.hallways/HType1.png");
+		case 2: 
+			this.bgHType = HType.HType2;
+			this.setBackgroundImage("/backgrounds.hallways/HType2.png");
+		case 3: 
+			this.bgHType = HType.HType3;
+			this.setBackgroundImage("/backgrounds.hallways/HType3.png");
+		case 4: 
+			this.bgHType = HType.HType4;
+			this.setBackgroundImage("/backgrounds.hallways/HType4.png");
+		case 5: 
+			this.bgHType = HType.HType5;
+			this.setBackgroundImage("/backgrounds.hallways/HType5.png");
+		case 6: 
+			this.bgHType = HType.HType6;
+			this.setBackgroundImage("/backgrounds.hallways/HType6.png");
+		case 7: 
+			this.bgHType = HType.HType7;
+			this.setBackgroundImage("/backgrounds.hallways/HType7.png");
+		case 8: 
+			this.bgHType = HType.HType8;
+			this.setBackgroundImage("/backgrounds.hallways/HType8.png");
+		case 9: 
+			this.bgHType = HType.HType9;
+			this.setBackgroundImage("/backgrounds.hallways/HType9.png");
+		case 10: 
+			this.bgHType = HType.HType10;
+			this.setBackgroundImage("/backgrounds.hallways/HType10.png");
+		case 11: 
+			this.bgHType = HType.HType11;
+			this.setBackgroundImage("/backgrounds.hallways/HType11.png");
+		case 12: 
+			this.bgHType = HType.HType12;
+			this.setBackgroundImage("/backgrounds.hallways/HType12.png");
+		}	
+	}
+	
 	public void addEntrance(int entranceType, int xMin, int yMin, int xMax, int yMax) {
 		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
 		
@@ -234,12 +291,12 @@ public class Background extends JPanel implements Space{
 				if (mf.indexBG >=4 && mf.indexBG < 5) {
 					mf.player1.draw(g2);
 					mf.guard1.draw(g2);
-					mf.door1.draw(g2);
+					//mf.door1.draw(g2);
 				}
 				else if (mf.indexBG >= 5) {
 					mf.playerGuard.draw(g2);
 					mf.guard1.draw(g2);
-					mf.door1.draw(g2);
+					//mf.door1.draw(g2);
 				}
 			} //paints the character in the specific order needed (for now, we can change if we need to)
 			

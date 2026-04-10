@@ -28,7 +28,7 @@ public class Guard extends Entity {
 
     public void getGuardImage() {
         try {
-            guardImage = ImageIO.read(getClass().getResourceAsStream("/player/Guard_front.png"));
+            guardImage = ImageIO.read(getClass().getResourceAsStream("/player/TheGuard_Front.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

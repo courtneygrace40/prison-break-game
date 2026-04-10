@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -70,6 +71,31 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background hallway2 = new Background(this, controls, "/backgrounds/hallway2.png",  false);
 	Background hallway3 = new Background(this, controls, "/backgrounds/hallway3.png", false);
 	
+	Background h1 = new Background(this, controls, false, 9, "h1");
+	Background h2 = new Background(this, controls, false, 1, "h2");
+	Background h3 = new Background(this, controls, false, 1, "h3");
+	Background h4 = new Background(this, controls, false, 4, "h4");
+	Background h5 = new Background(this, controls, false, 2, "h5");
+	Background h6 = new Background(this, controls, false, 2, "h6");
+	Background h7 = new Background(this, controls, false, 2, "h7");
+	Background h8 = new Background(this, controls, false, 11, "h8");
+	Background h9 = new Background(this, controls, false, 1, "h9");
+	Background h10 = new Background(this, controls, false, 1, "h10");
+	Background h11 = new Background(this, controls, false, 8, "h11");
+	Background h12 = new Background(this, controls, false, 6, "h12");
+	Background h13 = new Background(this, controls, false, 10, "h13");
+	Background h14 = new Background(this, controls, false, 1, "h14");
+	Background h15 = new Background(this, controls, false, 3, "h15");
+	Background h16 = new Background(this, controls, false, 2, "h16");
+	Background h17 = new Background(this, controls, false, 2, "h17");
+	Background h18 = new Background(this, controls, false, 12, "h18");
+	Background h19 = new Background(this, controls, false, 1, "h19");
+	Background h20 = new Background(this, controls, false, 1, "h20");
+	Background h21 = new Background(this, controls, false, 1, "h21");
+	Background h22 = new Background(this, controls, false, 7, "h22");
+	Background h23 = new Background(this, controls, false, 5, "h23");
+	
+	
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
 	
@@ -77,11 +103,23 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	public JButton skipButton = new JButton("Skip");
 	
+	String[][] mapLayout  = {
+			{"h1", null, null, null, null}, //outside
+			{null, "h2", "outside", null, "testRoom"}, //h1
+			{null, "h3", null, "h1", null},//h2
+			{null, "h4", null, "h2", null},//h3
+			{null, "h14", "h5", "h3", null},//h4
+			{"h4", null, "h6", null, null},//h5
+			{"h5", null, "h7", null, null},//h6
+			{"h6", null, "h8", null, null},//h7
+			
+	};
+	
 	
 	Timer myTimer;
 	
 	//door
-	public Door door1 = new Door(this);
+	//public Door door1 = new Door(this);
 	
 	//guard
 	public Guard guard1 = new Guard(this);
@@ -144,6 +182,31 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		hallway2.setLocation(2);
 		hallway3.setLocation(3);
 		
+		HashMap<String, Space> library = new HashMap<>();
+		library.put("outside", outside);
+		library.put(h1.getKey(), h1);
+		library.put(h2.getKey(), h2);
+		library.put(h3.getKey(), h3);
+		library.put(h4.getKey(), h4);
+		library.put(h5.getKey(), h5);
+		library.put(h6.getKey(), h6);
+		library.put(h7.getKey(), h7);
+		library.put(h8.getKey(), h8);
+		library.put(h9.getKey(), h9);
+		library.put(h10.getKey(), h10);
+		library.put(h11.getKey(), h11);
+		library.put(h12.getKey(), h12);
+		library.put(h13.getKey(), h13);
+		library.put(h14.getKey(), h14);
+		library.put(h15.getKey(), h15);
+		library.put(h16.getKey(), h16);
+		library.put(h17.getKey(), h17);
+		library.put(h18.getKey(), h18);
+		library.put(h19.getKey(), h19);
+		library.put(h20.getKey(), h20);
+		library.put(h21.getKey(), h21);
+		library.put(h22.getKey(), h22);
+		library.put(h23.getKey(), h23);
 		
 		ArrayList<Space> groupA = new ArrayList<>();
         groupA.add(hallway1);
@@ -340,7 +403,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			}
 			
 			
-			if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false) {
+			/*if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false) {
 				player1.setDefaults();
 				this.advanceScreen();
 			}	
@@ -348,12 +411,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			playerGuard.update();
 			if ((door1.x == playerGuard.x && door1.y == playerGuard.y) && bg.get(indexBG).lastBackground == false) {
 				playerGuard.setDefaults();
-				this.advanceScreen();
+				this.advanceScreen();*/
 			}
 		}
-		door1.update();
+		//door1.update();
 
-	}
+	//}
 
 	
 	
@@ -422,8 +485,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//get action event types
 		System.out.println("made it here!");
 		ArrayList <Space> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
-		System.out.println(current);
-		System.out.println(current.get(index));
+		String[] currentRoom = this.mapLayout[indexBGCollection];
+		String nextRoom = currentRoom[index];
+		System.out.println(nextRoom);
+		System.out.println(current.toString());
+		//System.out.println(current.get(index));
 		
 		if (index == 5) {
 			//if currently in a room... 
@@ -447,7 +513,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		    bgLayout.show(this, bgName); 
 		    this.currentRoom = next;
 
-		    if (next.getChallengeType().equals("Slider Puzzle")) {
+		    if (next.getChallengeType().equals("Slider Puzzle") && next.getActiveChallenge()) {
+		    	next.setActiveChallenge(false);
 		        // Use invokeLater to ensure the window pops up smoothly over the JPanel
 		        javax.swing.SwingUtilities.invokeLater(() -> {
 		        SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);

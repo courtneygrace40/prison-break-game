@@ -8,6 +8,7 @@ public class ChallengeRoom extends Room{
 	
 	public String challengeType;
 	public RoomChallenge challenge;
+	public boolean activeChallenge = true;
 	
 	public ChallengeRoom(Modify_Frame mf, KeyHandler kh, String f, boolean lastFrame) {
 		super(mf, kh, f, lastFrame);
@@ -33,6 +34,17 @@ public class ChallengeRoom extends Room{
 	public RoomChallenge getChallenge() {
 		return this.challenge;
 	}
+	
+	@Override
+	public void setActiveChallenge(boolean b) {
+		this.activeChallenge = b;
+	}
+	
+	@Override
+	public boolean getActiveChallenge() {
+		return this.activeChallenge;
+	}
+	
 	
 	
 	

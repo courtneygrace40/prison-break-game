@@ -186,12 +186,12 @@ public class Room extends JPanel implements Space{
 				if (mf.indexBG >=4 && mf.indexBG < 5) {
 					mf.player1.draw(g2);
 					mf.guard1.draw(g2);
-					mf.door1.draw(g2);
+					//mf.door1.draw(g2);
 				}
 				else if (mf.indexBG >= 5) {
 					mf.playerGuard.draw(g2);
 					mf.guard1.draw(g2);
-					mf.door1.draw(g2);
+					//mf.door1.draw(g2);
 				}
 			} //paints the character in the specific order needed (for now, we can change if we need to)
 			
@@ -218,6 +218,14 @@ public class Room extends JPanel implements Space{
 	public String getChallengeType() {
 		// TODO Auto-generated method stub
 		return "No Challenge Type" ;
+	}
+	
+	public boolean getActiveChallenge() {
+		return false;
+	}
+	
+	public void setActiveChallenge(boolean b) {
+		
 	}
 
 
