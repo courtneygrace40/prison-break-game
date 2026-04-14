@@ -41,7 +41,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	CardLayout bgLayout;
 	//JPanel masterPanel = new JPanel();
 	public LinkedList<Background> bg = new LinkedList <Background>();
-	public Background currentBackground;
+	public Space currentBackground;
 	public Room currentRoom = null;
 	
 	// create a game timeline / thread 
@@ -67,9 +67,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background prologue3 = new Background(this, controls, "/backgrounds/prologue3.png",  false);
 	
 	Background outside = new Background(this, controls, "/backgrounds/outsidePrison.png", false);
-	Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", false); 
+	/*Background hallway1 = new Background(this, controls, "/backgrounds/hallway1.png", false); 
 	Background hallway2 = new Background(this, controls, "/backgrounds/hallway2.png",  false);
-	Background hallway3 = new Background(this, controls, "/backgrounds/hallway3.png", false);
+	Background hallway3 = new Background(this, controls, "/backgrounds/hallway3.png", false);*/
 	
 	Background h1 = new Background(this, controls, false, 9, "h1");
 	Background h2 = new Background(this, controls, false, 1, "h2");
@@ -95,6 +95,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background h22 = new Background(this, controls, false, 7, "h22");
 	Background h23 = new Background(this, controls, false, 5, "h23");
 	
+	Background[] allHallways = {h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23};
+	
+	
+	HashMap<Space, HashMap<String, Space>> worldMap = new HashMap<>();
+	
 	
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
@@ -102,18 +107,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
 	
 	public JButton skipButton = new JButton("Skip");
-	
-	String[][] mapLayout  = {
-			{"h1", null, null, null, null}, //outside
-			{null, "h2", "outside", null, "testRoom"}, //h1
-			{null, "h3", null, "h1", null},//h2
-			{null, "h4", null, "h2", null},//h3
-			{null, "h14", "h5", "h3", null},//h4
-			{"h4", null, "h6", null, null},//h5
-			{"h5", null, "h7", null, null},//h6
-			{"h6", null, "h8", null, null},//h7
-			
-	};
 	
 	
 	Timer myTimer;
@@ -134,23 +127,25 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		//set specific player coords if needed
 		outside.setPlayerCoords(64,64);
-		hallway1.setPlayerCoords(320,320);
+		/*hallway1.setPlayerCoords(320,320);
 		hallway2.setPlayerCoords(0, 320);
-		hallway3.setPlayerCoords(0, 320);
+		hallway3.setPlayerCoords(0, 320);*/
 		testRoom.setPlayerCoords(320, 320);
 		
 		outside.setCharPaint(true);
-		hallway1.setCharPaint(true);
+		/*hallway1.setCharPaint(true);
 		hallway2.setCharPaint(true);
-		hallway3.setCharPaint(true);
+		hallway3.setCharPaint(true);*/
 		mazeBackground.setCharPaint(true);
 		testRoom.setCharPaint(true);
 		
 		outside.setKey("outside");
-		hallway1.setKey("hallway1");
-		hallway2.setKey("hallway2");
-		hallway3.setKey("hallway3");
+		//hallway1.setKey("hallway1");
+		//hallway2.setKey("hallway2");
+		//hallway3.setKey("hallway3");
 		testRoom.setKey("testRoom");
+		
+		outside.addOutsideBounds();
 
 		
 		prologue1.setProgressionType("AUTO", "SKIP");
@@ -167,81 +162,161 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
 		
-		outside.addEntrance(0, 300, 340, 339, 429);
+		outside.addEntrance("right", 300, 340, 339, 429);
 		this.currentBackground = outside;
 		
-		hallway1.addEntrance(0, 280, 0, 370,  25);
-		hallway1.addEntrance(1, 550, 300, 640, 450);
-		hallway2.addEntrance(2, 280, 550, 370, 640);
+		/*hallway1.addEntrance("top", 280, 0, 370,  25);
+		hallway1.addEntrance("right", 550, 300, 640, 450);
+		hallway2.addEntrance("left", 280, 550, 370, 640);*/
 		
-		//trial add room to entrances 
-		hallway1.addEntrance(4, 280, 550, 370, 640);
-		testRoom.addEntrance(5, 280, 550, 370, 640);
+		//trial add room to entrances
+		//fix this later
+		//hallway1.addEntrance("bottom", 280, 550, 370, 640);
+		testRoom.addEntrance("bottom", 280, 550, 370, 640);
 		
-		hallway1.setLocation(1);
+		/*hallway1.setLocation(1);
 		hallway2.setLocation(2);
-		hallway3.setLocation(3);
+		hallway3.setLocation(3);*/
 		
-		HashMap<String, Space> library = new HashMap<>();
-		library.put("outside", outside);
-		library.put(h1.getKey(), h1);
-		library.put(h2.getKey(), h2);
-		library.put(h3.getKey(), h3);
-		library.put(h4.getKey(), h4);
-		library.put(h5.getKey(), h5);
-		library.put(h6.getKey(), h6);
-		library.put(h7.getKey(), h7);
-		library.put(h8.getKey(), h8);
-		library.put(h9.getKey(), h9);
-		library.put(h10.getKey(), h10);
-		library.put(h11.getKey(), h11);
-		library.put(h12.getKey(), h12);
-		library.put(h13.getKey(), h13);
-		library.put(h14.getKey(), h14);
-		library.put(h15.getKey(), h15);
-		library.put(h16.getKey(), h16);
-		library.put(h17.getKey(), h17);
-		library.put(h18.getKey(), h18);
-		library.put(h19.getKey(), h19);
-		library.put(h20.getKey(), h20);
-		library.put(h21.getKey(), h21);
-		library.put(h22.getKey(), h22);
-		library.put(h23.getKey(), h23);
+
+		worldMap.put(outside, new HashMap<>());
+		worldMap.get(outside).put("right", h1);
 		
-		ArrayList<Space> groupA = new ArrayList<>();
-        groupA.add(hallway1);
-        groupA.add(null);
-        groupA.add(null);
-        groupA.add(null);
-        groupA.add(null); 
-        locations.add(groupA);
-        
-        ArrayList<Space> groupB = new ArrayList<>();
-        groupB.add(hallway2);
-        groupB.add(hallway3);
-        groupB.add(outside);
-        groupB.add(null);
-        groupB.add(testRoom);
-        locations.add(groupB);
-        
-        ArrayList<Space> groupC = new ArrayList<>();
-        groupC.add(null);
-        groupC.add(null);
-        groupC.add(hallway1);
-        groupC.add(null);
-        groupC.add(null);
-        locations.add(groupC);
-        
-        ArrayList<Space> groupD = new ArrayList<>();
-        groupD.add(null);
-        groupD.add(null);
-        groupD.add(null);
-        groupD.add(hallway1);
-        groupD.add(null);
-        locations.add(groupD);
-        
-        
-       
+		worldMap.put(h1, new HashMap<>());
+		worldMap.get(h1).put("right", h2);
+		worldMap.get(h1).put("left", outside);
+		h1.addEntrance("right");
+		h1.addEntrance("left");
+		
+		worldMap.put(h2, new HashMap<>());
+		worldMap.get(h2).put("right", h3);
+		worldMap.get(h2).put("left", h1);
+		h2.addEntrance("right");
+		h2.addEntrance("left");
+		
+		worldMap.put(h3, new HashMap<>());
+		worldMap.get(h3).put("right", h4);
+		worldMap.get(h3).put("left", h2);
+		h3.addEntrance("right");
+		h3.addEntrance("left");
+		
+		worldMap.put(h4, new HashMap<>());
+		worldMap.get(h4).put("right", h14);
+		worldMap.get(h4).put("left", h3);
+		worldMap.get(h4).put("bottom", h5);
+		h4.addEntrance("right");
+		h4.addEntrance("left");
+		h4.addEntrance("bottom");
+		
+		worldMap.put(h5, new HashMap<>());
+		worldMap.get(h5).put("top", h4);
+		worldMap.get(h5).put("bottom", h6);
+		h5.addEntrance("top");
+		h5.addEntrance("bottom");
+		
+		worldMap.put(h6, new HashMap<>());
+		worldMap.get(h6).put("bottom", h7);
+		worldMap.get(h6).put("top", h5);
+		h6.addEntrance("top");
+		h6.addEntrance("bottom");
+		
+		worldMap.put(h7, new HashMap<>());
+		worldMap.get(h7).put("top", h6);
+		worldMap.get(h7).put("bottom", h8);
+		h7.addEntrance("top");
+		h7.addEntrance("bottom");
+		
+		worldMap.put(h8, new HashMap<>());
+		worldMap.get(h8).put("top", h7);
+		worldMap.get(h8).put("right", h9);
+		h8.addEntrance("top");
+		h8.addEntrance("right");
+		
+		worldMap.put(h9, new HashMap<>());
+		worldMap.get(h9).put("right", h10);
+		worldMap.get(h9).put("left", h8);
+		h9.addEntrance("right");
+		h9.addEntrance("left");
+		
+		worldMap.put(h10, new HashMap<>());
+		worldMap.get(h10).put("right", h11);
+		worldMap.get(h10).put("left", h9);
+		h10.addEntrance("right");
+		h10.addEntrance("left");
+		
+		worldMap.put(h11, new HashMap<>());
+		worldMap.get(h11).put("right", h13);
+		worldMap.get(h11).put("left", h10);
+		worldMap.get(h11).put("top", h12);
+		h11.addEntrance("right");
+		h11.addEntrance("left");
+		h11.addEntrance("top");
+		
+		worldMap.put(h12, new HashMap<>());
+		worldMap.get(h12).put("bottom", h11);
+		h12.addEntrance("bottom");
+		
+		worldMap.put(h13, new HashMap<>());
+		worldMap.get(h13).put("left", h11);
+		h13.addEntrance("left");
+		
+		worldMap.put(h14, new HashMap<>());
+		worldMap.get(h14).put("right", h15);
+		worldMap.get(h14).put("left", h4);
+		h14.addEntrance("right");
+		h14.addEntrance("left");
+		
+		worldMap.put(h15, new HashMap<>());
+		worldMap.get(h15).put("left", h14);
+		worldMap.get(h15).put("top", h16);
+		h15.addEntrance("left");
+		h15.addEntrance("top");
+		
+		worldMap.put(h16, new HashMap<>());
+		worldMap.get(h16).put("bottom", h15);
+		worldMap.get(h16).put("top", h17);
+		h16.addEntrance("bottom");
+		h16.addEntrance("top");
+		
+		worldMap.put(h17, new HashMap<>());
+		worldMap.get(h17).put("bottom", h16);
+		worldMap.get(h17).put("top", h18);
+		h17.addEntrance("bottom");
+		h17.addEntrance("top");
+		
+		worldMap.put(h18, new HashMap<>());
+		worldMap.get(h18).put("right", h19);
+		worldMap.get(h18).put("bottom", h17);
+		h18.addEntrance("right");
+		h18.addEntrance("bottom");
+		
+		worldMap.put(h19, new HashMap<>());
+		worldMap.get(h19).put("right", h20);
+		worldMap.get(h19).put("left", h18);
+		h19.addEntrance("right");
+		h19.addEntrance("left");
+		
+		worldMap.put(h20, new HashMap<>());
+		worldMap.get(h20).put("right", h21);
+		worldMap.get(h20).put("left", h19);
+		h20.addEntrance("right");
+		h20.addEntrance("left");
+		
+		worldMap.put(h21, new HashMap<>());
+		worldMap.get(h21).put("right", h22);
+		worldMap.get(h21).put("left", h20);
+		h21.addEntrance("right");
+		h21.addEntrance("left");
+		
+		worldMap.put(h22, new HashMap<>());
+		worldMap.get(h22).put("bottom", h23);
+		worldMap.get(h22).put("left", h21);
+		h22.addEntrance("bottom");
+		h22.addEntrance("left");
+		
+		worldMap.put(h23, new HashMap<>());
+		worldMap.get(h11).put("top", h22);
+		h23.addEntrance("top");
 		
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
@@ -252,6 +327,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		this.setFocusable(true);
 		this.requestFocusInWindow();	
+		
+		
 		
 		//Creates CardLayout information
 		bgLayout = new CardLayout();
@@ -266,9 +343,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.bg.add(mainScreen);
 		
 		this.bg.add(outside);
-		this.bg.add(hallway1);	
+		/*this.bg.add(hallway1);	
 		this.bg.add(hallway2);	
-		this.bg.add(hallway3);	
+		this.bg.add(hallway3);	*/
 		this.bg.add(mazeBackground);
 		
 		this.add(prologue1, "prologue1");
@@ -276,10 +353,17 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(prologue3, "prologue3");
 		this.add(mainScreen, "mainScreen");
 		this.add(outside, "outside");
-		this.add(hallway1, "hallway1");
+		/*this.add(hallway1, "hallway1");
 		this.add(hallway2, "hallway2");
-		this.add(hallway3, "hallway3");
+		this.add(hallway3, "hallway3");*/
 		this.add(testRoom, "testRoom");
+		
+		for (Background h : allHallways) {
+			h.setCharPaint(true);
+			this.add(h, h.getKey());
+		}
+		
+		
 		//Iterates through the linked list and adds them to the MasterPanel
 		//int j = 0;
 		
@@ -289,7 +373,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//}
 		
 		//make player inside of this frame
-		player1 = new Player(this, controls, bg);
+		player1 = new Player(this, controls);
+		this.player1.startGamePosition();
 		
 		
 		//???? but I don't know where this needs to be added? like does it need to be added somewhere else?
@@ -389,17 +474,17 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void update() {
 		mainScreen.update();
 		
-		if (indexBG < 5) {
+		//if (indexBG < 5) {
 			player1.update(); 
-			if (this.currentBackground.entrances.size() > 0) {
-				for (Entrance e : currentBackground.entrances) {
+			if (this.currentBackground.getEntrances().size() > 0) {
+				for (Entrance e : currentBackground.getEntrances()) {
 				    if (player1.x >= e.xMin && player1.x <= e.xMax && 
 				        player1.y >= e.yMin && player1.y <= e.yMax) {
 				        
 				        this.advanceList(e.entranceType);
 				        break; // 
 				    }
-				}
+				//}
 			}
 			
 			
@@ -477,39 +562,76 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		}
 	}
 	
+	public void advanceList(String direction) {
+	    HashMap<String, Space> exits = worldMap.get(this.currentBackground);
+	    
+	    if (exits != null) {
+	        Space nextSpace = exits.get(direction);
+	        if (nextSpace != null) {
+	            this.currentBackground = nextSpace;
+	            bgLayout.show(this, nextSpace.getKey());
+	            this.player1.enterRoom(direction);
+	            repaint();
+	 
+	            if (nextSpace instanceof Room) {
+	                handleRoomEntry((Room) nextSpace);
+	            }
+	            
+	            System.out.println("Moved to: " + nextSpace.getKey());
+	        }
+	    }
+	}
+
+	// I'm gonna be so completely for real this is Gemini generated 
+	private void handleRoomEntry(Room room) {
+	    if ("Slider Puzzle".equals(room.getChallengeType()) && room.getActiveChallenge()) {
+	        room.setActiveChallenge(false);
+	        javax.swing.SwingUtilities.invokeLater(() -> {
+	            SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
+	            puzzle.setLocationRelativeTo(this); 
+	            puzzle.setVisible(true);
+	        });
+	    }
+	}
+	
 	
 	//four types of trigger events: 0, 1, 2, 3 corresponding to someone going through the top of a screen, right, bottom, or left 
 	//need to program that, but we need to declare action events somehow; maybe an action handler? 
 	//not sure how we wanna do this, I can research this today/tomorrow 
-	public void advanceList(int index) {
+	public void advanceList(int bg) {
 		//get action event types
+		//this.currentBackground = worldMap.get(this.currentBackground).get(bg);
 		System.out.println("made it here!");
-		ArrayList <Space> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
-		String[] currentRoom = this.mapLayout[indexBGCollection];
-		String nextRoom = currentRoom[index];
-		System.out.println(nextRoom);
-		System.out.println(current.toString());
+		//ArrayList <Space> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
+		//String[] currentRoom = this.mapLayout[indexBGCollection];
+		//String nextRoom = currentRoom[index];
+		//System.out.println(nextRoom);
+		//System.out.println(current.toString());
 		//System.out.println(current.get(index));
 		
-		if (index == 5) {
+		//if (index == 5) {
 			//if currently in a room... 
 			//return to previous hallway based on room number
 			//this is unimplemented so far
-		}
-		else {
-		if (current.get(index) instanceof Background) {
-		Space nextSpace = current.get(index); //switches to this background 
-		Background next = (Background) nextSpace;
-		String bgName = next.getKey(); //gets the key/string that represents that specific card
-		indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
-		bgLayout.show(this, bgName); //shows the correct card
-		this.currentBackground = next;
-		}
-		else if (current.get(index) instanceof Room) {
-		    Space nextSpace = current.get(index); 
-		    Room next = (Room) nextSpace;
+		//}
+		
+		//else {
+			
+			if (this.currentBackground instanceof Background) {
+				
+				//Space nextSpace = current.get(index); //switches to this background 
+				//Background next = (Background) nextSpace;
+				//String bgName = next.getKey(); //gets the key/string that represents that specific card
+				//indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
+				bgLayout.show(this, this.currentBackground.getKey()); //shows the correct card
+				//this.currentBackground = next;
+			}
+			
+		else if (this.currentBackground instanceof Room) {
+		    //Space nextSpace = current.get(index); 
+		    //Room next = (Room) nextSpace;
 		    
-		    String bgName = next.getKey(); 
+		    /*String bgName = next.getKey(); 
 		    bgLayout.show(this, bgName); 
 		    this.currentRoom = next;
 
@@ -523,15 +645,15 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		            puzzle.setLocationRelativeTo(this); 
 		            puzzle.setVisible(true);
 		            puzzle.toFront();
-		        });
+		        });*/
 		    }
 		}
 		
-	}
+	//}
 	}
 	
 
 	
-}
+//}
 
 //https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2 (Game Loop and Key Input - How to Make a 2D Game in Java #2)

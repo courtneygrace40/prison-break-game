@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.Graphics;
 //import java.awt.BorderLayout;
 //import java.awt.FlowLayout;
+import java.awt.Rectangle;
 
 public class Background extends JPanel implements Space{
 	
@@ -40,6 +41,8 @@ public class Background extends JPanel implements Space{
 	public boolean characterPaint = false; 
 	
 	public boolean lastBackground;
+	
+	public ArrayList<Rectangle> walls = new ArrayList<>();
 	
 	public int playerx = 100;
 	public int playery = 100;
@@ -180,64 +183,144 @@ public class Background extends JPanel implements Space{
 	}
 	
 	public void setHType(int i) {
+		Rectangle wall1;
+		Rectangle wall2;
 		switch(i) {
 		case 1: 
 			this.bgHType = HType.HType1;
-			this.setBackgroundImage("/backgrounds.hallways/HType1.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType1.png");
+			wall1 = new Rectangle(0, 285, 640, 1);
+			walls.add(wall1);		
+			break;
 		case 2: 
 			this.bgHType = HType.HType2;
-			this.setBackgroundImage("/backgrounds.hallways/HType2.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType2.png");
+			wall1 = new Rectangle(320, 0, 3, 640);
+			walls.add(wall1);
+			break;
 		case 3: 
 			this.bgHType = HType.HType3;
-			this.setBackgroundImage("/backgrounds.hallways/HType3.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType3.png");
+			break;
 		case 4: 
 			this.bgHType = HType.HType4;
-			this.setBackgroundImage("/backgrounds.hallways/HType4.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType4.png");
+			break;
 		case 5: 
 			this.bgHType = HType.HType5;
-			this.setBackgroundImage("/backgrounds.hallways/HType5.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType5.png");
+			break;
 		case 6: 
 			this.bgHType = HType.HType6;
-			this.setBackgroundImage("/backgrounds.hallways/HType6.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType6.png");
+			break;
 		case 7: 
 			this.bgHType = HType.HType7;
-			this.setBackgroundImage("/backgrounds.hallways/HType7.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType7.png");
+			break;
 		case 8: 
 			this.bgHType = HType.HType8;
-			this.setBackgroundImage("/backgrounds.hallways/HType8.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType8.png");
+			break;
 		case 9: 
 			this.bgHType = HType.HType9;
-			this.setBackgroundImage("/backgrounds.hallways/HType9.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType9.png");
+			break;
 		case 10: 
 			this.bgHType = HType.HType10;
-			this.setBackgroundImage("/backgrounds.hallways/HType10.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType10.png");
+			break;
 		case 11: 
 			this.bgHType = HType.HType11;
-			this.setBackgroundImage("/backgrounds.hallways/HType11.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType11.png");
+			break;
 		case 12: 
 			this.bgHType = HType.HType12;
-			this.setBackgroundImage("/backgrounds.hallways/HType12.png");
+			this.setBackgroundImage("/backgrounds/hallways/HType12.png");
+			break;
 		}	
 	}
 	
-	public void addEntrance(int entranceType, int xMin, int yMin, int xMax, int yMax) {
+	public void addEntrance(String entranceType, int xMin, int yMin, int xMax, int yMax) {
 		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
 		
 		switch(entranceType) {
-		case 0:
-			this.top = newEntrance;
-		case 1:
-			this.right = newEntrance;
-		case 2: 
-			this.bottom = newEntrance;
-		case 3:
-			this.left = newEntrance;	
-		case 4:
-			this.room = newEntrance;
-		}
+			case "top":
+				this.top = newEntrance;
+				break;
+			case "right":
+				this.right = newEntrance;
+				break;
+			case "bottom": 
+				this.bottom = newEntrance;
+				break;
+			case "left":
+				this.left = newEntrance;	
+				break;
+			case "room":
+				this.room = newEntrance;
+				break;
+			}
 		
 		this.entrances.add(newEntrance);
 		
+	}
+	
+	public void addEntrance(String entranceType) {
+		
+		int xMin = 0;
+		int yMin = 0;
+		int xMax = 0;
+		int yMax = 0;
+		
+		switch(entranceType) {
+			case "top":
+				//this.top = newEntrance; //70y, 320x
+				xMin = 270;
+				yMin = 0;
+				xMax = 370;
+				yMax = 50;
+				break;
+			case "right":
+				//this.right = newEntrance; //550x, 300y
+				xMin = 570;
+				yMin = 250;
+				xMax = 640;
+				yMax = 350;
+				break;
+			case "bottom": 
+				//this.bottom = newEntrance; //550y, 320x
+				xMin = 270;
+				yMin = 570;
+				xMax = 370;
+				yMax = 640;
+				break;
+			case "left":
+				//this.left = newEntrance; //300y, 70x
+				xMin = 0;
+				yMin = 250;
+				xMax = 50;
+				yMax = 350;
+				break;
+			case "room":
+				//this.room = newEntrance;
+				break;
+			}
+		
+		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
+		
+		this.entrances.add(newEntrance);
+		
+	}
+	
+	public void addOutsideBounds() {
+		Rectangle wall1 = new Rectangle(0, 450, 640, 340);
+		walls.add(wall1);
+	}
+	
+	@Override
+	public ArrayList<Entrance> getEntrances() {
+	    return this.entrances;
 	}
 	
 		
@@ -319,6 +402,28 @@ public class Background extends JPanel implements Space{
 		
 
 	}
+	
+	@Override
+	public int getPlayerX(){
+		return(this.playerx);
+	};
+	@Override
+    public void setPlayerX(int x) {
+    	this.playerx = x;
+    };
+    @Override
+    public int getPlayerY() {
+    	return(this.playery);
+    };
+    @Override
+    public void setPlayerY(int y) {
+    	this.playery = y;
+    };
+    
+    @Override
+    public ArrayList<Rectangle> getWalls() {
+    	return(this.walls);
+    }
 
 
 }

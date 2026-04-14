@@ -1,5 +1,6 @@
 package rooms;  
 import java.util.ArrayList;
+import java.awt.Rectangle;
 
 import java.awt.Graphics2D;
 
@@ -37,7 +38,7 @@ public class Room extends JPanel implements Space{
 	
 	public Entrance exit;
 	public ArrayList<Entrance> entrances = new ArrayList<>();
-	
+	public ArrayList<Rectangle> walls = new ArrayList<>();
 	
 	public String key;
 	public int location;
@@ -135,11 +136,11 @@ public class Room extends JPanel implements Space{
 		return this.location;
 	}
 	
-	public void addEntrance(int entranceType, int xMin, int yMin, int xMax, int yMax) {
+	public void addEntrance(String entranceType, int xMin, int yMin, int xMax, int yMax) {
 		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
 		
 		switch(entranceType) {
-		case 0:
+		case "top":
 			this.exit = newEntrance;
 		
 		this.entrances.add(newEntrance);
@@ -227,7 +228,25 @@ public class Room extends JPanel implements Space{
 	public void setActiveChallenge(boolean b) {
 		
 	}
+	
+	@Override
+	public ArrayList<Entrance> getEntrances() {
+	    return this.entrances;
+	}
+	
+	public int getPlayerX() {
+		return(playerx);
+	};
+    public void setPlayerX(int x) {};
+    public int getPlayerY() {
+    	return(playery);
+    };
+    public void setPlayerY(int y) {};
 
+    @Override
+    public ArrayList<Rectangle> getWalls() {
+    	return(this.walls);
+    }
 
 }
 
