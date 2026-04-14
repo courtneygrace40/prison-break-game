@@ -95,6 +95,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background h22 = new Background(this, controls, false, 7, "h22");
 	Background h23 = new Background(this, controls, false, 5, "h23");
 	
+	
 	Background[] allHallways = {h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23};
 	
 	
@@ -103,6 +104,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
+	Background winScreen = new Background (this, controls, "/backgrounds/WinScreen.png", false);
 	
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
 	
@@ -139,11 +141,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		mazeBackground.setCharPaint(true);
 		testRoom.setCharPaint(true);
 		
+		
 		outside.setKey("outside");
 		//hallway1.setKey("hallway1");
 		//hallway2.setKey("hallway2");
 		//hallway3.setKey("hallway3");
 		testRoom.setKey("testRoom");
+		winScreen.setKey("winScreen");
 		
 		outside.addOutsideBounds();
 
@@ -315,8 +319,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h22.addEntrance("left");
 		
 		worldMap.put(h23, new HashMap<>());
-		worldMap.get(h11).put("top", h22);
+		worldMap.get(h23).put("top", winScreen);
 		h23.addEntrance("top");
+		worldMap.put(winScreen, new HashMap<>());
 		
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
@@ -357,6 +362,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(hallway2, "hallway2");
 		this.add(hallway3, "hallway3");*/
 		this.add(testRoom, "testRoom");
+		this.add(winScreen, "winScreen");
 		
 		for (Background h : allHallways) {
 			h.setCharPaint(true);
@@ -572,6 +578,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            bgLayout.show(this, nextSpace.getKey());
 	            this.player1.enterRoom(direction);
 	            repaint();
+	            
+	           
+	         
 	 
 	            if (nextSpace instanceof Room) {
 	                handleRoomEntry((Room) nextSpace);
@@ -593,6 +602,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        });
 	    }
 	}
+	
+
+	
+
 	
 	
 	//four types of trigger events: 0, 1, 2, 3 corresponding to someone going through the top of a screen, right, bottom, or left 
@@ -648,9 +661,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		        });*/
 		    }
 		}
+	
+
 		
 	//}
 	}
+
 	
 
 	
