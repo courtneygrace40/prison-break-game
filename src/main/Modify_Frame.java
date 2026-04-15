@@ -117,7 +117,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//public Door door1 = new Door(this);
 	
 	//guard
-	public Guard guard1 = new Guard(this);
+	public Guard guard1 = new Guard(this, controls);
 	
 	//player in guard costume
 	public PlayerGuardCostume playerGuard = new PlayerGuardCostume(this, controls);
@@ -482,6 +482,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		//if (indexBG < 5) {
 			player1.update(); 
+			guard1.update();
 			if (this.currentBackground.getEntrances().size() > 0) {
 				for (Entrance e : currentBackground.getEntrances()) {
 				    if (player1.x >= e.xMin && player1.x <= e.xMax && 

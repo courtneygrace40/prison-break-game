@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener{
 	
 	public boolean uppressed, downpressed, leftpressed, rightpressed, enterpressed;
-	
+	public boolean playerUp, playerDown, playerLeft, playerRight;
+	public boolean guardUp, guardDown, guardLeft, guardRight;
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
@@ -18,20 +19,33 @@ public class KeyHandler implements KeyListener{
 		//get what the key value is 
 		int keyCode = e.getKeyCode();
 		//check if the key code is in ASDW or up down left right
-		if (keyCode == KeyEvent.VK_A|| keyCode == KeyEvent.VK_LEFT) {
-			leftpressed= true;
+		if (keyCode == KeyEvent.VK_LEFT) {
+			playerLeft= true;
 		}
-		if (keyCode == KeyEvent.VK_S|| keyCode == KeyEvent.VK_DOWN) {
-			downpressed= true;
+		if (keyCode == KeyEvent.VK_DOWN) {
+			playerDown= true;
 		}
-		if (keyCode == KeyEvent.VK_D|| keyCode == KeyEvent.VK_RIGHT) {
-			rightpressed= true;
+		if (keyCode == KeyEvent.VK_RIGHT) {
+			playerRight= true;
 		}
-		if (keyCode == KeyEvent.VK_W|| keyCode == KeyEvent.VK_UP) {
-			uppressed=true;
+		if (keyCode == KeyEvent.VK_UP) {
+			playerUp=true;
 		}
-		if (keyCode == KeyEvent.VK_ENTER) {
-			enterpressed=true;
+		//if (keyCode == KeyEvent.VK_ENTER) {
+			//enterpressed=true;
+		//}
+		
+		if (keyCode == KeyEvent.VK_W) {
+			guardUp = true;
+		}
+		if (keyCode == KeyEvent.VK_S) {
+			guardDown = true;
+		}
+		if (keyCode == KeyEvent.VK_A) {
+			guardLeft = true;
+		}
+		if (keyCode == KeyEvent.VK_D) {
+			guardRight = true;
 		}
 	}
 
@@ -40,20 +54,32 @@ public class KeyHandler implements KeyListener{
 		//get what the key value is 
 		int keyCode = e.getKeyCode();
 		//check if the key code is in ASDW or up down left right
-		if (keyCode == KeyEvent.VK_A|| keyCode == KeyEvent.VK_LEFT) {
-			leftpressed= false;
+		if (keyCode == KeyEvent.VK_LEFT) {
+			playerLeft= false;
 		}
-		if (keyCode == KeyEvent.VK_S|| keyCode == KeyEvent.VK_DOWN) {
-			downpressed= false;
+		if (keyCode == KeyEvent.VK_DOWN) {
+			playerDown= false;
 		}
-		if (keyCode == KeyEvent.VK_D|| keyCode == KeyEvent.VK_RIGHT) {
-			rightpressed= false;
+		if (keyCode == KeyEvent.VK_RIGHT) {
+			playerRight= false;
 		}
-		if (keyCode == KeyEvent.VK_W|| keyCode == KeyEvent.VK_UP) {
-			uppressed=false;
+		if (keyCode == KeyEvent.VK_UP) {
+			playerUp=false;
 		}
-		if (keyCode == KeyEvent.VK_ENTER) {
-			enterpressed=false;
+		//if (keyCode == KeyEvent.VK_ENTER) {
+			//enterpressed=false;
+		//}
+		if (keyCode == KeyEvent.VK_W) {
+			guardUp = false;
+		}
+		if (keyCode == KeyEvent.VK_S) {
+			guardDown = false;
+		}
+		if (keyCode == KeyEvent.VK_A) {
+			guardLeft = false;
+		}
+		if (keyCode == KeyEvent.VK_D) {
+			guardRight = false;
 		}
 		
 	}

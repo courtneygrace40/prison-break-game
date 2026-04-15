@@ -1,20 +1,24 @@
 package entity;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import main.KeyHandler;
 import main.Modify_Frame;
 
 public class Guard extends Entity {
 
     Modify_Frame mf;
     BufferedImage guardImage;
+    KeyHandler controls;
 
-    public Guard(Modify_Frame mf) {
+
+    public Guard(Modify_Frame mf, KeyHandler controls) {
         this.mf = mf;
+        this.controls = controls;
 
         setDefaults();
         getGuardImage();
@@ -23,7 +27,7 @@ public class Guard extends Entity {
     public void setDefaults() {
         x = 200;
         y = 200;
-        speed = 0; // not moving
+        speed = 2; // not moving
     }
 
     public void getGuardImage() {
@@ -33,6 +37,31 @@ public class Guard extends Entity {
             e.printStackTrace();
         }
     }
+    
+	public void update() {
+		//update player position
+		if(controls.guardUp){
+			direction = "back";
+			y -= speed; //movement depending on player speed	
+				}
+		else if(controls.guardDown) {
+			direction = "back";
+			y += speed;
+			}
+		else if (controls.guardRight) {
+			direction = "front";
+			x += speed;
+				}
+		else if (controls.guardLeft) {
+			direction = "front";
+			x -= speed;
+				
+		}
+		x = Math.max(0, Math.min(x, mf.frameWidth - mf.charSize)); //helps make sure that character stays in bound of the screen by measuring the coordinates 
+	    y = Math.max(0, Math.min(y, mf.frameHeight - mf.charSize));
+		
+	}
+	
 // commenting just to see if this will allow me to push code, because it keeps saying that there are no changes to stage
 
 

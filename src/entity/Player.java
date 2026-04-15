@@ -83,19 +83,19 @@ public class Player extends Entity{
 	    int oldY = y;
 		
 		//update player position
-		if(controls.uppressed){
+		if(controls.playerUp){
 			direction = "back";
 			y -= speed; //movement depending on player speed	
 				}
-		else if(controls.downpressed) {
+		else if(controls.playerDown) {
 			direction = "back";
 			y += speed;
 			}
-		else if (controls.rightpressed) {
+		else if (controls.playerRight) {
 			direction = "front";
 			x += speed;
 				}
-		else if (controls.leftpressed) {
+		else if (controls.playerLeft) {
 			direction = "front";
 			x -= speed;
 				}
