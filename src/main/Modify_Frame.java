@@ -176,7 +176,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		//trial add room to entrances
 		//fix this later
 		//hallway1.addEntrance("bottom", 280, 550, 370, 640);
-		testRoom.addEntrance("bottom", 280, 550, 370, 640);
+		//testRoom.addEntrance("bottom", 280, 550, 370, 640);
 		
 		/*hallway1.setLocation(1);
 		hallway2.setLocation(2);
@@ -189,8 +189,15 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h1, new HashMap<>());
 		worldMap.get(h1).put("right", h2);
 		worldMap.get(h1).put("left", outside);
+		worldMap.get(h1).put("top", testRoom);
 		h1.addEntrance("right");
 		h1.addEntrance("left");
+		h1.addEntrance("top");
+		
+		worldMap.put(testRoom, new HashMap<>());
+		worldMap.get(testRoom).put("bottom", h1);
+		testRoom.addEntrance("bottom");
+		
 		
 		worldMap.put(h2, new HashMap<>());
 		worldMap.get(h2).put("right", h3);

@@ -147,6 +147,52 @@ public class Room extends JPanel implements Space{
 		}
 		
 	}
+	public void addEntrance(String entranceType) {
+		
+		int xMin = 0;
+		int yMin = 0;
+		int xMax = 0;
+		int yMax = 0;
+		
+		switch(entranceType) {
+			case "top":
+				//this.top = newEntrance; //70y, 320x
+				xMin = 270;
+				yMin = 0;
+				xMax = 370;
+				yMax = 50;
+				break;
+			case "right":
+				//this.right = newEntrance; //550x, 300y
+				xMin = 570;
+				yMin = 250;
+				xMax = 640;
+				yMax = 350;
+				break;
+			case "bottom": 
+				//this.bottom = newEntrance; //550y, 320x
+				xMin = 270;
+				yMin = 570;
+				xMax = 370;
+				yMax = 640;
+				break;
+			case "left":
+				//this.left = newEntrance; //300y, 70x
+				xMin = 0;
+				yMin = 250;
+				xMax = 50;
+				yMax = 350;
+				break;
+			case "room":
+				//this.room = newEntrance;
+				break;
+			}
+		
+		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
+		
+		this.entrances.add(newEntrance);
+		
+	}
 	
 		
 		
