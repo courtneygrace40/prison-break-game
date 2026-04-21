@@ -105,16 +105,12 @@ public class Player extends Entity{
 	    Rectangle playerHitbox = new Rectangle(x, y, mf.charSize, mf.charSize);
 
 	    // If the player "intersects" the wall, undo the move
-	    for (Rectangle wall : mf.currentBackground.getWalls()) {
-	        if (wall.intersects(playerHitbox) == false) {
-	        	System.out.println("Collision!");
-	            // Collision detected! Undo the move and stop checking
+	    if(mf.currentBackground.getWalkable()!=null) {
+	        if ( mf.currentBackground.getWalkable().contains(playerHitbox) == false) {
 	            x = oldX;
-	            y = oldY;
-	            break; 
+	            y = oldY;   
 	        }
 	    }
-		
 	}
 	
 	public void draw(Graphics2D g2) {

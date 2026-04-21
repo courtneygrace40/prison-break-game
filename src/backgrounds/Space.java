@@ -2,6 +2,7 @@ package backgrounds;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.awt.geom.Area;
 
 public interface Space {
 
@@ -15,4 +16,6 @@ public interface Space {
     int getPlayerY();
     void setPlayerY(int y);
     public ArrayList<Rectangle> getWalls();
+    Area getWalkable();
+    void shouldGuardPaint();
 }

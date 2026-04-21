@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.awt.Rectangle;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Area;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -39,6 +40,7 @@ public class Room extends JPanel implements Space{
 	public Entrance exit;
 	public ArrayList<Entrance> entrances = new ArrayList<>();
 	public ArrayList<Rectangle> walls = new ArrayList<>();
+	public Area walkable_map;
 	
 	public String key;
 	public int location;
@@ -294,5 +296,14 @@ public class Room extends JPanel implements Space{
     	return(this.walls);
     }
 
+    @Override
+    public Area getWalkable() {
+    	return(this.walkable_map);
+    }
+    
+    @Override 
+    public void shouldGuardPaint() {
+    	
+    }
 }
 

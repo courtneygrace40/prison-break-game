@@ -1,7 +1,10 @@
 package backgrounds;  
 import java.util.ArrayList;
+import java.util.Random;
 
+import java.awt.geom.Area;
 import java.awt.Graphics2D;
+import java.awt.Color;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -39,6 +42,8 @@ public class Background extends JPanel implements Space{
 	public BufferedImage bg;
 	
 	public boolean characterPaint = false; 
+	public boolean guardPaint = false;
+	public double gpProbability = 0;
 	
 	public boolean lastBackground;
 	
@@ -53,7 +58,24 @@ public class Background extends JPanel implements Space{
 	public Entrance left;
 	public Entrance room;
 	
+	public Area walkable_map;
+	
 	public ArrayList<Entrance> entrances = new ArrayList<>();
+	
+	private final Rectangle horizontal_hallway = new Rectangle(0, 250, 640, 100);
+	private final Rectangle vertical_hallway = new Rectangle(270, 0, 100, 640);
+	
+	private final Rectangle left_horizontal = new Rectangle(0, 250, 370, 100);
+	private final Rectangle top_vertical = new Rectangle(270, 0, 100, 350);
+	
+	private final Rectangle right_horizontal = new Rectangle(370, 250, 640, 100);
+	private final Rectangle bottom_vertical = new Rectangle(270, 250, 100, 640);
+	
+	private final Rectangle short_vertical = new Rectangle(270, 0, 100, 500);
+	private final Rectangle short_vertical_bottomUp = new Rectangle(270, 80, 100, 640);
+	
+	private final Rectangle horizontal_short = new Rectangle(0, 250, 580, 100);
+	private final Rectangle short_vertical_bump = new Rectangle(270, 90, 100, 250);
 	
 	
 	public String key;
@@ -141,6 +163,7 @@ public class Background extends JPanel implements Space{
 		BufferedImage image = bg;
 		g2.drawImage(image, 0, 0, null);
 		
+		
 	}
 	
 	public void setCharPaint(boolean x) {
@@ -183,62 +206,83 @@ public class Background extends JPanel implements Space{
 	}
 	
 	public void setHType(int i) {
-		Rectangle wall1;
-		Rectangle wall2;
+		
+		Area hallway = new Area();
+		
 		switch(i) {
 		case 1: 
 			this.bgHType = HType.HType1;
 			this.setBackgroundImage("/backgrounds/hallways/HType1.png");
-			wall1 = new Rectangle(0, 285, 640, 1);
-			walls.add(wall1);		
+			hallway.add(new Area(horizontal_hallway));
+			
 			break;
 		case 2: 
 			this.bgHType = HType.HType2;
 			this.setBackgroundImage("/backgrounds/hallways/HType2.png");
-			wall1 = new Rectangle(320, 0, 3, 640);
-			walls.add(wall1);
+			hallway.add(new Area(vertical_hallway));
 			break;
 		case 3: 
 			this.bgHType = HType.HType3;
 			this.setBackgroundImage("/backgrounds/hallways/HType3.png");
+			hallway.add(new Area(top_vertical));
+			hallway.add(new Area(left_horizontal));
 			break;
 		case 4: 
 			this.bgHType = HType.HType4;
 			this.setBackgroundImage("/backgrounds/hallways/HType4.png");
+			hallway.add(new Area(horizontal_hallway));
+			hallway.add(new Area(bottom_vertical));
 			break;
-		case 5: 
+		case 5: //change this
 			this.bgHType = HType.HType5;
 			this.setBackgroundImage("/backgrounds/hallways/HType5.png");
+			hallway.add(new Area(short_vertical));
 			break;
-		case 6: 
+		case 6: //change this
 			this.bgHType = HType.HType6;
 			this.setBackgroundImage("/backgrounds/hallways/HType6.png");
+			hallway.add(new Area(short_vertical_bottomUp));
 			break;
 		case 7: 
 			this.bgHType = HType.HType7;
 			this.setBackgroundImage("/backgrounds/hallways/HType7.png");
+			hallway.add(new Area(vertical_hallway));
+			hallway.add(new Area(left_horizontal));
 			break;
 		case 8: 
 			this.bgHType = HType.HType8;
 			this.setBackgroundImage("/backgrounds/hallways/HType8.png");
+			hallway.add(new Area(horizontal_hallway));
+			hallway.add(new Area(top_vertical));
 			break;
 		case 9: 
 			this.bgHType = HType.HType9;
 			this.setBackgroundImage("/backgrounds/hallways/HType9.png");
+			hallway.add(new Area(horizontal_hallway));
+			hallway.add(new Area(top_vertical));
 			break;
-		case 10: 
+		case 10: //change
 			this.bgHType = HType.HType10;
 			this.setBackgroundImage("/backgrounds/hallways/HType10.png");
+			hallway.add(new Area(horizontal_short));
+			hallway.add(new Area(short_vertical_bump));
 			break;
 		case 11: 
 			this.bgHType = HType.HType11;
 			this.setBackgroundImage("/backgrounds/hallways/HType11.png");
+			hallway.add(new Area(right_horizontal));
+			hallway.add(new Area(top_vertical));
 			break;
 		case 12: 
 			this.bgHType = HType.HType12;
 			this.setBackgroundImage("/backgrounds/hallways/HType12.png");
+			hallway.add(new Area(right_horizontal));
+			hallway.add(new Area(bottom_vertical));
 			break;
-		}	
+			
+		}
+		
+		this.walkable_map = hallway;	
 	}
 	
 	public void addEntrance(String entranceType, int xMin, int yMin, int xMax, int yMax) {
@@ -314,8 +358,9 @@ public class Background extends JPanel implements Space{
 	}
 	
 	public void addOutsideBounds() {
-		Rectangle wall1 = new Rectangle(0, 450, 640, 340);
-		walls.add(wall1);
+		Area wall1 = new Area(new Rectangle(0, 350, 640, 340));
+		this.walkable_map = wall1;
+		
 	}
 	
 	@Override
@@ -373,16 +418,30 @@ public class Background extends JPanel implements Space{
 			if(this.characterPaint) {
 				if (mf.indexBG >=4 && mf.indexBG < 5) {
 					mf.player1.draw(g2);
-					mf.guard1.draw(g2);
+					//mf.guard1.draw(g2);
 					//mf.door1.draw(g2);
 				}
 				else if (mf.indexBG >= 5) {
 					mf.playerGuard.draw(g2);
-					mf.guard1.draw(g2);
+					//mf.guard1.draw(g2);
 					//mf.door1.draw(g2);
 				}
+				if (this.guardPaint) {
+					mf.guard1.draw(g2);
+				}
 			} //paints the character in the specific order needed (for now, we can change if we need to)
-			
+			if (this.walkable_map != null) {
+		        // Set color to a transparent green (R, G, B, Alpha)
+		        // Alpha 100 makes it "see-through" so you can see your art underneath
+		        g2.setColor(new Color(0, 255, 0, 100)); 
+		        
+		        // Use fill() to color the entire area
+		        g2.fill(this.walkable_map);
+		        
+		        // Optional: Draw a solid green outline to see the edges better
+		        g2.setColor(Color.GREEN);
+		        g2.draw(this.walkable_map);
+		    }
 
 		}
 
@@ -423,6 +482,31 @@ public class Background extends JPanel implements Space{
     @Override
     public ArrayList<Rectangle> getWalls() {
     	return(this.walls);
+    }
+    
+    @Override 
+    public Area getWalkable() {
+    	return(this.walkable_map);
+    }
+    
+    public void shouldGuardPaint() {
+    	Random r = new Random();
+    	int r1 = r.nextInt(100);
+    	double num = r1/100.0;
+    	System.out.println(num);
+    	System.out.println(this.gpProbability);
+    	if (num<=this.gpProbability) {
+    		this.guardPaint = true;
+    	}
+    	
+    }
+    
+    public void setProb(double prob) {
+    	this.gpProbability = prob;
+    	}
+    
+    public void setGuardBool(boolean g) {
+    	this.guardPaint = g;
     }
 
 

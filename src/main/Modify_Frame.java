@@ -129,25 +129,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		//set specific player coords if needed
 		outside.setPlayerCoords(64,64);
-		/*hallway1.setPlayerCoords(320,320);
-		hallway2.setPlayerCoords(0, 320);
-		hallway3.setPlayerCoords(0, 320);*/
 		testRoom.setPlayerCoords(320, 320);
 		
 		outside.setCharPaint(true);
-		/*hallway1.setCharPaint(true);
-		hallway2.setCharPaint(true);
-		hallway3.setCharPaint(true);*/
 		mazeBackground.setCharPaint(true);
 		testRoom.setCharPaint(true);
 		
 		
 		outside.setKey("outside");
-		//hallway1.setKey("hallway1");
-		//hallway2.setKey("hallway2");
-		//hallway3.setKey("hallway3");
 		testRoom.setKey("testRoom");
 		winScreen.setKey("winScreen");
+		
+		outside.setGuardBool(true);
 		
 		outside.addOutsideBounds();
 
@@ -331,6 +324,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(winScreen, new HashMap<>());
 		
 		
+		
+		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setDoubleBuffered(true);
 		
@@ -374,8 +369,17 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		for (Background h : allHallways) {
 			h.setCharPaint(true);
 			this.add(h, h.getKey());
+			h.setProb(0.2);
 		}
 		
+		h4.setProb(0.8);
+		h11.setProb(0.8);
+		h22.setProb(0.8);
+		h19.setProb(0.7);
+		h5.setProb(0.7);
+		h13.setProb(0.7);
+		h2.setProb(0.6);
+		h1.setProb(0.6);
 		
 		//Iterates through the linked list and adds them to the MasterPanel
 		//int j = 0;
@@ -583,13 +587,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        Space nextSpace = exits.get(direction);
 	        if (nextSpace != null) {
 	            this.currentBackground = nextSpace;
+	            nextSpace.shouldGuardPaint();
 	            bgLayout.show(this, nextSpace.getKey());
 	            this.player1.enterRoom(direction);
 	            repaint();
-	            
-	           
-	         
-	 
 	            if (nextSpace instanceof Room) {
 	                handleRoomEntry((Room) nextSpace);
 	            }
