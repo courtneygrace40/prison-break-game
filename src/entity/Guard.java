@@ -14,6 +14,9 @@ public class Guard extends Entity {
     Modify_Frame mf;
     BufferedImage guardImage;
     KeyHandler controls;
+    boolean movingRight = true;
+    int leftBoundry;
+    int rightBoundry;
 
 
     public Guard(Modify_Frame mf, KeyHandler controls) {
@@ -27,7 +30,9 @@ public class Guard extends Entity {
     public void setDefaults() {
         x = 200;
         y = 200;
-        speed = 2; // not moving
+        speed = 2; 
+        leftBoundry = 100;
+        rightBoundry = 500;
     }
 
     public void getGuardImage() {
@@ -40,23 +45,24 @@ public class Guard extends Entity {
     
 	public void update() {
 		//update player position
-		if(controls.guardUp){
-			direction = "back";
-			y -= speed; //movement depending on player speed	
-				}
-		else if(controls.guardDown) {
-			direction = "back";
-			y += speed;
-			}
-		else if (controls.guardRight) {
+		
+		if (movingRight) {
 			direction = "front";
 			x += speed;
-				}
-		else if (controls.guardLeft) {
+			
+			if (x >= rightBoundry) 
+				movingRight = false;
+		} else {
 			direction = "front";
 			x -= speed;
-				
+			
+			if (x <= leftBoundry) {
+				movingRight = true;
+			}
 		}
+		
+		
+
 		x = Math.max(0, Math.min(x, mf.frameWidth - mf.charSize)); //helps make sure that character stays in bound of the screen by measuring the coordinates 
 	    y = Math.max(0, Math.min(y, mf.frameHeight - mf.charSize));
 		
