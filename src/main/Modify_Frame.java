@@ -62,6 +62,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public int indexBG = 0;
 	public int indexBGCollection = 0;
 	
+	
 	//set background
 	//this will change to implementing a linked list at some point?
 	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", false);
@@ -360,16 +361,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			h.setCharPaint(true);
 			this.add(h, h.getKey());
 			h.setProb(0.2);
+			h.setZeroProb();
+			
 		}
 		
 		h4.setProb(0.8);
 		h11.setProb(0.8);
 		h22.setProb(0.8);
 		h19.setProb(0.7);
-		h5.setProb(0.7);
 		h13.setProb(0.7);
 		h2.setProb(0.6);
 		h1.setProb(0.6);
+		
 		
 		//Iterates through the linked list and adds them to the MasterPanel
 		//int j = 0;

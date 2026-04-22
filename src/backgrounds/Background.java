@@ -524,6 +524,13 @@ public class Background extends JPanel implements Space{
     	System.out.println(mf.guardApps);
     }
 
+    
+    public void setZeroProb() {
+    	if(this.bgHType == HType.HType7 | this.bgHType == HType.HType2) {
+    		this.setProb(0.0);  	
+    		}
+    	}
 
 }
+
 
