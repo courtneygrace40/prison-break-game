@@ -22,13 +22,6 @@ public class keyPadRoom extends JDialog implements RoomChallenge, ActionListener
         this.mf = mf;
         this.kh = kh;
         
-    	winCode.add(b6);
-    	winCode.add(b1);
-    	winCode.add(b7);
-    	winCode.add(b4);
-    	winCode.add(b1);
-    	winCode.add(b3);
-        
         setSize(400, 400);
         setResizable(false);
         setLocationRelativeTo(mf); // Centers the puzzle over the game
@@ -40,7 +33,13 @@ public class keyPadRoom extends JDialog implements RoomChallenge, ActionListener
         addButtons();
         setbounds();
         addActionListener();
-  
+        
+    	winCode.add(b6);
+    	winCode.add(b1);
+    	winCode.add(b7);
+    	winCode.add(b4);
+    	winCode.add(b1);
+    	winCode.add(b3);
     }
 	
 
@@ -95,19 +94,25 @@ public class keyPadRoom extends JDialog implements RoomChallenge, ActionListener
 		b9= new JButton("9");
 		enter = new JButton("Enter");
 		winnerLabel = new JLabel("Enter the password...");
+		
 	}
 	
 	@Override
 	public boolean hasFinished() {
 		Boolean correct = false;
-		for (int i = 0; i<6;i++) {
-			if (pressed.get(i)==winCode.get(i)) {
-				correct = true;
-			}
-			else {
-				correct = false;
-				break;
-			}
+//		for (int i = 0; i<6;i++) {
+//			if (pressed.get(i)==winCode.get(i)) {
+//				correct = true;
+//			}
+//			else {
+//				correct = false;
+//				break;
+//			}
+//		}
+		System.out.println(winCode);
+		System.out.println(pressed);
+		if (pressed.equals(winCode)) {
+			correct = true;
 		}
 		return correct;
 	}
@@ -145,6 +150,7 @@ public class keyPadRoom extends JDialog implements RoomChallenge, ActionListener
 		
 		else if (b == enter) {
 			if (hasFinished()) {
+			System.out.println("Finished puzzle!");
 	        winnerLabel.setText("Click! You hear a lock unlock... nice!");
 	        // Disable all buttons
 	        JButton[] buttons = {b1, b2, b3, b4, b5, b6, b7, b8, b9};
