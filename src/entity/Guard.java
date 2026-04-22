@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 
@@ -17,6 +18,7 @@ public class Guard extends Entity {
     boolean movingRight = true;
     int leftBoundry;
     int rightBoundry;
+    
 
 
     public Guard(Modify_Frame mf, KeyHandler controls) {
@@ -25,11 +27,12 @@ public class Guard extends Entity {
 
         setDefaults();
         getGuardImage();
+        
     }
 
     public void setDefaults() {
         x = 200;
-        y = 200;
+        y = 270;
         speed = 2; 
         leftBoundry = 100;
         rightBoundry = 500;
@@ -61,10 +64,21 @@ public class Guard extends Entity {
 			}
 		}
 		
-		
+		int oldX = x;
+	    int oldY = y;
 
 		x = Math.max(0, Math.min(x, mf.frameWidth - mf.charSize)); //helps make sure that character stays in bound of the screen by measuring the coordinates 
 	    y = Math.max(0, Math.min(y, mf.frameHeight - mf.charSize));
+	    
+	    Rectangle playerHitbox = new Rectangle(x, y, mf.charSize, mf.charSize);
+
+	    // If the player "intersects" the wall, undo the move
+	    if(mf.currentBackground.getWalkable()!=null) {
+	        if ( mf.currentBackground.getWalkable().contains(playerHitbox) == false) {
+	            x = oldX;
+	            y = oldY;   
+	        }
+	    }
 		
 	}
 	

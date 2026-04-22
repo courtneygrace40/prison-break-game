@@ -302,8 +302,10 @@ public class Room extends JPanel implements Space{
     }
     
     @Override 
-    public void shouldGuardPaint() {
-    	
+    public boolean shouldGuardPaint() {
+    	return(false);
     }
+    @Override
+    public void incGuardApps() {}
 }
 

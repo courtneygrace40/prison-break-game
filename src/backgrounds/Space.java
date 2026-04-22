@@ -17,5 +17,6 @@ public interface Space {
     void setPlayerY(int y);
     public ArrayList<Rectangle> getWalls();
     Area getWalkable();
-    void shouldGuardPaint();
+    boolean shouldGuardPaint();
+    void incGuardApps();
 }

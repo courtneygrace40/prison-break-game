@@ -36,6 +36,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public int frameHeight = charSize*10; 
 	public int frameWidth = charSize*10;
 	public Player player1;
+	public int guardApps = 0;
 	
 	//This is the progression type information and implementation of JPanel
 	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP}; //Can this be some sort of component that we are able to just use? should i create a sep class?
@@ -163,18 +164,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		outside.addEntrance("right", 300, 340, 339, 429);
 		this.currentBackground = outside;
 		
-		/*hallway1.addEntrance("top", 280, 0, 370,  25);
-		hallway1.addEntrance("right", 550, 300, 640, 450);
-		hallway2.addEntrance("left", 280, 550, 370, 640);*/
-		
-		//trial add room to entrances
-		//fix this later
-		//hallway1.addEntrance("bottom", 280, 550, 370, 640);
-		//testRoom.addEntrance("bottom", 280, 550, 370, 640);
-		
-		/*hallway1.setLocation(1);
-		hallway2.setLocation(2);
-		hallway3.setLocation(3);*/
+	
 		
 
 		worldMap.put(outside, new HashMap<>());
@@ -182,7 +172,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		worldMap.put(h1, new HashMap<>());
 		worldMap.get(h1).put("right", h2);
-		worldMap.get(h1).put("left", outside);
 		worldMap.get(h1).put("top", testRoom);
 		h1.addEntrance("right");
 		h1.addEntrance("left");
@@ -588,7 +577,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        Space nextSpace = exits.get(direction);
 	        if (nextSpace != null) {
 	            this.currentBackground = nextSpace;
-	            nextSpace.shouldGuardPaint();
+	            if(nextSpace.shouldGuardPaint() && this.guardApps <4) {
+	            	nextSpace.incGuardApps();
+	            }
 	            bgLayout.show(this, nextSpace.getKey());
 	            this.player1.enterRoom(direction);
 	            repaint();
