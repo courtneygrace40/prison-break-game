@@ -614,7 +614,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
-	        });
+	        }); 
 	    }
 		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
