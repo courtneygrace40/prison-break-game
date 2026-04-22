@@ -45,9 +45,11 @@ public class Background extends JPanel implements Space{
 	public boolean guardPaint = false;
 	public double gpProbability = 0;
 	
+	
 	public boolean lastBackground;
 	
 	public ArrayList<Rectangle> walls = new ArrayList<>();
+	
 	
 	public int playerx = 100;
 	public int playery = 100;
@@ -76,6 +78,9 @@ public class Background extends JPanel implements Space{
 	
 	private final Rectangle horizontal_short = new Rectangle(0, 250, 580, 100);
 	private final Rectangle short_vertical_bump = new Rectangle(270, 90, 100, 250);
+	
+	private final Rectangle bump_small_vert = new Rectangle(100, 350, 100, 160); 
+	private final Rectangle horizontal_bump = new Rectangle(370, 250, 180, 100);
 	
 	
 	public String key;
@@ -242,6 +247,7 @@ public class Background extends JPanel implements Space{
 			this.bgHType = HType.HType6;
 			this.setBackgroundImage("/backgrounds/hallways/HType6.png");
 			hallway.add(new Area(short_vertical_bottomUp));
+			hallway.add(new Area(horizontal_bump));
 			break;
 		case 7: 
 			this.bgHType = HType.HType7;
@@ -260,6 +266,7 @@ public class Background extends JPanel implements Space{
 			this.setBackgroundImage("/backgrounds/hallways/HType9.png");
 			hallway.add(new Area(horizontal_hallway));
 			hallway.add(new Area(top_vertical));
+			hallway.add(new Area(bump_small_vert));
 			break;
 		case 10: //change
 			this.bgHType = HType.HType10;
@@ -427,12 +434,13 @@ public class Background extends JPanel implements Space{
 					//mf.door1.draw(g2);
 				}
 				if (this.guardPaint) {
-					mf.guard1.draw(g2);
+					if (mf.guardApps < 4) {
+						mf.guard1.draw(g2); 
+					}	
 				}
 			} //paints the character in the specific order needed (for now, we can change if we need to)
-			if (this.walkable_map != null) {
-		        // Set color to a transparent green (R, G, B, Alpha)
-		        // Alpha 100 makes it "see-through" so you can see your art underneath
+			/*if (this.walkable_map != null) {
+		        
 		        g2.setColor(new Color(0, 255, 0, 100)); 
 		        
 		        // Use fill() to color the entire area
@@ -441,7 +449,7 @@ public class Background extends JPanel implements Space{
 		        // Optional: Draw a solid green outline to see the edges better
 		        g2.setColor(Color.GREEN);
 		        g2.draw(this.walkable_map);
-		    }
+		    }*/
 
 		}
 
@@ -489,14 +497,16 @@ public class Background extends JPanel implements Space{
     	return(this.walkable_map);
     }
     
-    public void shouldGuardPaint() {
+    public boolean shouldGuardPaint() {
     	Random r = new Random();
     	int r1 = r.nextInt(100);
     	double num = r1/100.0;
-    	System.out.println(num);
-    	System.out.println(this.gpProbability);
     	if (num<=this.gpProbability) {
     		this.guardPaint = true;
+    		return(true);
+    	}
+    	else {
+    		return(false);
     	}
     	
     }
@@ -507,6 +517,11 @@ public class Background extends JPanel implements Space{
     
     public void setGuardBool(boolean g) {
     	this.guardPaint = g;
+    }
+    
+    public void incGuardApps() {
+    	mf.guardApps += 1;
+    	System.out.println(mf.guardApps);
     }
 
 
