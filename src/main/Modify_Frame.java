@@ -592,6 +592,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            this.player1.enterRoom(direction);
 	            repaint();
 	            if (nextSpace instanceof Room) {
+	            	System.out.println("Entered a room");
 	                handleRoomEntry((Room) nextSpace);
 	            }
 	            
@@ -602,12 +603,16 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 
 	// I'm gonna be so completely for real this is Gemini generated 
 	private void handleRoomEntry(Room room) {
-	    if ("Slider Puzzle".equals(room.getChallengeType()) && room.getActiveChallenge()) {
-	        room.setActiveChallenge(false);
-	        javax.swing.SwingUtilities.invokeLater(() -> {
-	            SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
-	            puzzle.setLocationRelativeTo(this); 
-	            puzzle.setVisible(true);
+		if (room.getChallengeType().equals("Slider Puzzle") && room.getActiveChallenge()) {
+			System.out.println("start puzzle ");
+	    	room.setActiveChallenge(false);
+	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
+            	javax.swing.SwingUtilities.invokeLater(() -> {
+                // Assuming SliderPuzzleRoom extends JDialog
+                SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
+                puzzle.setModal(true); // This stops the user from moving the player while puzzling
+                puzzle.setLocationRelativeTo(this); 
+                puzzle.setVisible(true);
 	        });
 	    }
 	}

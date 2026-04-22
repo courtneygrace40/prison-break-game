@@ -11,8 +11,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
     Modify_Frame mf;
     KeyHandler kh;
     JButton  b1, b2, b3, b4, b5, b6, b7, b8, b9;
-    int counter = 0;
-    JLabel counterLabel;
+    JLabel winnerLabel;
     
     public SliderPuzzleRoom(Modify_Frame mf, KeyHandler kh) {
         
@@ -31,8 +30,21 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
         setbounds();
         addActionListener();
         shuffle();
+        //initializeGameLoop();
     }
 	
+	private void initializeGameLoop() {
+		/*
+		 * while (hasFinished()== false) { //do nothing until } if (hasFinished()==true)
+		 * { winnerLabel.setText("Good Job! Remember this number... 6");
+		 * b1.setEnabled(false); b2.setEnabled(false); b3.setEnabled(false);
+		 * b4.setEnabled(false); b5.setEnabled(false); b6.setEnabled(false);
+		 * b7.setEnabled(false); b8.setEnabled(false); b9.setEnabled(false); }
+		 */
+			
+		
+	}
+
 	private void addActionListener() {
 		// TODO Auto-generated method stub
 		b1.addActionListener(this);
@@ -58,14 +70,14 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 		b7.setBounds(90,170,50,40);
 		b8.setBounds(160,170,50,40);
 		b9.setBounds(230,170,50,40);
-		counterLabel.setBounds(145,15,180,40);
+		winnerLabel.setBounds(145,15,180,40);
 	}
 
 	private void addButtons() {
 		// TODO Auto-generated method stub
 		add(b1);add(b2);add(b3);add(b4);add(b5);add(b6);add(b7);add(b8);add(b9);
 		Container contentPane = this.getContentPane();
-		contentPane.add(counterLabel);
+		contentPane.add(winnerLabel);
 	}
 
 	public void initializeButtons() {
@@ -79,7 +91,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 		b7= new JButton("7");
 		b8= new JButton("8");
 		b9= new JButton("2");
-		counterLabel = new JLabel("Clicks: 0");
+		winnerLabel = new JLabel("Order the numbers from 1-8");
 	}
 
 	public void shuffle() {
@@ -96,7 +108,9 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 	
 	@Override
 	public boolean hasFinished() {
-		// TODO Auto-generated method stub
+		if (b1.getText().equals("1")&&b2.getText().equals("2")&&b3.getText().equals("3")&&b4.getText().equals("4")&&b5.getText().equals("5")&&b6.getText().equals("6")&&b7.getText().equals("7")&&b8.getText().equals("8")) {
+			return true;
+		}
 		return false;
 	}
 
@@ -282,6 +296,12 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 			
 		    
 		}
+		if (hasFinished()) {
+	        winnerLabel.setText("Good Job! Remember this number... 6");
+	        // Disable all buttons
+	        JButton[] buttons = {b1, b2, b3, b4, b5, b6, b7, b8, b9};
+	        for (JButton x : buttons) x.setEnabled(false);
+	    }
 		
 	}
 
