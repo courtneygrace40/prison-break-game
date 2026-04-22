@@ -8,7 +8,7 @@ import javax.swing.*;
 import main.KeyHandler;
 import main.Modify_Frame;
 
-public class keyPadRoom extends JDialog implements RoomChallenge, ActionListener {
+public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener {
     //CODE TO WIN IS : 617413
     Modify_Frame mf;
     KeyHandler kh;
@@ -17,7 +17,7 @@ public class keyPadRoom extends JDialog implements RoomChallenge, ActionListener
 	ArrayList <JButton> pressed= new ArrayList <JButton> ();
 	ArrayList <JButton> winCode= new ArrayList <JButton> ();
     
-    public keyPadRoom(Modify_Frame mf, KeyHandler kh) {
+    public KeyPadRoom(Modify_Frame mf, KeyHandler kh) {
         
         this.mf = mf;
         this.kh = kh;

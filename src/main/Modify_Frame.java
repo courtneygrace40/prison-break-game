@@ -23,7 +23,7 @@ import entity.PlayerGuardCostume;
 import rooms.ChallengeRoom;
 import rooms.Room;
 import rooms.SliderPuzzleRoom;
-import rooms.keyPadRoom;
+import rooms.KeyPadRoom;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
@@ -616,7 +616,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
-                keyPadRoom puzzle = new keyPadRoom(this, this.controls);
+                KeyPadRoom puzzle = new KeyPadRoom(this, this.controls);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
