@@ -71,7 +71,7 @@ public class keyPadRoom extends JDialog implements RoomChallenge, ActionListener
 		b8.setBounds(160,170,50,40);
 		b9.setBounds(230,170,50,40);
 		enter.setBounds(160, 235, 50, 40);
-		winnerLabel.setBounds(50, 280, 300, 40);
+		//winnerLabel.setBounds(50, 280, 300, 40);
 		  
 	}
 

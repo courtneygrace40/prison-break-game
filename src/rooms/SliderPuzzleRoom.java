@@ -70,7 +70,9 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 		b7.setBounds(90,170,50,40);
 		b8.setBounds(160,170,50,40);
 		b9.setBounds(230,170,50,40);
-		winnerLabel.setBounds(145,15,180,40);
+		
+		
+		
 	}
 
 	private void addButtons() {
