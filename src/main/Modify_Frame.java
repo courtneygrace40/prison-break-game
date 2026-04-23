@@ -23,6 +23,7 @@ import entity.PlayerGuardCostume;
 import rooms.ChallengeRoom;
 import rooms.Room;
 import rooms.SliderPuzzleRoom;
+import rooms.WhackAMoleRoom;
 import rooms.KeyPadRoom;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
@@ -110,6 +111,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background winScreen = new Background (this, controls, "/backgrounds/WinScreen.png", false);
 	
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
+	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	
 	public JButton skipButton = new JButton("Skip");
 	
@@ -157,7 +161,16 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		prologue3.setButtons(true, false);
 		
 		testRoom.setButtons(true);
-		testRoom.setChallengeType("Key Pad");
+		sliderRoom.setButtons(true);
+		keyPadRoom.setButtons(true);
+		killBugRoom.setButtons(true);
+		
+		
+		testRoom.setChallengeType("Kill Bugs");
+		sliderRoom.setChallengeType("Slider Puzzle");
+		keyPadRoom.setChallengeType("Key Pad");
+		killBugRoom.setChallengeType("Kill Bugs");
+		
 		
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
@@ -596,7 +609,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    }
 	}
 
-	// I'm gonna be so completely for real this is Gemini generated 
+	//ash generated
 	private void handleRoomEntry(Room room) {
 		if (room.getChallengeType().equals("Slider Puzzle") && room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
@@ -621,6 +634,20 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
+            	
+		}
+		else if (room.getChallengeType().equals("Kill Bugs")&& room.getActiveChallenge()) {
+			System.out.println("start puzzle ");
+	    	room.setActiveChallenge(false);
+	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
+            	javax.swing.SwingUtilities.invokeLater(() -> {
+                // Assuming SliderPuzzleRoom extends JDialog
+                WhackAMoleRoom puzzle = new WhackAMoleRoom(this, this.controls);
+                puzzle.setModal(true); // This stops the user from moving the player while puzzling
+                puzzle.setLocationRelativeTo(this); 
+                puzzle.setVisible(true);
+	        });
+            	
 		}
 		}
 	
