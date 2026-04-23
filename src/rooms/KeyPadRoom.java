@@ -1,6 +1,5 @@
 package rooms;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -9,10 +8,11 @@ import main.KeyHandler;
 import main.Modify_Frame;
 
 public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener {
-    //CODE TO WIN IS : 617413
+    private static final long serialVersionUID = 1L;
+	//CODE TO WIN IS : 617413
     Modify_Frame mf;
     KeyHandler kh;
-    JButton  b1, b2, b3, b4, b5, b6, b7, b8, b9, enter;
+    JButton  b1, b2, b3, b4, b5, b6, b7, b8, b9, enter, fake;
     JLabel winnerLabel;
 	ArrayList <JButton> pressed= new ArrayList <JButton> ();
 	ArrayList <JButton> winCode= new ArrayList <JButton> ();
@@ -69,20 +69,18 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 		b7.setBounds(90,170,50,40);
 		b8.setBounds(160,170,50,40);
 		b9.setBounds(230,170,50,40);
-		enter.setBounds(160, 235, 50, 40);
-		//winnerLabel.setBounds(50, 280, 300, 40);
+		enter.setBounds(90, 225, 190, 40);
 		  
 	}
 
 	private void addButtons() {
 		// TODO Auto-generated method stub
-		add(b1);add(b2);add(b3);add(b4);add(b5);add(b6);add(b7);add(b8);add(b9);add(enter);
-		Container contentPane = this.getContentPane();
-		contentPane.add(winnerLabel);
+		add(enter);add(b1);add(b2);add(b3);add(b4);add(b5);add(b6);add(b7);add(b8);add(b9);add(fake);
 	}
 
 	public void initializeButtons() {
 		// TODO Auto-generated method stub
+		enter = new JButton("Enter");
 		b1 = new JButton("1");
 		b2 = new JButton("2");
 		b3 = new JButton("3");
@@ -92,23 +90,14 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 		b7= new JButton("7");
 		b8= new JButton("8");
 		b9= new JButton("9");
-		enter = new JButton("Enter");
-		winnerLabel = new JLabel("Enter the password...");
+		fake = new JButton(" ");
+		
 		
 	}
 	
 	@Override
 	public boolean hasFinished() {
 		Boolean correct = false;
-//		for (int i = 0; i<6;i++) {
-//			if (pressed.get(i)==winCode.get(i)) {
-//				correct = true;
-//			}
-//			else {
-//				correct = false;
-//				break;
-//			}
-//		}
 		System.out.println(winCode);
 		System.out.println(pressed);
 		if (pressed.equals(winCode)) {
@@ -151,13 +140,22 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 		else if (b == enter) {
 			if (hasFinished()) {
 			System.out.println("Finished puzzle!");
-	        winnerLabel.setText("Click! You hear a lock unlock... nice!");
+			
+			JOptionPane.showMessageDialog(this,
+				    "Click! You hear a lock unlock... nice!",
+				    "The code is correct.",
+				    JOptionPane.PLAIN_MESSAGE);
 	        // Disable all buttons
 	        JButton[] buttons = {b1, b2, b3, b4, b5, b6, b7, b8, b9};
 	        for (JButton x : buttons) x.setEnabled(false);
+	        setVisible(false);
 			}
 			else {
-				winnerLabel.setText("Uh oh... alarms are sounding...");
+				setVisible(false);
+				JOptionPane.showMessageDialog(this,
+					    "Uhoh... you hear alarms begin to sound...",
+					    "The code is NOT CORRECT.",
+					    JOptionPane.PLAIN_MESSAGE);
 			}
 	    }
 		

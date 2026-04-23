@@ -6,6 +6,7 @@ import main.Modify_Frame;
 
 public class ChallengeRoom extends Room{
 	
+	private static final long serialVersionUID = 1L;
 	public String challengeType;
 	public RoomChallenge challenge;
 	public boolean activeChallenge = true;

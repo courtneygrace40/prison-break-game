@@ -16,7 +16,6 @@ import javax.swing.Timer;
 import backgrounds.Background;
 import backgrounds.Entrance;
 import backgrounds.Space;
-import entity.Door;
 import entity.Guard;
 import entity.Player;
 import entity.PlayerGuardCostume;
@@ -166,7 +165,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		killBugRoom.setButtons(true);
 		
 		
-		testRoom.setChallengeType("Kill Bugs");
+		testRoom.setChallengeType("Slider Puzzle");
 		sliderRoom.setChallengeType("Slider Puzzle");
 		keyPadRoom.setChallengeType("Key Pad");
 		killBugRoom.setChallengeType("Kill Bugs");

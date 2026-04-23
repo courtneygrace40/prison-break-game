@@ -4,13 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-
 import javax.imageio.ImageIO;
 
-import backgrounds.Background;
-import backgrounds.Space;
 import main.KeyHandler;
 import main.Modify_Frame;
 

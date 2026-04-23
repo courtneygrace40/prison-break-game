@@ -4,8 +4,6 @@ import java.util.Random;
 
 import java.awt.geom.Area;
 import java.awt.Graphics2D;
-import java.awt.Color;
-
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

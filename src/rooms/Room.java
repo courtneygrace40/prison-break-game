@@ -17,8 +17,6 @@ import javax.swing.*;
 
 import backgrounds.Entrance;
 import backgrounds.Space;
-import backgrounds.Background.ProgressionType;
-
 import java.awt.Graphics;
 
 

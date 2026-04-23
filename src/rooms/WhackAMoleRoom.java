@@ -1,6 +1,5 @@
 package rooms;
 
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,7 @@ import main.KeyHandler;
 import main.Modify_Frame;
 
 public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionListener{
+	private static final long serialVersionUID = 1L;
 	Random rand = new Random();
 	ImageIcon bugImg;
 	ImageIcon grassImg;
@@ -61,7 +61,12 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
                     
                 } else {
                     bugTimer.stop();
-                    JOptionPane.showMessageDialog(null, "Mission Accomplished! Number: 4");
+                    for (JButton b: buttons) {
+                    	b.setEnabled(false);
+                    	setVisible(false);
+                    }
+                    JOptionPane.showMessageDialog(null, "You killed 17 Bugs... nice.");
+                    
                 }
             }
         });
@@ -122,7 +127,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 	@Override
 	public boolean hasFinished() {
 		// TODO Auto-generated method stub
-		if (kills == 10) {
+		if (kills > 16) {
 			return true;
 		}
 		else {
@@ -149,6 +154,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 
 	@Override
 	public void paintObjects() {
+		System.out.println("New Bug!");
 	    for (JButton b : buttons) {
 	        b.setIcon(grassImg);
 	    }
