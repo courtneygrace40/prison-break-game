@@ -50,14 +50,15 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
         
         
         //start mole movement
-        bugTimer = new Timer(1000, new ActionListener() { // 1000ms = 1 second
+        bugTimer = new Timer(750, new ActionListener() { // 1000ms = 1 second
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!hasFinished()) {
                     paintObjects();
+                    
                 } else {
                     bugTimer.stop();
-                    JOptionPane.showMessageDialog(null, "Mission Accomplished! Code: 4");
+                    JOptionPane.showMessageDialog(null, "Mission Accomplished! Number: 4");
                 }
             }
         });
@@ -100,7 +101,6 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 		Object b = e.getSource();
 		if (b.equals(buttons.get(bugPosition))) {
 			kills ++;
-			bugPosition = rand.nextInt(0,8);
 		}
 		else {
 			//do nothing
@@ -138,8 +138,13 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 
 	@Override
 	public void paintObjects() {
-	initializeButtons();
-	(buttons.get(bugPosition)).setText("BUG");
+	    for (JButton b : buttons) {
+	        b.setText(" ");
+	    }
+	    
+	    // Set new position
+	    bugPosition = rand.nextInt(9); // 0-8
+	    buttons.get(bugPosition).setText("BUG");
 		
 		
 	}
