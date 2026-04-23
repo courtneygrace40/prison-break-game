@@ -14,6 +14,8 @@ import main.Modify_Frame;
 
 public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionListener{
 	Random rand = new Random();
+	ImageIcon bugImg;
+	ImageIcon grassImg;
 	Timer bugTimer;
 	int bugPosition;
 	Modify_Frame mf;
@@ -34,6 +36,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 		
 		this.mf= mf;
 		this.kh=kh;
+		setImages();
         initializeButtons();
         addButtons();
         addActionListener();
@@ -65,6 +68,14 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
         bugTimer.start();
 	}
 	
+	private void setImages() {
+		java.net.URL grass = getClass().getResource("/whackABug/grass.png");
+		java.net.URL bug = getClass().getResource("/whackABug/bug.png");
+		bugImg = new ImageIcon(bug);
+		grassImg = new ImageIcon(grass);
+		
+	}
+
 	private void addActionListener() {
 		// TODO Auto-generated method stub
 		b1.addActionListener(this);
@@ -84,15 +95,15 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 	}
 
 	public void initializeButtons() {
-		b1 = new JButton(" ");
-		b2 = new JButton(" ");
-		b3 = new JButton(" ");
-		b4= new JButton(" ");
-		b5= new JButton(" ");
-		b6= new JButton(" ");
-		b7= new JButton(" ");
-		b8= new JButton(" ");
-		b9= new JButton(" ");
+		b1 = new JButton(grassImg);
+		b2 = new JButton(grassImg);
+		b3 = new JButton(grassImg);
+		b4= new JButton(grassImg);
+		b5= new JButton(grassImg);
+		b6= new JButton(grassImg);
+		b7= new JButton(grassImg);
+		b8= new JButton(grassImg);
+		b9= new JButton(grassImg);
 		
 	}
 
@@ -139,12 +150,12 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 	@Override
 	public void paintObjects() {
 	    for (JButton b : buttons) {
-	        b.setText(" ");
+	        b.setIcon(grassImg);
 	    }
 	    
 	    // Set new position
 	    bugPosition = rand.nextInt(9); // 0-8
-	    buttons.get(bugPosition).setText("BUG");
+	    buttons.get(bugPosition).setIcon(bugImg);
 		
 		
 	}
