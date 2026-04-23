@@ -39,6 +39,8 @@ public class Background extends JPanel implements Space{
 	public enum HType {HType1, HType2, HType3, HType4, HType5, HType6, HType7, HType8, HType9, HType10, HType11, HType12}
 	public HType bgHType;
 	
+	public String doorLocation;
+	
 	public BufferedImage bg;
 	
 	public boolean characterPaint = false; 
@@ -438,6 +440,17 @@ public class Background extends JPanel implements Space{
 						mf.guard1.draw(g2); 
 					}	
 				}
+				
+				if(this.doorLocation != null) {
+					Image doorImage = new ImageIcon("door.png").getImage();
+					switch(this.doorLocation){
+					case "top":
+						g2.drawImage(doorImage, 400, 300, 50, 100, mf);
+					case "bottom":
+					case "left":
+					case "right":	
+					}
+				}
 			} //paints the character in the specific order needed (for now, we can change if we need to)
 			/*if (this.walkable_map != null) {
 		        
@@ -530,6 +543,16 @@ public class Background extends JPanel implements Space{
     		this.setProb(0.0);  	
     		}
     	}
+    
+    public void addDoor(String direction) { 
+    	this.doorLocation = direction;
+    	switch(direction) {
+    	case "top":
+    	case "bottom":
+    	case "right":
+    	case "left":
+    	}
+    }
 
 }
 
