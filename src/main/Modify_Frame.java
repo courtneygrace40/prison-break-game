@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -24,6 +26,7 @@ import rooms.Room;
 import rooms.SliderPuzzleRoom;
 import rooms.WhackAMoleRoom;
 import rooms.KeyPadRoom;
+import rooms.CombatRoom;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
@@ -61,6 +64,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	public int indexBG = 0;
 	public int indexBGCollection = 0;
+	public boolean inCombat = false;
+	public CombatRoom combatState = null;
+	public int combatCount = 0;
+	public int combatDelay = 60; //slower attacks to not make guard win immediatly 
 	
 	
 	//set background
@@ -109,10 +116,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
 	Background winScreen = new Background (this, controls, "/backgrounds/WinScreen.png", false);
 	
-	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
-	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
-	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
-	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/Room_Top.png", true); //test
+	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/Room_Top.png", true);
+	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/Room_Top.png", true);
+	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/Room_Top.png", true);
+	
+	Image doorImage = new ImageIcon("/Door.png").getImage();
 	
 	public JButton skipButton = new JButton("Skip");
 	
@@ -188,7 +197,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.get(h1).put("top", testRoom);
 		h1.addEntrance("right");
 		h1.addEntrance("left");
-		h1.addEntrance("top");
+		h1.addDoor("top", this.doorImage);
 		
 		worldMap.put(testRoom, new HashMap<>());
 		worldMap.get(testRoom).put("bottom", h1);
@@ -383,7 +392,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h19.setProb(0.7);
 		h13.setProb(0.7);
 		h2.setProb(0.6);
-		h1.setProb(0.6);
+		//h1.setProb(0.6);
 		
 		
 		//Iterates through the linked list and adds them to the MasterPanel
@@ -496,7 +505,44 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void update() {
 		mainScreen.update();
 		
+		if(inCombat) {
+			player1.update();
+			guard1.update();
+			
+			if (combatCount > 0) {
+				combatCount--;
+			}
+			
+			if (isPlayerTouchingGuard() && combatCount == 0) {
+				if (controls.enterpressed) {
+					combatState.playerAttack();
+					System.out.println("Player Attacked! Guard Health: " + combatState.guardHealth);
+				}
+				else {
+					combatState.guardAttack();
+					System.out.println("Guard Attacked! Player Health: " + combatState.playerHealth);
+				}
+				combatCount = 60;
+			}
+			
+			if (combatState.isOver()) {
+				if (combatState.playerWon()) {
+					System.out.println("Player Won! Move to next hallway");
+					inCombat = false;
+
+					}
+				else {
+					System.out.println("Guard won, game over!");
+					inCombat = false;
+					combatState = null;
+					
+				}
+			}
+			
+		}
+		
 		//if (indexBG < 5) {
+		else { 
 			player1.update(); 
 			guard1.update();
 			if (this.currentBackground.getEntrances().size() > 0) {
@@ -522,6 +568,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				this.advanceScreen();*/
 			}
 		}
+		}
 		//door1.update();
 
 	//}
@@ -538,6 +585,23 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		}
 		
 	}*/
+	
+	public boolean isPlayerTouchingGuard() {
+		int playerLeft = player1.x;
+		int playerRight = player1.x + charSize;
+		int playerTop = player1.y;
+		int playerBottom = player1.y + charSize;
+		
+		int guardLeft = guard1.x;
+		int guardRight = guard1.x + charSize;
+		int guardTop = guard1.y;
+		int guardBottom = guard1.y + charSize;
+		
+		return playerRight > guardLeft &&
+				playerLeft < guardRight &&
+				playerBottom > guardTop &&
+				playerTop < guardBottom;
+	}
 	
 	public void screenProgressionLogic(ActionEvent actionType, Object source, String command) {
 		if (source == this.myTimer) {
@@ -594,6 +658,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            this.currentBackground = nextSpace;
 	            if(nextSpace.shouldGuardPaint() && this.guardApps <4) {
 	            	nextSpace.incGuardApps();
+	            	inCombat = true;
+	            	combatState = new CombatRoom();
+	            	System.out.println("Combat Started");
 	            }
 	            bgLayout.show(this, nextSpace.getKey());
 	            this.player1.enterRoom(direction);

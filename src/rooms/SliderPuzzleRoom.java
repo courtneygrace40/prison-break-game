@@ -76,15 +76,26 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 
 	public void initializeButtons() {
 		// TODO Auto-generated method stub
-		b1 = new JButton("1");
-		b2 = new JButton(" ");
-		b3 = new JButton("3");
-		b4= new JButton("4");
-		b5= new JButton("5");
-		b6= new JButton("6");
-		b7= new JButton("7");
-		b8= new JButton("8");
-		b9= new JButton("2");
+		ImageIcon img1 = new ImageIcon(getClass().getResource("/Key1.png"));
+		ImageIcon img2 = new ImageIcon(getClass().getResource("/Key2.png"));
+		ImageIcon img3 = new ImageIcon(getClass().getResource("/Key3.png"));
+		ImageIcon img4 = new ImageIcon(getClass().getResource("/Key4.png"));
+		ImageIcon img5 = new ImageIcon(getClass().getResource("/Key5.png"));
+		ImageIcon img6 = new ImageIcon(getClass().getResource("/Key6.png"));
+		ImageIcon img7 = new ImageIcon(getClass().getResource("/Key7.png"));
+		ImageIcon img8 = new ImageIcon(getClass().getResource("/Key8.png"));
+		ImageIcon img9 = new ImageIcon(getClass().getResource("/KeyBlank.png"));
+		
+		
+		b1 = new JButton(img1);
+		b2 = new JButton(img9);
+		b3 = new JButton(img3);
+		b4= new JButton(img4);
+		b5= new JButton(img5);
+		b6= new JButton(img6);
+		b7= new JButton(img7);
+		b8= new JButton(img8);
+		b9= new JButton(img2);
 		winnerLabel = new JLabel("Order the numbers from 1-8");
 		fake = new JButton(" ");
 	}

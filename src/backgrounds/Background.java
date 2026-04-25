@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.Color;
 
 import javax.imageio.ImageIO;
 
@@ -81,6 +82,8 @@ public class Background extends JPanel implements Space{
 	
 	private final Rectangle bump_small_vert = new Rectangle(100, 350, 100, 160); 
 	private final Rectangle horizontal_bump = new Rectangle(370, 250, 180, 100);
+	
+	Image doorImage;
 	
 	
 	public String key;
@@ -294,8 +297,9 @@ public class Background extends JPanel implements Space{
 	
 	public void addEntrance(String entranceType, int xMin, int yMin, int xMax, int yMax) {
 		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
+		System.out.println("Inside AddEntrance!");
 		
-		switch(entranceType) {
+		/*switch(entranceType) {
 			case "top":
 				this.top = newEntrance;
 				break;
@@ -311,7 +315,7 @@ public class Background extends JPanel implements Space{
 			case "room":
 				this.room = newEntrance;
 				break;
-			}
+			}*/
 		
 		this.entrances.add(newEntrance);
 		
@@ -440,13 +444,23 @@ public class Background extends JPanel implements Space{
 				}
 				
 				if(this.doorLocation != null) {
-					Image doorImage = new ImageIcon("door.png").getImage();
+				
+					
+				
 					switch(this.doorLocation){
 					case "top":
-						g2.drawImage(doorImage, 400, 300, 50, 100, mf);
+						g2.drawImage(this.doorImage, 270, 0, 100, 50, mf);
+						System.out.println("Made it here! (paint component)");
+						break;
 					case "bottom":
+						g2.drawImage(this.doorImage, 400, 300, 50, 100, mf);
+						break;
 					case "left":
+						g2.drawImage(this.doorImage, 400, 300, 50, 100, mf);
+						break;
 					case "right":	
+						g2.drawImage(this.doorImage, 400, 300, 50, 100, mf);
+						break;
 					}
 				}
 			} //paints the character in the specific order needed (for now, we can change if we need to)
@@ -542,13 +556,18 @@ public class Background extends JPanel implements Space{
     		}
     	}
     
-    public void addDoor(String direction) { 
+    public void addDoor(String direction, Image doorImage) { 
     	this.doorLocation = direction;
     	switch(direction) {
     	case "top":
+    		this.addEntrance("top", 400, 300, 50, 100);
+    		System.out.println("made it here! inside addDoor");
     	case "bottom":
+    		this.addEntrance("bottom", 400, 300, 50, 100);
     	case "right":
+    		this.addEntrance("right", 400, 300, 50, 100);
     	case "left":
+    		this.addEntrance("left", 400, 300, 50, 100);
     	}
     }
 
