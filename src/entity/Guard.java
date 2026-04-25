@@ -33,7 +33,7 @@ public class Guard extends Entity {
     public void setDefaults() {
         x = 200;
         y = 270;
-        speed = 2; 
+        speed = 1; 
         leftBoundry = 100;
         rightBoundry = 500;
     }
