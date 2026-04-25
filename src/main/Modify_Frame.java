@@ -65,7 +65,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public boolean inCombat = false;
 	public CombatRoom combatState = null;
 	public int combatCount = 0;
-	public int combatDelay = 40; //slower attacks to not make guard win immediatly 
+	public int combatDelay = 60; //slower attacks to not make guard win immediatly 
 	
 	
 	//set background
