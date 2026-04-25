@@ -31,9 +31,9 @@ public class KeyHandler implements KeyListener{
 		if (keyCode == KeyEvent.VK_UP) {
 			playerUp=true;
 		}
-		//if (keyCode == KeyEvent.VK_ENTER) {
-			//enterpressed=true;
-		//}
+		if (keyCode == KeyEvent.VK_ENTER) {
+			enterpressed=true;
+		}
 		
 		if (keyCode == KeyEvent.VK_W) {
 			guardUp = true;
@@ -66,9 +66,9 @@ public class KeyHandler implements KeyListener{
 		if (keyCode == KeyEvent.VK_UP) {
 			playerUp=false;
 		}
-		//if (keyCode == KeyEvent.VK_ENTER) {
-			//enterpressed=false;
-		//}
+		if (keyCode == KeyEvent.VK_ENTER) {
+			enterpressed=false;
+		}
 		if (keyCode == KeyEvent.VK_W) {
 			guardUp = false;
 		}

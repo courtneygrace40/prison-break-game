@@ -1,8 +1,5 @@
 package rooms;
 
-import main.KeyHandler;
-import main.Modify_Frame;
-
 public class CombatRoom {
 	public int playerHealth;
 	public int guardHealth;
@@ -17,7 +14,7 @@ public class CombatRoom {
 	}
 	
 	public void guardAttack() {
-		playerHealth -= 5;
+		playerHealth -= 2;
 	}
 	
 	public boolean isOver() {
