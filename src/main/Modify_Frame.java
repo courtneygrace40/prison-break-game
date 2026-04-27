@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -92,14 +94,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background h10 = new Background(this, controls, false, 1, "h10");
 	Background h11 = new Background(this, controls, false, 8, "h11");
 	Background h12 = new Background(this, controls, false, 6, "h12");
-	Background h13 = new Background(this, controls, false, 10, "h13");
+	Background h13 = new Background(this, controls, false, 9, "h13");
 	Background h14 = new Background(this, controls, false, 1, "h14");
 	Background h15 = new Background(this, controls, false, 3, "h15");
-	Background h16 = new Background(this, controls, false, 2, "h16");
+	Background h16 = new Background(this, controls, false, 7, "h16");
 	Background h17 = new Background(this, controls, false, 2, "h17");
 	Background h18 = new Background(this, controls, false, 12, "h18");
 	Background h19 = new Background(this, controls, false, 1, "h19");
-	Background h20 = new Background(this, controls, false, 1, "h20");
+	Background h20 = new Background(this, controls, false, 4, "h20");
 	Background h21 = new Background(this, controls, false, 1, "h21");
 	Background h22 = new Background(this, controls, false, 7, "h22");
 	Background h23 = new Background(this, controls, false, 5, "h23");
@@ -121,6 +123,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	
+	Image doorImage = new ImageIcon("/Door.png").getImage();
 	public JButton skipButton = new JButton("Skip");
 	
 	
@@ -170,6 +173,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		sliderRoom.setButtons(true);
 		keyPadRoom.setButtons(true);
 		killBugRoom.setButtons(true);
+		
+		testRoom.setCharPaint(false);
+		sliderRoom.setCharPaint(false);
+		keyPadRoom.setCharPaint(false);
+		killBugRoom.setCharPaint(false);
 		
 		
 		testRoom.setChallengeType("Decoder");
@@ -273,7 +281,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		worldMap.put(h13, new HashMap<>());
 		worldMap.get(h13).put("left", h11);
+		worldMap.get(h13).put("right", keyPadRoom);
 		h13.addEntrance("left");
+		h13.addEntrance("right");
 		
 		worldMap.put(h14, new HashMap<>());
 		worldMap.get(h14).put("right", h15);
@@ -290,8 +300,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h16, new HashMap<>());
 		worldMap.get(h16).put("bottom", h15);
 		worldMap.get(h16).put("top", h17);
+		worldMap.get(h16).put("left", sliderRoom);
 		h16.addEntrance("bottom");
 		h16.addEntrance("top");
+		h16.addEntrance("left");
 		
 		worldMap.put(h17, new HashMap<>());
 		worldMap.get(h17).put("bottom", h16);
@@ -314,8 +326,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h20, new HashMap<>());
 		worldMap.get(h20).put("right", h21);
 		worldMap.get(h20).put("left", h19);
+		worldMap.get(h20).put("bottom", killBugRoom);
 		h20.addEntrance("right");
 		h20.addEntrance("left");
+		h20.addEntrance("bottom");
 		
 		worldMap.put(h21, new HashMap<>());
 		worldMap.get(h21).put("right", h22);
@@ -657,8 +671,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            this.currentBackground = nextSpace;
 	            if(nextSpace.shouldGuardPaint() && this.guardApps <4) {
 	            	nextSpace.incGuardApps();
-	            	inCombat = true;
-	            	combatState = new CombatRoom();
+	            	//inCombat = true;
+	            	//combatState = new CombatRoom();
 	            	System.out.println("Combat Started");
 	            }
 	            bgLayout.show(this, nextSpace.getKey());
