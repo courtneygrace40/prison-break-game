@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -15,18 +14,21 @@ import main.Modify_Frame;
 public class DecoderRoom extends JDialog implements RoomChallenge, ActionListener {
 	private static final long serialVersionUID = 1L;
 	
+	//should decode to PAGE TEN
+	// Caeser Cipher: Shifts all letters + 3
+	
 	KeyHandler kh;
 	Modify_Frame mf;
 	JButton b1, b2, b3, b4, b5, b6, b7, reset;
 	JLabel label1, label2, label3, label4, label5, label6, label7, hint;
-	String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W","X","Y","Z"};
+	String[] alphabet = {"P","A","G","E","T","N"};
 	
 	public DecoderRoom(Modify_Frame mf, KeyHandler kh) {
 		this.kh = kh;
 		this.mf = mf;
 		
         setLayout(null);
-        setSize(450, 250);
+        setSize(450, 300);
         setResizable(false);
         setLocationRelativeTo(mf); // Centers the puzzle over the game
         
@@ -50,7 +52,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 		b5.addActionListener(this);
 		b6.addActionListener(this);
 		b7.addActionListener(this);
-		reset.addActionListener(this);
+		//reset.addActionListener(this);
 		
 	}
 
@@ -62,7 +64,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 		b5.setBounds(250, 50, 40,50);
 		b6.setBounds(300, 50, 40,50);
 		b7.setBounds(350, 50, 40,50);
-		reset.setBounds(175, 170, 80, 50);
+		//reset.setBounds(175, 170, 80, 50);
 		
 		label1.setBounds(60, 110, 40, 20);
 		label2.setBounds(110, 110, 40,20);
@@ -71,12 +73,12 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 		label5.setBounds(260, 110, 40,20);
 		label6.setBounds(310, 110, 40,20);
 		label7.setBounds(360, 110, 40,20);
-		hint.setBounds(50, 200, 400, 100);
+		hint.setBounds(50, 150, 400, 100); //change if reset exists
 				
 	}
 
 	private void addComponents() {
-		add(b1);add(b2);add(b3);add(b4);add(b5);add(b6);add(b7);add(reset);
+		add(b1);add(b2);add(b3);add(b4);add(b5);add(b6);add(b7);//add(reset);
 		
 		Container contentPane = this.getContentPane();
 		contentPane.add(label1);contentPane.add(label2);contentPane.add(label3);contentPane.add(label4);
@@ -85,47 +87,47 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 	}
 
 	private void initializeLabels() {
-		label1 = new JLabel("0");
-		label2 = new JLabel("1");
-		label3 = new JLabel("2");
-		label4 = new JLabel("3");
-		label5 = new JLabel("4");
-		label6 = new JLabel("5");
-		label7 = new JLabel("6");
-		hint = new JLabel("Hint: When -3 is the same as +23...");
+		label1 = new JLabel("G");
+		label2 = new JLabel("E");
+		label3 = new JLabel("N");
+		label4 = new JLabel("A");
+		label5 = new JLabel("P");
+		label6 = new JLabel("T");
+		label7 = new JLabel("E");
+		hint = new JLabel("Hint: Click the letters to unscrabble the secret message...");
 		
 	}
 
 	private void initializeButtons() {
-		b1 = new JButton(alphabet[15+3]);
-		b2 = new JButton(alphabet[0+3]);
-		b3 = new JButton(alphabet[6+3]);
-		b4= new JButton(alphabet[4+3]);
-		b5= new JButton(alphabet[19+3]);
-		b6= new JButton(alphabet[4+3]);
-		b7= new JButton(alphabet[13+3]);
-		reset= new JButton("Reset");
+		b1 = new JButton(alphabet[2]);
+		b2 = new JButton(alphabet[3]);
+		b3 = new JButton(alphabet[5]);
+		b4= new JButton(alphabet[1]);
+		b5= new JButton(alphabet[0]);
+		b6= new JButton(alphabet[4]);
+		b7= new JButton(alphabet[3]);
+		//reset= new JButton("Reset");
 		
 	}
 	
-	public void resetButtons() {
-		b1.setText(alphabet[15+3]);
-		b2.setText(alphabet[3]);
-		b3.setText(alphabet[9]);
-		b4.setText(alphabet[7]);
-		b5.setText(alphabet[22]);
-		b6.setText(alphabet[7]);
-		b7.setText(alphabet[16]);
-	}
+//	public void resetButtons() {
+//		b1.setText(alphabet[2]);
+//		b2.setText(alphabet[3]);
+//		b3.setText(alphabet[5]);
+//		b4.setText(alphabet[1]);
+//		b5.setText(alphabet[0]);
+//		b6.setText(alphabet[4]);
+//		b7.setText(alphabet[3]);
+//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton b = (JButton) e.getSource();
 		
-		if (b.getText().equals("Reset")) {
-			resetButtons();
-		}
-		else {
+		//if (b.getText().equals("Reset")) {
+			//resetButtons();
+		//}
+		//else {
 		int index;
 		String s = b.getText();
 		index = Arrays.asList(alphabet).indexOf(s);
@@ -141,7 +143,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 			b5.setEnabled(false);
 			b6.setEnabled(false);
 			b7.setEnabled(false);
-			reset.setEnabled(false);
+			//reset.setEnabled(false);
 			
 			label1.setText("P");
 			label2.setText("A");
@@ -153,7 +155,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 			
 			hint.setText("Nice job-- remember this message for later");
 		}
-		}
+		//}
 
 	}
 
@@ -180,13 +182,71 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 	
 	public void updateButton(int i, JButton b) {
 		//update button one letter
-		if (i == 25) {
+		if (i == 5) {
 			b.setText(alphabet[0]);
 		}
 		else {
 			i ++;
 			b.setText(alphabet[i]);
 		}
+		
+//		if (b.equals(b1)) {
+//			if (b.getText().equals("P")) {
+//				b1.setBackground(Color.green);
+//			}
+//			else {
+//				b1.setBackground(Color.white);
+//			}
+//		}
+//		else if (b.equals(b2)) {
+//			if (b.getText().equals("A")) {
+//				b2.setBackground(Color.green);
+//			}
+//			else {
+//				b2.setBackground(Color.white);
+//			}
+//		}
+//		else if (b.equals(b3)) {
+//			if (b.getText().equals("G")) {
+//				b3.setBackground(Color.green);
+//			}
+//			else {
+//				b2.setBackground(Color.white);
+//			}
+//		}
+//		else if (b.equals(b4)) {
+//			if (b.getText().equals("E")) {
+//				b4.setBackground(Color.green);
+//			}
+//			else {
+//				b4.setBackground(Color.white);
+//			}
+//		}
+//		else if (b.equals(b5)) {
+//			if (b.getText().equals("T")) {
+//				b5.setBackground(Color.green);
+//			}
+//			else {
+//				b5.setBackground(Color.white);
+//			}
+//		}
+//		else if (b.equals(b6)) {
+//			if (b.getText().equals("E")) {
+//				b6.setBackground(Color.green);
+//			}
+//			else {
+//				b6.setBackground(Color.white);
+//			}
+//		}
+//		else if (b.equals(b7)) {
+//			if (b.getText().equals("N")) {
+//				b7.setBackground(Color.green);
+//			}
+//			else {
+//				b7.setBackground(Color.white);
+//			}
+//		}
+		
 	}
 
 }
