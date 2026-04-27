@@ -13,6 +13,15 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
     KeyHandler kh;
     JButton  b1, b2, b3, b4, b5, b6, b7, b8, b9, fake;
     JLabel winnerLabel;
+	ImageIcon img1 = new ImageIcon(getClass().getResource("/Key1.png"));
+	ImageIcon img2 = new ImageIcon(getClass().getResource("/Key2.png"));
+	ImageIcon img3 = new ImageIcon(getClass().getResource("/Key3.png"));
+	ImageIcon img4 = new ImageIcon(getClass().getResource("/Key4.png"));
+	ImageIcon img5 = new ImageIcon(getClass().getResource("/Key5.png"));
+	ImageIcon img6 = new ImageIcon(getClass().getResource("/Key6.png"));
+	ImageIcon img7 = new ImageIcon(getClass().getResource("/Key7.png"));
+	ImageIcon img8 = new ImageIcon(getClass().getResource("/Key8.png"));
+	ImageIcon img9 = new ImageIcon(getClass().getResource("/KeyBlank.png"));
     
     public SliderPuzzleRoom(Modify_Frame mf, KeyHandler kh) {
         
@@ -76,15 +85,6 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 
 	public void initializeButtons() {
 		// TODO Auto-generated method stub
-		ImageIcon img1 = new ImageIcon(getClass().getResource("/Key1.png"));
-		ImageIcon img2 = new ImageIcon(getClass().getResource("/Key2.png"));
-		ImageIcon img3 = new ImageIcon(getClass().getResource("/Key3.png"));
-		ImageIcon img4 = new ImageIcon(getClass().getResource("/Key4.png"));
-		ImageIcon img5 = new ImageIcon(getClass().getResource("/Key5.png"));
-		ImageIcon img6 = new ImageIcon(getClass().getResource("/Key6.png"));
-		ImageIcon img7 = new ImageIcon(getClass().getResource("/Key7.png"));
-		ImageIcon img8 = new ImageIcon(getClass().getResource("/Key8.png"));
-		ImageIcon img9 = new ImageIcon(getClass().getResource("/KeyBlank.png"));
 		
 		
 		b1 = new JButton(img1);
@@ -101,20 +101,20 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 	}
 
 	public void shuffle() {
-		 String s = b4.getText();
-		  	b4.setText(b9.getText());
-		    b9.setText(s);
-		    s = b1.getText();
-		    b1.setText(b5.getText());
-		    b5.setText(s);
-		    s = b2.getText();
-		    b2.setText(b7.getText());
-		    b7.setText(s);
+		 ImageIcon s = (ImageIcon) b4.getIcon();
+		  	b4.setIcon(b9.getIcon());
+		    b9.setIcon(s);
+		    s = (ImageIcon)b1.getIcon();
+		    b1.setIcon(b5.getIcon());
+		    b5.setIcon(s);
+		    s = (ImageIcon)b2.getIcon();
+		    b2.setIcon(b7.getIcon());
+		    b7.setIcon(s);
 	}
 	
 	@Override
 	public boolean hasFinished() {
-		if (b1.getText().equals("1")&&b2.getText().equals("2")&&b3.getText().equals("3")&&b4.getText().equals("4")&&b5.getText().equals("5")&&b6.getText().equals("6")&&b7.getText().equals("7")&&b8.getText().equals("8")) {
+		if (b1.getIcon().equals(img1)&&b2.getIcon().equals(img2)&&b3.getIcon().equals(img3)&&b4.getIcon().equals(img4)&&b5.getIcon().equals(img5)&&b6.getIcon().equals(img6)&&b7.getIcon().equals(img7)&&b8.getIcon().equals(img8)) {
 			return true;
 		}
 		return false;
@@ -135,166 +135,166 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object b = e.getSource();
-		String s;
+		Icon s;
 		String button = null;
 		if (b==b1) {
 			 button = "b1";
-			 s = b1.getText();
+			 s = b1.getIcon();
 		}
 		else if (b==b2) {
 			 button = "b2";
-			 s = b2.getText();
+			 s = b2.getIcon();
 		}
 		else if (b==b3) {
 			 button = "b3";
-			 s = b3.getText();
+			 s = b3.getIcon();
 		}
 		else if (b==b4) {
 			 button = "b4";
-			 s = b4.getText();
+			 s = b4.getIcon();
 		}
 		else if (b==b5) {
 			 button = "b5";
-			 s = b5.getText();
+			 s = b5.getIcon();
 		}
 		else if (b==b6) {
 			 button = "b6";
-			 s = b6.getText();
+			 s = b6.getIcon();
 		}
 		else if (b==b7) {
 			 button = "b7";
-			 s = b7.getText();
+			 s = b7.getIcon();
 		}
 		else if (b==b8) {
 			 button = "b8";
-			 s = b8.getText();
+			 s = b8.getIcon();
 		}
 		else if (b==b9) {
 			 button = "b9";
-			 s = b9.getText();
+			 s = b9.getIcon();
 		}
 		switch (button) {
 		case "b1":
-			s = b1.getText();
-			if (b2.getText().equals(" ")) {
-				b2.setText(s);
-				b1.setText(" ");
+			s = b1.getIcon();
+			if (b2.getIcon().equals(img9)) {
+				b2.setIcon(s);
+				b1.setIcon(img9);
 			}
-			else if (b4.getText().equals(" ")) {
-				b4.setText(s);
-				b1.setText(" ");
+			else if (b4.getIcon().equals(img9)) {
+				b4.setIcon(s);
+				b1.setIcon(img9);
 			}
 			break;
 		case "b2":
-			 s = b2.getText();
-			if (b1.getText().equals(" ")) {
-				b1.setText(s);
-				b2.setText(" ");
+			 s = b2.getIcon();
+			if (b1.getIcon().equals(img9)) {
+				b1.setIcon(s);
+				b2.setIcon(img9);
 			}
-			else if (b3.getText().equals(" ")) {
-				b3.setText(s);
-				b2.setText(" ");
+			else if (b3.getIcon().equals(img9)) {
+				b3.setIcon(s);
+				b2.setIcon(img9);
 			}
-			else if (b5.getText().equals(" ")) {
-				b5.setText(s);
-				b2.setText(" ");
+			else if (b5.getIcon().equals(img9)) {
+				b5.setIcon(s);
+				b2.setIcon(img9);
 			}
 			break;
 		case "b3":
-			 s = b3.getText();
-			if (b2.getText().equals(" ")) {
-				b2.setText(s);
-				b3.setText(" ");
+			 s = b3.getIcon();
+			if (b2.getIcon().equals(img9)) {
+				b2.setIcon(s);
+				b3.setIcon(img9);
 			}
-			else if (b6.getText().equals(" ")) {
-				b6.setText(s);
-				b3.setText(" ");
+			else if (b6.getIcon().equals(img9)) {
+				b6.setIcon(s);
+				b3.setIcon(img9);
 			}
 			break;
 		case "b4":
-			 s = b4.getText();
-			if (b1.getText().equals(" ")) {
-				b1.setText(s);
-				b4.setText(" ");
+			 s = b4.getIcon();
+			if (b1.getIcon().equals(img9)) {
+				b1.setIcon(s);
+				b4.setIcon(img9);
 			}
-			else if (b5.getText().equals(" ")) {
-				b5.setText(s);
-				b4.setText(" ");
+			else if (b5.getIcon().equals(img9)) {
+				b5.setIcon(s);
+				b4.setIcon(img9);
 			}
-			else if (b7.getText().equals(" ")) {
-				b7.setText(s);
-				b4.setText(" ");
+			else if (b7.getIcon().equals(img9)) {
+				b7.setIcon(s);
+				b4.setIcon(img9);
 			}
 			break;
 		case "b5":
-			 s = b5.getText();
-			if (b2.getText().equals(" ")) {
-				b2.setText(s);
-				b5.setText(" ");
+			 s = b5.getIcon();
+			if (b2.getIcon().equals(img9)) {
+				b2.setIcon(s);
+				b5.setIcon(img9);
 			}
-			else if (b4.getText().equals(" ")) {
-				b4.setText(s);
-				b5.setText(" ");
+			else if (b4.getIcon().equals(img9)) {
+				b4.setIcon(s);
+				b5.setIcon(img9);
 			}
-			else if (b6.getText().equals(" ")) {
-				b6.setText(s);
-				b5.setText(" ");
+			else if (b6.getIcon().equals(img9)) {
+				b6.setIcon(s);
+				b5.setIcon(img9);
 			}
-			else if (b8.getText().equals(" ")) {
-				b8.setText(s);
-				b5.setText(" ");
+			else if (b8.getIcon().equals(img9)) {
+				b8.setIcon(s);
+				b5.setIcon(img9);
 			}
 			break;
 		case "b6":
-			 s = b6.getText();
-			if (b3.getText().equals(" ")) {
-				b3.setText(s);
-				b6.setText(" ");
+			 s = b6.getIcon();
+			if (b3.getIcon().equals(img9)) {
+				b3.setIcon(s);
+				b6.setIcon(img9);
 			}
-			else if (b5.getText().equals(" ")) {
-				b5.setText(s);
-				b6.setText(" ");
+			else if (b5.getIcon().equals(img9)) {
+				b5.setIcon(s);
+				b6.setIcon(img9);
 			}
-			else if (b9.getText().equals(" ")) {
-				b9.setText(s);
-				b6.setText(" ");
+			else if (b9.getIcon().equals(img9)) {
+				b9.setIcon(s);
+				b6.setIcon(img9);
 			}
 			break;
 		case "b7":
-			 s = b7.getText();
-			if (b4.getText().equals(" ")) {
-				b4.setText(s);
-				b7.setText(" ");
+			 s = b7.getIcon();
+			if (b4.getIcon().equals(img9)) {
+				b4.setIcon(s);
+				b7.setIcon(img9);
 			}
-			else if (b8.getText().equals(" ")) {
-				b8.setText(s);
-				b7.setText(" ");
+			else if (b8.getIcon().equals(img9)) {
+				b8.setIcon(s);
+				b7.setIcon(img9);
 			}
 			break;
 		case "b8":
-			 s = b8.getText();
-			if (b5.getText().equals(" ")) {
-				b5.setText(s);
-				b8.setText(" ");
+			 s = b8.getIcon();
+			if (b5.getIcon().equals(img9)) {
+				b5.setIcon(s);
+				b8.setIcon(img9);
 			}
-			else if (b7.getText().equals(" ")) {
-				b7.setText(s);
-				b8.setText(" ");
+			else if (b7.getIcon().equals(img9)) {
+				b7.setIcon(s);
+				b8.setIcon(img9);
 			}
-			else if (b9.getText().equals(" ")) {
-				b9.setText(s);
-				b8.setText(" ");
+			else if (b9.getIcon().equals(img9)) {
+				b9.setIcon(s);
+				b8.setIcon(img9);
 			}
 			break;
 		case "b9":
-			 s = b9.getText();
-			if (b8.getText().equals(" ")) {
-				b8.setText(s);
-				b9.setText(" ");
+			 s = b9.getIcon();
+			if (b8.getIcon().equals(img9)) {
+				b8.setIcon(s);
+				b9.setIcon(img9);
 			}
-			else if (b6.getText().equals(" ")) {
-				b6.setText(s);
-				b9.setText(" ");
+			else if (b6.getIcon().equals(img9)) {
+				b6.setIcon(s);
+				b9.setIcon(img9);
 			}
 			break;
 		default:
