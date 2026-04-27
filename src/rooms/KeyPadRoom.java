@@ -1,5 +1,6 @@
 package rooms;
 
+import java.awt.Color;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -16,15 +17,19 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
     JLabel winnerLabel;
 	ArrayList <JButton> pressed= new ArrayList <JButton> ();
 	ArrayList <JButton> winCode= new ArrayList <JButton> ();
-    
+	ArrayList <JButton> buttons= new ArrayList <JButton> ();
+	
     public KeyPadRoom(Modify_Frame mf, KeyHandler kh) {
         
         this.mf = mf;
         this.kh = kh;
         
-        setSize(400, 400);
+        
+        setSize(300, 250);
         setResizable(false);
         setLocationRelativeTo(mf); // Centers the puzzle over the game
+        setOpacity(1);
+        setBackground(Color.gray);
         
         // Change close operation so it doesn't kill the whole game
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -40,6 +45,17 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
     	winCode.add(b4);
     	winCode.add(b1);
     	winCode.add(b3);
+    	
+    	buttons.add(b1);buttons.add(b2);buttons.add(b3);buttons.add(b4);buttons.add(b5);buttons.add(b6);buttons.add(b7);buttons.add(b8);buttons.add(b9);buttons.add(enter);
+    	
+    	
+    	for (JButton button: buttons){
+    		button.setOpaque(true);
+    		button.setBorderPainted(false);
+    		button.setBackground(Color.decode("#384266"));
+    		button.setForeground(Color.white);
+
+    	}
     }
 	
 
@@ -59,17 +75,17 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 	}
 
 	private void setbounds() {
-		// TODO Auto-generated method stub
-		b1.setBounds(90,60,50,40);
-		b2.setBounds(160,60,50,40);
-		b3.setBounds(230,60,50,40);
-		b4.setBounds(90,115,50,40);
-		b5.setBounds(160,115,50,40);
-		b6.setBounds(230,115,50,40);
-		b7.setBounds(90,170,50,40);
-		b8.setBounds(160,170,50,40);
-		b9.setBounds(230,170,50,40);
-		enter.setBounds(90, 225, 190, 40);
+
+		b1.setBounds(40,10,55,40);
+		b2.setBounds(110,10,55,40);
+		b3.setBounds(190,10,55,40);
+		b4.setBounds(40,65,55,40);
+		b5.setBounds(110,65,55,40);
+		b6.setBounds(190,65,55,40);
+		b7.setBounds(40,120,55,40);
+		b8.setBounds(110,120,55,40);
+		b9.setBounds(190,120,55,40);
+		enter.setBounds(40, 175, 195, 40);
 		  
 	}
 
