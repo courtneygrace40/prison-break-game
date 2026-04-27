@@ -512,6 +512,7 @@ public class Background extends JPanel implements Space{
     	this.playery = y;
     };
     
+    
     @Override
     public ArrayList<Rectangle> getWalls() {
     	return(this.walls);
