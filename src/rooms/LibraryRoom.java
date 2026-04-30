@@ -21,16 +21,5 @@ public class LibraryRoom extends JDialog implements RoomChallenge, ActionListene
 		return false;
 	}
 
-	@Override
-	public void updateLogic() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void paintObjects() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

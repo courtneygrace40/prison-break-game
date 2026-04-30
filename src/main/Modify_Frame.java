@@ -28,6 +28,7 @@ import rooms.WhackAMoleRoom;
 import rooms.KeyPadRoom;
 import rooms.CombatRoom;
 import rooms.DecoderRoom;
+import rooms.GuessingGameRoom;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
@@ -122,6 +123,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	
 	Image doorImage = new ImageIcon("/Door.png").getImage();
 	public JButton skipButton = new JButton("Skip");
@@ -180,11 +182,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		killBugRoom.setCharPaint(false);
 		
 		
-		testRoom.setChallengeType("Decoder");
+		testRoom.setChallengeType("Guessing Game");
 		sliderRoom.setChallengeType("Slider Puzzle");
 		keyPadRoom.setChallengeType("Key Pad");
 		killBugRoom.setChallengeType("Kill Bugs");
 		decoderRoom.setChallengeType("Decoder");
+		guessingGame.setChallengeType("Guessing Game");
 		
 		
 		mainScreen.setProgressionType("CLICK", null);
@@ -735,6 +738,19 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 DecoderRoom puzzle = new DecoderRoom(this, this.controls);
+                puzzle.setModal(true); // This stops the user from moving the player while puzzling
+                puzzle.setLocationRelativeTo(this); 
+                puzzle.setVisible(true);
+	        });
+            	
+		}
+		else if (room.getChallengeType().equals("Guessing Game")&& room.getActiveChallenge()) {
+			System.out.println("start puzzle ");
+	    	room.setActiveChallenge(false);
+	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
+            	javax.swing.SwingUtilities.invokeLater(() -> {
+                // Assuming SliderPuzzleRoom extends JDialog
+                GuessingGameRoom puzzle = new GuessingGameRoom(this, this.controls);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);

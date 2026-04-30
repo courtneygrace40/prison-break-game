@@ -178,17 +178,4 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 	}
 
 
-	@Override
-	public void updateLogic() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void paintObjects() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

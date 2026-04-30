@@ -1,10 +1,15 @@
 package rooms;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import main.KeyHandler;
@@ -18,10 +23,16 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 	JButton a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4;
 	ArrayList <JButton> buttons = new ArrayList <JButton>();
 	ArrayList <ImageIcon> positions = new ArrayList <ImageIcon>();
-	Boolean playerTurn;
-	int playerWins;
+	Boolean locked = false;
+	int playerWins = 0;
 	ArrayList <JButton> cards = new ArrayList <JButton>();
 	int cardsFlipped;
+	BufferedImage noteImage;
+	Boolean noteShown = false;
+	Timer slideTimer;
+	int noteY = -200;
+	int speed = 3;
+	
 	
 	ImageIcon card1 = new ImageIcon(getClass().getResource("/cards/barsCard.png"));
 	ImageIcon card2 = new ImageIcon(getClass().getResource("/cards/bloodCard.png"));
@@ -60,6 +71,13 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
         shuffle();
         cardsFlipped = 0;
         playerWins=0;
+        
+        try {
+			noteImage = ImageIO.read(getClass().getResourceAsStream("/cards/notetwo.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
 	}
 	
@@ -152,7 +170,11 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Timer flipTimer = new Timer (750, new ActionListener() {
+		if (locked) {
+			return;
+		}
+		
+		Timer flipTimer = new Timer (500, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -162,6 +184,7 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 				cardsFlipped = 0;
 				
 				cards.clear();
+				locked = false;
 				
 			}
 			
@@ -173,6 +196,7 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 		if (cardsFlipped<2) {
 		int pos = buttons.indexOf(b);
 		JButton button = buttons.get(pos);
+		if (cards.contains(button)) return; //thx gemini
 		cards.add(buttons.get(pos));
 		button.setIcon(positions.get(pos));
 		cardsFlipped++;
@@ -180,6 +204,7 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 		System.out.println(cards);
 		}
 		if (cardsFlipped == 2) {
+			locked = true;
 			if((cards.get(0)).getIcon().equals(cards.get(1).getIcon())) {
 				System.out.println("Good");
 				playerWins++;
@@ -193,12 +218,29 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 			
 			
 			}
-		if (hasFinished()) {
+		if (hasFinished() && !noteShown) {
 			// the inmate slides you a note 
+			noteShown= true;
+			slideNote();
 			System.out.println("Done!");		}
 
 		
 	}
+
+	private void slideNote() {
+		    slideTimer = new Timer(16, new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            noteY += speed;
+		            if (noteY > 150) { // Target Y position
+		                slideTimer.stop();
+		            }
+		            repaint(); // This tells the Dialog to call paint()
+		        }
+		    });
+		    slideTimer.start();
+		}
+		
 
 	@Override
 	public boolean hasFinished() {
@@ -208,16 +250,16 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 		return false;
 	}
 
+	
 	@Override
-	public void updateLogic() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void paintObjects() {
-		// TODO Auto-generated method stub
-		
+	public void paint(Graphics g) {
+	    super.paint(g); // Draws the buttons and background first
+	    
+	    if (noteShown && noteImage != null) {
+	        Graphics2D g2d = (Graphics2D) g;
+	        int centerX = (getWidth() - noteImage.getWidth()) / 2;
+	        g2d.drawImage(noteImage, centerX, noteY, null);
+	    }
 	}
 
 }
