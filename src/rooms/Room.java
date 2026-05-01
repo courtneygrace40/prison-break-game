@@ -27,6 +27,7 @@ public class Room extends JPanel implements Space{
 	
 	Modify_Frame mf;
 	KeyHandler controls;
+	String background;
 	
 	public BufferedImage bg;
 	public boolean characterPaint = false; 
@@ -305,5 +306,9 @@ public class Room extends JPanel implements Space{
     }
     @Override
     public void incGuardApps() {}
+    
+    public String returnBackground() {
+    	return this.background;
+    }
 }
 

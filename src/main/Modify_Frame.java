@@ -19,6 +19,7 @@ import backgrounds.Background;
 import backgrounds.Entrance;
 import backgrounds.Space;
 import entity.Guard;
+import entity.Brother;
 import entity.Player;
 import entity.PlayerGuardCostume;
 import rooms.ChallengeRoom;
@@ -89,7 +90,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background h3 = new Background(this, controls, false, 1, "h3");
 	Background h4 = new Background(this, controls, false, 4, "h4");
 	Background h5 = new Background(this, controls, false, 2, "h5");
-	Background h6 = new Background(this, controls, false, 2, "h6");
+	Background h6 = new Background(this, controls, false, 7, "h6");
 	Background h7 = new Background(this, controls, false, 2, "h7");
 	Background h8 = new Background(this, controls, false, 11, "h8");
 	Background h9 = new Background(this, controls, false, 1, "h9");
@@ -114,20 +115,26 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	HashMap<Space, HashMap<String, Space>> worldMap = new HashMap<>();
 	HashMap<Space, Boolean> visitedRooms = new HashMap<>();
+	ArrayList<Space> endingSequence = new ArrayList<>();
 	
 	
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
 	Background winScreen = new Background (this, controls, "/backgrounds/YouWin.png", false);
 	Background gameOverScreen = new Background (this, controls,"/backgrounds/YouDie.png", false);
+	Background cellHole = new Background (this, controls, "/backgrounds/CellHole.png", false);
+	Background cell = new Background (this, controls, "/backgrounds/Cell.png", false);
+	Background death = new Background (this, controls, "/backgrounds/Death.png", false);
+	Background doorCell = new Background(this, controls, "/backgrounds/DoorCell.png", false);
 			
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
-	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room5.png", true);
+	//KeyPad room is the room right before the user enters the brother's cell
 	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/PrisonYard.png", true);
-	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room3.png", true);
 	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
-	ChallengeRoom library = new ChallengeRoom(this,controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom library = new ChallengeRoom(this,controls, "/backgrounds/Room4.png", true);
 	
 	Image doorImage = new ImageIcon("/Door.png").getImage();
 	public JButton skipButton = new JButton("Skip");
@@ -141,6 +148,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	//guard
 	public Guard guard1 = new Guard(this, controls);
 	
+	
 	//player in guard costume
 	public PlayerGuardCostume playerGuard = new PlayerGuardCostume(this, controls);
 	ArrayList<ArrayList<Space>> locations = new ArrayList<>();
@@ -151,6 +159,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		// -----SETTING UP ROOMS AND HALLWAYS -----
 		
+
+		visitedRooms.put(guessingGame, false);
 		visitedRooms.put(testRoom, false);
 		visitedRooms.put(sliderRoom, false);
 		visitedRooms.put(keyPadRoom, false);
@@ -165,10 +175,25 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		mazeBackground.setCharPaint(true);
 		testRoom.setCharPaint(true);
 		
-		
 		outside.setKey("outside");
 		testRoom.setKey("testRoom");
 		winScreen.setKey("winScreen");
+		cellHole.setKey("cellHole");
+		cell.setKey("cell");
+		death.setKey("death");	
+		doorCell.setKey("doorCell");
+		guessingGame.setKey("guessingGame");
+		sliderRoom.setKey("sliderRoom");
+		keyPadRoom.setKey("keyPadRoom");
+		killBugRoom.setKey("killBugRoom");
+		decoderRoom.setKey("decoderRoom");
+		library.setKey("library");
+		
+		endingSequence.add(doorCell);
+		endingSequence.add(keyPadRoom);
+		endingSequence.add(cell);
+		endingSequence.add(cellHole);
+		endingSequence.add(winScreen);
 		
 		outside.setGuardBool(true);
 		outside.addOutsideBounds();
@@ -199,7 +224,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		// ----- SET CHALLENGE TYPE -----
 		
-		testRoom.setChallengeType("Guessing Game");
+		//testRoom.setChallengeType("Guessing Game");
 		sliderRoom.setChallengeType("Slider Puzzle");
 		keyPadRoom.setChallengeType("Key Pad");
 		killBugRoom.setChallengeType("Kill Bugs");
@@ -225,16 +250,16 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		 3. Add entrances 
 		 */
 		
+		
+
 		worldMap.put(h1, new HashMap<>());
 		worldMap.get(h1).put("right", h2);
-		worldMap.get(h1).put("top", testRoom);
+		worldMap.get(h1).put("top", guessingGame);
 		h1.addEntrance("right");
 		h1.addEntrance("left");
 		h1.addEntrance("top");
 		
-		worldMap.put(testRoom, new HashMap<>());
-		worldMap.get(testRoom).put("bottom", h1);
-		testRoom.addEntrance("bottom");
+		
 		
 		worldMap.put(h2, new HashMap<>());
 		worldMap.get(h2).put("right", h3);
@@ -265,8 +290,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h6, new HashMap<>());
 		worldMap.get(h6).put("bottom", h7);
 		worldMap.get(h6).put("top", h5);
+		worldMap.get(h6).put("left", killBugRoom);
 		h6.addEntrance("top");
 		h6.addEntrance("bottom");
+		h6.addEntrance("left");
 		
 		worldMap.put(h7, new HashMap<>());
 		worldMap.get(h7).put("top", h6);
@@ -306,7 +333,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		worldMap.put(h13, new HashMap<>());
 		worldMap.get(h13).put("left", h11);
-		worldMap.get(h13).put("right", keyPadRoom);
+		worldMap.get(h13).put("right", decoderRoom);
 		h13.addEntrance("left");
 		h13.addEntrance("right");
 		
@@ -325,7 +352,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h16, new HashMap<>());
 		worldMap.get(h16).put("bottom", h15);
 		worldMap.get(h16).put("top", h17);
-		worldMap.get(h16).put("left", sliderRoom);
+		worldMap.get(h16).put("left", library);
 		h16.addEntrance("bottom");
 		h16.addEntrance("top");
 		h16.addEntrance("left");
@@ -351,7 +378,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h20, new HashMap<>());
 		worldMap.get(h20).put("right", h21);
 		worldMap.get(h20).put("left", h19);
-		worldMap.get(h20).put("bottom", killBugRoom);
+		worldMap.get(h20).put("bottom", sliderRoom);
 		h20.addEntrance("right");
 		h20.addEntrance("left");
 		h20.addEntrance("bottom");
@@ -365,13 +392,35 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h22, new HashMap<>());
 		worldMap.get(h22).put("bottom", h23);
 		worldMap.get(h22).put("left", h21);
+		worldMap.get(h22).put("top", doorCell);
 		h22.addEntrance("bottom");
 		h22.addEntrance("left");
+		h22.addEntrance("top");
 		
 		worldMap.put(h23, new HashMap<>());
 		worldMap.get(h23).put("top", winScreen);
 		h23.addEntrance("top");
 		worldMap.put(winScreen, new HashMap<>());
+		
+		worldMap.put(guessingGame, new HashMap<>());
+		worldMap.get(guessingGame).put("bottom", h1);
+		guessingGame.addEntrance("bottom");
+		
+		worldMap.put(decoderRoom, new HashMap<>());
+		worldMap.get(decoderRoom).put("left", h13);
+		decoderRoom.addEntrance("left");
+		
+		worldMap.put(sliderRoom, new HashMap<>());
+		worldMap.get(sliderRoom).put("top", h20);
+		sliderRoom.addEntrance("top");
+		
+		worldMap.put(killBugRoom, new HashMap<>());
+		worldMap.get(killBugRoom).put("right", h6);
+		killBugRoom.addEntrance("right");
+		
+		worldMap.put(library, new HashMap<>());
+		worldMap.get(library).put("right", h16);
+		library.addEntrance("right");
 		
 
 		// ----- SETUP FOR MODIYFY FRAME -----
@@ -412,7 +461,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(testRoom, "testRoom");
 		this.add(winScreen, "winScreen");
 		this.add(gameOverScreen, "gameOver");
-		
+		this.add(guessingGame, "guessingGame");
+		this.add(killBugRoom, "killBugRoom");
+		this.add(sliderRoom, "sliderRoom");
+		this.add(keyPadRoom, "keyPadRoom");
+		this.add(library, "library");		
 		// ----- ADD HALLWAYS TO MODIFY FRAME -----
 		
 		for (Background h : allHallways) {
@@ -443,6 +496,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		this.myTimer = new Timer(7000, this);
 		this.myTimer.start();
+		
+		Brother brother = new Brother(this, controls);
 
 
 		}
@@ -657,6 +712,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	public void advanceList(String direction) {
 	    HashMap<String, Space> exits = worldMap.get(this.currentBackground);
+	    if(exits.get(direction) == doorCell) {
+	    	this.endingSequence();
+	    }
 	    
 	    if (exits != null) {
 	        Space nextSpace = exits.get(direction);
@@ -678,7 +736,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            
 	            System.out.println("Moved to: " + nextSpace.getKey());
 	        }
-	    }
+	    } 
 	}
 
 	//ash generated
@@ -712,6 +770,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	
 		}
 		else if (room.getChallengeType().equals("Kill Bugs")&& room.getActiveChallenge()) {
+			System.out.print(room.returnBackground());
+			System.out.print(this.currentBackground);
 			System.out.println("start puzzle ");
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
@@ -739,6 +799,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        });
             	
 			}
+		}
+
 
 		else if (room.getChallengeType().equals("Guessing Game")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
@@ -752,7 +814,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
-            	 
+            	
 		}
 		else if (room.getChallengeType().equals("Library")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
@@ -766,7 +828,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
-		}	
+            	
 		}
 		}
 	
@@ -775,6 +837,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		bgLayout.show(this, "gameOver");
 		repaint();
 
+	}
+	
+	public void endingSequence() {
+		
 	}
 	
 
