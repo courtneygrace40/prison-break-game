@@ -10,12 +10,14 @@ public class ChallengeRoom extends Room{
 	public String challengeType;
 	public RoomChallenge challenge;
 	public boolean activeChallenge = true;
+	public String background;
 	
 	public ChallengeRoom(Modify_Frame mf, KeyHandler kh, String f, boolean lastFrame) {
 		super(mf, kh, f, lastFrame);
 		this.mf = mf;
 		this.controls = kh;
 		this.setBackgroundImage(f); //pretty sure this will work but not completely
+		this.background = f;
 		
 	}
 	
@@ -46,6 +48,9 @@ public class ChallengeRoom extends Room{
 		return this.activeChallenge;
 	}
 	
+	public String returnBackground() {
+		return this.background;
+	}
 	
 	
 	
