@@ -15,6 +15,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 	private static final long serialVersionUID = 1L;
 	Random rand = new Random();
 	ImageIcon bugImg;
+	String direction;
 	ImageIcon grassImg;
 	Timer bugTimer;
 	int bugPosition;
@@ -26,7 +27,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 	
 	public WhackAMoleRoom(Modify_Frame mf, KeyHandler kh){
 		this.setLayout(new GridLayout(3,3));
-		
+		this.direction = "right";
         setSize(400, 400);
         setResizable(false);
         setLocationRelativeTo(mf); // Centers the puzzle over the game
@@ -66,6 +67,8 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
                     	setVisible(false);
                     }
                     JOptionPane.showMessageDialog(null, "You killed 17 Bugs... nice.");
+                    mf.advanceList(direction);
+                    
                     
                 }
             }
