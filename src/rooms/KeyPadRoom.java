@@ -10,7 +10,7 @@ import main.Modify_Frame;
 
 public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener {
     private static final long serialVersionUID = 1L;
-	//CODE TO WIN IS : 617413
+	//CODE TO WIN IS : 617414
     Modify_Frame mf;
     KeyHandler kh;
     JButton  b1, b2, b3, b4, b5, b6, b7, b8, b9, enter, fake;
@@ -44,7 +44,7 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
     	winCode.add(b7);
     	winCode.add(b4);
     	winCode.add(b1);
-    	winCode.add(b3);
+    	winCode.add(b4);
     	
     	buttons.add(b1);buttons.add(b2);buttons.add(b3);buttons.add(b4);buttons.add(b5);buttons.add(b6);buttons.add(b7);buttons.add(b8);buttons.add(b9);buttons.add(enter);
     	
