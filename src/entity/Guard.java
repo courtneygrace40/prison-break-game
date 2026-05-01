@@ -72,7 +72,7 @@ public class Guard extends Entity {
 	    
 	    Rectangle playerHitbox = new Rectangle(x, y, mf.charSize, mf.charSize);
 
-	    // If the player "intersects" the wall, undo the move
+	 
 	    if(mf.currentBackground.getWalkable()!=null) {
 	        if ( mf.currentBackground.getWalkable().contains(playerHitbox) == false) {
 	            x = oldX;
