@@ -27,6 +27,11 @@ public class LibraryRoom extends JDialog implements RoomChallenge, ActionListene
 	public LibraryRoom(Modify_Frame mf, KeyHandler kh) {
 		this.mf= mf;
 		this.kh = kh;
+		
+		setSize(400, 300);
+        setResizable(false);
+        setLocationRelativeTo(mf);
+		
 		setImages();
 		bookPages.add(page1_2);bookPages.add(page3_4);bookPages.add(page5_6);bookPages.add(page7_8);bookPages.add(page9_10);
 		

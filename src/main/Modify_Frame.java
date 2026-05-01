@@ -118,8 +118,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
-	Background winScreen = new Background (this, controls, "/backgrounds/WinScreen.png", false);
-	Background gameOverScreen = new Background (this, controls,"/backgrounds/gameoverTEMP.png", false);
+	Background winScreen = new Background (this, controls, "/backgrounds/YouWin.png", false);
+	Background gameOverScreen = new Background (this, controls,"/backgrounds/YouDie.png", false);
 			
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
 	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
@@ -127,6 +127,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/PrisonYard.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom library = new ChallengeRoom(this,controls, "/backgrounds/Room1.png", true);
 	
 	Image doorImage = new ImageIcon("/Door.png").getImage();
 	public JButton skipButton = new JButton("Skip");
@@ -150,10 +151,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		// -----SETTING UP ROOMS AND HALLWAYS -----
 		
+		visitedRooms.put(testRoom, false);
 		visitedRooms.put(sliderRoom, false);
 		visitedRooms.put(keyPadRoom, false);
 		visitedRooms.put(killBugRoom, false);
 		visitedRooms.put(decoderRoom, false);
+		visitedRooms.put(library, false);
 		
 		outside.setPlayerCoords(64,64);
 		testRoom.setPlayerCoords(320, 320);
@@ -184,6 +187,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		sliderRoom.setButtons(true);
 		keyPadRoom.setButtons(true);
 		killBugRoom.setButtons(true);
+		library.setButtons(true);
 		
 		// ----- SET CHAR PAINT -----
 		
@@ -191,6 +195,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		sliderRoom.setCharPaint(false);
 		keyPadRoom.setCharPaint(false);
 		killBugRoom.setCharPaint(false);
+		library.setCharPaint(false);
 		
 		// ----- SET CHALLENGE TYPE -----
 		
@@ -200,6 +205,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		killBugRoom.setChallengeType("Kill Bugs");
 		decoderRoom.setChallengeType("Decoder");
 		guessingGame.setChallengeType("Guessing Game");
+		library.setChallengeType("Library");
 		
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
@@ -743,6 +749,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 GuessingGameRoom puzzle = new GuessingGameRoom(this, this.controls);
+                visitedRooms.replace(this.guessingGame, true);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
@@ -756,6 +763,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 LibraryRoom puzzle = new LibraryRoom(this, this.controls);
+                visitedRooms.replace(this.library, true);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
@@ -763,13 +771,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	
 		}
 		}
-	
-	public void showGameOverScreen() {
-		this.currentBackground = gameOverScreen;
-		bgLayout.show(this, "gameOver");
-		repaint();
-
-	}
 	
 	public void showGameOverScreen() {
 		this.currentBackground = gameOverScreen;
