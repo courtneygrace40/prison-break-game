@@ -27,6 +27,7 @@ import rooms.Room;
 import rooms.SliderPuzzleRoom;
 import rooms.WhackAMoleRoom;
 import rooms.KeyPadRoom;
+import rooms.LibraryRoom;
 import rooms.CombatRoom;
 import rooms.DecoderRoom;
 import rooms.GuessingGameRoom;
@@ -133,6 +134,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/PrisonYard.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom library = new ChallengeRoom(this,controls, "/backgrounds/Room1.png", true);
 	
 	Image doorImage = new ImageIcon("/Door.png").getImage();
 	public JButton skipButton = new JButton("Skip");
@@ -157,11 +159,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		// -----SETTING UP ROOMS AND HALLWAYS -----
 		
+
 		visitedRooms.put(guessingGame, false);
+		visitedRooms.put(testRoom, false);
 		visitedRooms.put(sliderRoom, false);
 		visitedRooms.put(keyPadRoom, false);
 		visitedRooms.put(killBugRoom, false);
 		visitedRooms.put(decoderRoom, false);
+		visitedRooms.put(library, false);
 		
 		outside.setPlayerCoords(64,64);
 		testRoom.setPlayerCoords(320, 320);
@@ -206,6 +211,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		sliderRoom.setButtons(true);
 		keyPadRoom.setButtons(true);
 		killBugRoom.setButtons(true);
+		library.setButtons(true);
 		
 		// ----- SET CHAR PAINT -----
 		
@@ -213,6 +219,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		sliderRoom.setCharPaint(false);
 		keyPadRoom.setCharPaint(false);
 		killBugRoom.setCharPaint(false);
+		library.setCharPaint(false);
 		
 		// ----- SET CHALLENGE TYPE -----
 		
@@ -222,6 +229,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		killBugRoom.setChallengeType("Kill Bugs");
 		decoderRoom.setChallengeType("Decoder");
 		guessingGame.setChallengeType("Guessing Game");
+		library.setChallengeType("Library");
 		
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
@@ -787,6 +795,21 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 GuessingGameRoom puzzle = new GuessingGameRoom(this, this.controls);
+                visitedRooms.replace(this.guessingGame, true);
+                puzzle.setModal(true); // This stops the user from moving the player while puzzling
+                puzzle.setLocationRelativeTo(this); 
+                puzzle.setVisible(true);
+	        });
+            	
+		}
+		else if (room.getChallengeType().equals("Library")&& room.getActiveChallenge()) {
+			System.out.println("start puzzle ");
+	    	room.setActiveChallenge(false);
+	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
+            	javax.swing.SwingUtilities.invokeLater(() -> {
+                // Assuming SliderPuzzleRoom extends JDialog
+                LibraryRoom puzzle = new LibraryRoom(this, this.controls);
+                visitedRooms.replace(this.library, true);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
