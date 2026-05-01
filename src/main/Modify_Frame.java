@@ -28,6 +28,7 @@ import rooms.WhackAMoleRoom;
 import rooms.KeyPadRoom;
 import rooms.CombatRoom;
 import rooms.DecoderRoom;
+import rooms.GuessingGameRoom;
 
 public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	private static final long serialVersionUID = 1L; //idk what this is but eclipse really wanted it 
@@ -117,12 +118,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
 	Background winScreen = new Background (this, controls, "/backgrounds/WinScreen.png", false);
-	
+	Background gameOverScreen = new Background (this, controls,"/backgrounds/gameoverTEMP.png", false);
+			
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
 	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/PrisonYard.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	
 	Image doorImage = new ImageIcon("/Door.png").getImage();
 	public JButton skipButton = new JButton("Skip");
@@ -190,11 +193,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		// ----- SET CHALLENGE TYPE -----
 		
-		testRoom.setChallengeType("Decoder");
+		testRoom.setChallengeType("Guessing Game");
 		sliderRoom.setChallengeType("Slider Puzzle");
 		keyPadRoom.setChallengeType("Key Pad");
 		killBugRoom.setChallengeType("Kill Bugs");
 		decoderRoom.setChallengeType("Decoder");
+		guessingGame.setChallengeType("Guessing Game");
 		
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
@@ -362,7 +366,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h23.addEntrance("top");
 		worldMap.put(winScreen, new HashMap<>());
 		
+<<<<<<< HEAD
 		// ----- SETUP FOR MODIYFY FRAME -----
+=======
+		
+		gameOverScreen.setKey("gameOver");
+		
+>>>>>>> branch 'main' of https://github.com/courtneygrace40/prison-break-game
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setDoubleBuffered(true);
@@ -394,6 +404,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(outside, "outside");
 		this.add(testRoom, "testRoom");
 		this.add(winScreen, "winScreen");
+		this.add(gameOverScreen, "gameOver");
 		
 		// ----- ADD HALLWAYS TO MODIFY FRAME -----
 		
@@ -490,16 +501,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//updated code to allow the character switch to work between screens
 	public void update() {
+		
+		if (currentBackground == gameOverScreen) {
+			return;
+		}
 		mainScreen.update();
 		
 		if(inCombat) {
 			player1.update();
 			guard1.update();
-			
 			if (combatCount > 0) {
 				combatCount--;
 			}
-			
 			if (isPlayerTouchingGuard() && combatCount == 0) {
 				if (controls.enterpressed) {
 					combatState.playerAttack();
@@ -514,18 +527,17 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			
 			if (combatState.isOver()) {
 				if (combatState.playerWon()) {
-					System.out.println("Player Won! Move to next hallway");
+					System.out.println("Player won! Move to next hallway!");
 					inCombat = false;
-
-					}
-				else {
-					System.out.println("Guard won, game over!");
+				}
+				else if (combatState.guardWon()) {
+					System.out.println("Guard won! Game over!");
 					inCombat = false;
 					combatState = null;
-					
+					showGameOverScreen();
+					return;
 				}
 			}
-			
 		}
 		
 		//if (indexBG < 5) {
@@ -593,7 +605,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void screenProgressionLogic(ActionEvent actionType, Object source, String command) {
 		if (source == this.myTimer) {
 			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.AUTO){
-				if (this.indexBG < 4) {
+				if (this.indexBG < 3) {
 					this.advanceScreen();
 				} 
 				//AFTER updating to the next one (here, the door), the timer needs to stop 
@@ -645,8 +657,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            this.currentBackground = nextSpace;
 	            if(nextSpace.shouldGuardPaint() && this.guardApps <4) {
 	            	nextSpace.incGuardApps();
-	            	//inCombat = true;
-	            	//combatState = new CombatRoom();
+	            	inCombat = true;
+	            	combatState = new CombatRoom();
 	            	System.out.println("Combat Started");
 	            }
 	            bgLayout.show(this, nextSpace.getKey());
@@ -721,6 +733,28 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	
 			}
 		}
+<<<<<<< HEAD
+=======
+		else if (room.getChallengeType().equals("Guessing Game")&& room.getActiveChallenge()) {
+			System.out.println("start puzzle ");
+	    	room.setActiveChallenge(false);
+	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
+            	javax.swing.SwingUtilities.invokeLater(() -> {
+                // Assuming SliderPuzzleRoom extends JDialog
+                GuessingGameRoom puzzle = new GuessingGameRoom(this, this.controls);
+                puzzle.setModal(true); // This stops the user from moving the player while puzzling
+                puzzle.setLocationRelativeTo(this); 
+                puzzle.setVisible(true);
+	        });
+            	
+		}
+		}
+	
+	public void showGameOverScreen() {
+		this.currentBackground = gameOverScreen;
+		bgLayout.show(this, "gameOver");
+		repaint();
+>>>>>>> branch 'main' of https://github.com/courtneygrace40/prison-break-game
 	}
 	
 

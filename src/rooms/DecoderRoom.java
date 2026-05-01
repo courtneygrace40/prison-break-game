@@ -19,7 +19,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 	KeyHandler kh;
 	Modify_Frame mf;
 	JButton b1, b2, b3, b4, b5, b6, b7, reset;
-	JLabel label1, label2, label3, label4, label5, label6, label7, hint;
+	JLabel label1, label2, label3, label4, label5, label6, label7, hint, hint2;
 	String[] alphabet = {"P","A","G","E","T","N"};
 	
 	public DecoderRoom(Modify_Frame mf, KeyHandler kh) {
@@ -39,6 +39,14 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
         addComponents();
         setbounds();
         addActionListener();
+        
+        Timer hintTimer = new Timer (40000, new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		hint2.setText("Hint: Something about where a bookmark goes?");
+        	}
+        });
+        hintTimer.setRepeats(false);
+        hintTimer.start();
         
         
 	}
@@ -60,19 +68,20 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 		b2.setBounds(100, 50, 40,50);
 		b3.setBounds(150, 50, 40,50);
 		b4.setBounds(200, 50, 40,50);
-		b5.setBounds(250, 50, 40,50);
-		b6.setBounds(300, 50, 40,50);
-		b7.setBounds(350, 50, 40,50);
+		b5.setBounds(260, 50, 40,50);
+		b6.setBounds(310, 50, 40,50);
+		b7.setBounds(360, 50, 40,50);
 		//reset.setBounds(175, 170, 80, 50);
 		
 		label1.setBounds(60, 110, 40, 20);
 		label2.setBounds(110, 110, 40,20);
 		label3.setBounds(160, 110, 40,20);
 		label4.setBounds(210, 110, 40,20);
-		label5.setBounds(260, 110, 40,20);
-		label6.setBounds(310, 110, 40,20);
-		label7.setBounds(360, 110, 40,20);
+		label5.setBounds(270, 110, 40,20);
+		label6.setBounds(320, 110, 40,20);
+		label7.setBounds(380, 110, 40,20);
 		hint.setBounds(50, 150, 400, 100); //change if reset exists
+		hint2.setBounds(50, 180, 400, 100);
 				
 	}
 
@@ -81,7 +90,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 		
 		Container contentPane = this.getContentPane();
 		contentPane.add(label1);contentPane.add(label2);contentPane.add(label3);contentPane.add(label4);
-		contentPane.add(label5);contentPane.add(label6);contentPane.add(label7);contentPane.add(hint);
+		contentPane.add(label5);contentPane.add(label6);contentPane.add(label7);contentPane.add(hint);contentPane.add(hint2);
 		
 	}
 
@@ -93,7 +102,8 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 		label5 = new JLabel("P");
 		label6 = new JLabel("T");
 		label7 = new JLabel("E");
-		hint = new JLabel("Hint: Click the letters to unscrabble the secret message...");
+		hint = new JLabel("Click the letters to unscrabble the secret message... ");
+		hint2 = new JLabel(" ");
 		
 	}
 
@@ -153,6 +163,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 			label7.setText("N");
 			
 			hint.setText("Nice job-- remember this message for later");
+			hint2.setText(" ");
 		}
 		//}
 
@@ -166,17 +177,6 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 		else {
 		return false;
 		}
-	}
-
-	@Override
-	public void updateLogic() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void paintObjects() {
-
 	}
 	
 	public void updateButton(int i, JButton b) {

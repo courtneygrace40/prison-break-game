@@ -120,17 +120,6 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 		return false;
 	}
   
-	@Override
-	public void updateLogic() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void paintObjects() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

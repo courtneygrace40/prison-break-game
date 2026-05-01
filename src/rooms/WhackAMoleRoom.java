@@ -135,7 +135,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 		}
 	}
 
-	@Override
+	
 	public void updateLogic() {
 //		while (hasFinished() == false){
 //			bugPosition = rand.nextInt(0,8);
@@ -152,7 +152,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 		
 	}
 
-	@Override
+	
 	public void paintObjects() {
 		System.out.println("New Bug!");
 	    for (JButton b : buttons) {
