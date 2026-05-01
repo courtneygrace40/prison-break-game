@@ -771,6 +771,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 
 	}
 	
+	public void showGameOverScreen() {
+		this.currentBackground = gameOverScreen;
+		bgLayout.show(this, "gameOver");
+		repaint();
+
+	}
+	
 
 	
 
