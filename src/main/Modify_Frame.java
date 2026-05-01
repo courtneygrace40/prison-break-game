@@ -752,7 +752,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
-            	
+            	 
 		}
 		else if (room.getChallengeType().equals("Library")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
