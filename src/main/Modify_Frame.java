@@ -26,6 +26,7 @@ import rooms.Room;
 import rooms.SliderPuzzleRoom;
 import rooms.WhackAMoleRoom;
 import rooms.KeyPadRoom;
+import rooms.LibraryRoom;
 import rooms.CombatRoom;
 import rooms.DecoderRoom;
 import rooms.GuessingGameRoom;
@@ -112,16 +113,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	
 	HashMap<Space, HashMap<String, Space>> worldMap = new HashMap<>();
+	HashMap<Space, Boolean> visitedRooms = new HashMap<>();
 	
 	
 	Background mazeBackground = new Background(this, controls, "/backgrounds/mazeBackground.png", true);// last bg for now
 	Background mainScreen = new Background (this, controls, "/backgrounds/mainScreen.png", false);
 	Background winScreen = new Background (this, controls, "/backgrounds/WinScreen.png", false);
-	
+	Background gameOverScreen = new Background (this, controls,"/backgrounds/gameoverTEMP.png", false);
+			
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
 	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
-	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/PrisonYard.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	
@@ -145,7 +148,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	public Modify_Frame() {
 		
-		//set specific player coords if needed
+		// -----SETTING UP ROOMS AND HALLWAYS -----
+		
+		visitedRooms.put(sliderRoom, false);
+		visitedRooms.put(keyPadRoom, false);
+		visitedRooms.put(killBugRoom, false);
+		visitedRooms.put(decoderRoom, false);
+		
 		outside.setPlayerCoords(64,64);
 		testRoom.setPlayerCoords(320, 320);
 		
@@ -159,13 +168,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		winScreen.setKey("winScreen");
 		
 		outside.setGuardBool(true);
-		
 		outside.addOutsideBounds();
-
 		
 		prologue1.setProgressionType("AUTO", "SKIP");
 		prologue2.setProgressionType("AUTO", "SKIP");
 		prologue3.setProgressionType("AUTO", "SKIP");
+		
+		// ----- BUTTON SETTING -----
 		
 		prologue1.setButtons(true, false);
 		prologue2.setButtons(true, false);
@@ -176,11 +185,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		keyPadRoom.setButtons(true);
 		killBugRoom.setButtons(true);
 		
+		// ----- SET CHAR PAINT -----
+		
 		testRoom.setCharPaint(false);
 		sliderRoom.setCharPaint(false);
 		keyPadRoom.setCharPaint(false);
 		killBugRoom.setCharPaint(false);
 		
+		// ----- SET CHALLENGE TYPE -----
 		
 		testRoom.setChallengeType("Guessing Game");
 		sliderRoom.setChallengeType("Slider Puzzle");
@@ -189,18 +201,23 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		decoderRoom.setChallengeType("Decoder");
 		guessingGame.setChallengeType("Guessing Game");
 		
-		
 		mainScreen.setProgressionType("CLICK", null);
 		mainScreen.setButtons(false, true);
 		
+		
+		// ----- SETTING UP WORLD MAP -----
+		
 		outside.addEntrance("right", 300, 340, 339, 429);
 		this.currentBackground = outside;
-		
-	
-		
 
 		worldMap.put(outside, new HashMap<>());
 		worldMap.get(outside).put("right", h1);
+		
+		/* 
+		 1. Put hallway into worldMap
+		 2. Put hallways/destinations into hallway's hashMap
+		 3. Add entrances 
+		 */
 		
 		worldMap.put(h1, new HashMap<>());
 		worldMap.get(h1).put("right", h2);
@@ -212,7 +229,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(testRoom, new HashMap<>());
 		worldMap.get(testRoom).put("bottom", h1);
 		testRoom.addEntrance("bottom");
-		
 		
 		worldMap.put(h2, new HashMap<>());
 		worldMap.get(h2).put("right", h3);
@@ -351,8 +367,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h23.addEntrance("top");
 		worldMap.put(winScreen, new HashMap<>());
 		
+
+		// ----- SETUP FOR MODIYFY FRAME -----
+
 		
+		gameOverScreen.setKey("gameOver");
 		
+
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setDoubleBuffered(true);
@@ -363,36 +384,30 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.setFocusable(true);
 		this.requestFocusInWindow();	
 		
-		
-		
 		//Creates CardLayout information
 		bgLayout = new CardLayout();
 		this.setLayout(bgLayout);
-		//masterPanel.setPreferredSize(new Dimension(frameWidth, frameHeight));
 		
+	
+		// ----- ADDS FIRST FEW HALLWAYS TO BG LINKED LIST -----
 		
-		//Implements the linked list, which is built into Java 
 		this.bg.add(prologue1);
 		this.bg.add(prologue2);
 		this.bg.add(prologue3);
 		this.bg.add(mainScreen);
 		
 		this.bg.add(outside);
-		/*this.bg.add(hallway1);	
-		this.bg.add(hallway2);	
-		this.bg.add(hallway3);	*/
-		this.bg.add(mazeBackground);
 		
 		this.add(prologue1, "prologue1");
 		this.add(prologue2, "prologue2");
 		this.add(prologue3, "prologue3");
 		this.add(mainScreen, "mainScreen");
 		this.add(outside, "outside");
-		/*this.add(hallway1, "hallway1");
-		this.add(hallway2, "hallway2");
-		this.add(hallway3, "hallway3");*/
 		this.add(testRoom, "testRoom");
 		this.add(winScreen, "winScreen");
+		this.add(gameOverScreen, "gameOver");
+		
+		// ----- ADD HALLWAYS TO MODIFY FRAME -----
 		
 		for (Background h : allHallways) {
 			h.setCharPaint(true);
@@ -408,53 +423,21 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h19.setProb(0.7);
 		h13.setProb(0.7);
 		h2.setProb(0.6);
-		//h1.setProb(0.6);
-		
-		
-		//Iterates through the linked list and adds them to the MasterPanel
-		//int j = 0;
-		
-		//for (Background i : bg) {
-			//this.add(i, Integer.toString(j));
-			//j++;
-		//}
-		
+	
 		//make player inside of this frame
 		player1 = new Player(this, controls);
 		this.player1.startGamePosition();
-		
 		
 		//???? but I don't know where this needs to be added? like does it need to be added somewhere else?
 		this.add(skipButton);
 		repaint();
 		update();
-		
-		
-		//Configures with JPanel
-		//this.setLayout(new BorderLayout());
-		//this.add(masterPanel, BorderLayout.CENTER);
 				
 		bgLayout.show(this, "0");
 		
-		//Timer to trigger events -> could this be moved to be started with screens that are auto? can we make it an attribute?
 		this.myTimer = new Timer(7000, this);
 		this.myTimer.start();
-		
-		//So that the JPanel also listens to the mouse and can receive input from the mouse
-		//this.addMouseListener(mouse);
-		//this.setFocusable(true);
-		
-		
-		//COMMENTED OUT -> does there need to be a mouse listener currently? or do we just need buttons? right now, there is no purpose 
-		//Right now, this is a mini/anonymous class in the class, which is not ideal. this should be moved if possible
-		/*this.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mousePressed(MouseEvent e) {
-				Modify_Frame.this.screenProgressionLogic(e);
-		        
-		    }
-		});*/
-		
+
 
 		}
 	
@@ -519,16 +502,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//updated code to allow the character switch to work between screens
 	public void update() {
+		
+		if (currentBackground == gameOverScreen) {
+			return;
+		}
 		mainScreen.update();
 		
 		if(inCombat) {
 			player1.update();
 			guard1.update();
-			
 			if (combatCount > 0) {
 				combatCount--;
 			}
-			
 			if (isPlayerTouchingGuard() && combatCount == 0) {
 				if (controls.enterpressed) {
 					combatState.playerAttack();
@@ -543,18 +528,17 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			
 			if (combatState.isOver()) {
 				if (combatState.playerWon()) {
-					System.out.println("Player Won! Move to next hallway");
+					System.out.println("Player won! Move to next hallway!");
 					inCombat = false;
-
-					}
-				else {
-					System.out.println("Guard won, game over!");
+				}
+				else if (combatState.guardWon()) {
+					System.out.println("Guard won! Game over!");
 					inCombat = false;
 					combatState = null;
-					
+					showGameOverScreen();
+					return;
 				}
 			}
-			
 		}
 		
 		//if (indexBG < 5) {
@@ -622,7 +606,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void screenProgressionLogic(ActionEvent actionType, Object source, String command) {
 		if (source == this.myTimer) {
 			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.AUTO){
-				if (this.indexBG < 4) {
+				if (this.indexBG < 3) {
 					this.advanceScreen();
 				} 
 				//AFTER updating to the next one (here, the door), the timer needs to stop 
@@ -674,8 +658,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            this.currentBackground = nextSpace;
 	            if(nextSpace.shouldGuardPaint() && this.guardApps <4) {
 	            	nextSpace.incGuardApps();
-	            	//inCombat = true;
-	            	//combatState = new CombatRoom();
+	            	inCombat = true;
+	            	combatState = new CombatRoom();
 	            	System.out.println("Combat Started");
 	            }
 	            bgLayout.show(this, nextSpace.getKey());
@@ -693,6 +677,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 
 	//ash generated
 	private void handleRoomEntry(Room room) {
+		if(visitedRooms.get(room) == false) {
 		if (room.getChallengeType().equals("Slider Puzzle") && room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
 	    	room.setActiveChallenge(false);
@@ -700,18 +685,20 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
+                visitedRooms.replace(this.sliderRoom, true);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });  
 	    }
-		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge()) {
+		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge() && visitedRooms.get(this.sliderRoom) == true) {
 			System.out.println("start puzzle ");
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 KeyPadRoom puzzle = new KeyPadRoom(this, this.controls);
+                visitedRooms.replace(this.keyPadRoom, true);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
@@ -725,6 +712,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 WhackAMoleRoom puzzle = new WhackAMoleRoom(this, this.controls);
+                visitedRooms.replace(this.killBugRoom, true);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
@@ -738,12 +726,16 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	javax.swing.SwingUtilities.invokeLater(() -> {
                 // Assuming SliderPuzzleRoom extends JDialog
                 DecoderRoom puzzle = new DecoderRoom(this, this.controls);
+                visitedRooms.replace(this.decoderRoom, true);
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
             	
+			}
 		}
+
+
 		else if (room.getChallengeType().equals("Guessing Game")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
 	    	room.setActiveChallenge(false);
@@ -757,7 +749,27 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        });
             	
 		}
+		else if (room.getChallengeType().equals("Library")&& room.getActiveChallenge()) {
+			System.out.println("start puzzle ");
+	    	room.setActiveChallenge(false);
+	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
+            	javax.swing.SwingUtilities.invokeLater(() -> {
+                // Assuming SliderPuzzleRoom extends JDialog
+                LibraryRoom puzzle = new LibraryRoom(this, this.controls);
+                puzzle.setModal(true); // This stops the user from moving the player while puzzling
+                puzzle.setLocationRelativeTo(this); 
+                puzzle.setVisible(true);
+	        });
+            	
 		}
+		}
+	
+	public void showGameOverScreen() {
+		this.currentBackground = gameOverScreen;
+		bgLayout.show(this, "gameOver");
+		repaint();
+
+	}
 	
 
 	
