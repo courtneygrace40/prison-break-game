@@ -366,13 +366,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h23.addEntrance("top");
 		worldMap.put(winScreen, new HashMap<>());
 		
-<<<<<<< HEAD
+
 		// ----- SETUP FOR MODIYFY FRAME -----
-=======
+
 		
 		gameOverScreen.setKey("gameOver");
 		
->>>>>>> branch 'main' of https://github.com/courtneygrace40/prison-break-game
+
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
 		this.setDoubleBuffered(true);
@@ -733,8 +733,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
             	
 			}
 		}
-<<<<<<< HEAD
-=======
+
+
 		else if (room.getChallengeType().equals("Guessing Game")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
 	    	room.setActiveChallenge(false);
@@ -754,7 +754,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.currentBackground = gameOverScreen;
 		bgLayout.show(this, "gameOver");
 		repaint();
->>>>>>> branch 'main' of https://github.com/courtneygrace40/prison-break-game
+
 	}
 	
 
