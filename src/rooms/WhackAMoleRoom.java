@@ -77,7 +77,7 @@ public class WhackAMoleRoom extends JDialog implements RoomChallenge, ActionList
 	}
 	
 	private void setImages() {
-		java.net.URL grass = getClass().getResource("/whackABug/grass.png");
+		java.net.URL grass = getClass().getResource("/whackABug/Grass.png");
 		java.net.URL bug = getClass().getResource("/whackABug/bug.png");
 		bugImg = new ImageIcon(bug);
 		grassImg = new ImageIcon(grass);

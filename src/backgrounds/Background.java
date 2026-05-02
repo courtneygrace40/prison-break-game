@@ -552,7 +552,8 @@ public class Background extends JPanel implements Space{
 
     
     public void setZeroProb() {
-    	if(this.bgHType == HType.HType7 | this.bgHType == HType.HType2) {
+    	if(this.bgHType == HType.HType7 | this.bgHType == HType.HType2 | this.bgHType == HType.HType11 | this.bgHType == HType.HType12 | this.bgHType == HType.HType3
+    			| this.bgHType == HType.HType5 | this.bgHType == HType.HType6) {
     		this.setProb(0.0);  	
     		}
     	}
