@@ -438,9 +438,12 @@ public class Background extends JPanel implements Space{
 					//mf.door1.draw(g2);
 				}
 				if (this.guardPaint) {
-					if (mf.guardApps < 4) {
-						mf.guard1.draw(g2); 
-					}	
+					if (mf.indexBG == 4) {
+						mf.guard1.draw(g2);
+					}
+					else if (mf.guardApps <= 3 && mf.inCombat) {
+						mf.guard1.draw(g2);
+					}
 				}
 				
 				if(this.doorLocation != null) {

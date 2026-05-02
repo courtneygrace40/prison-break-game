@@ -728,7 +728,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        Space nextSpace = exits.get(direction);
 	        if (nextSpace != null) {
 	            this.currentBackground = nextSpace;
-	            if(nextSpace.shouldGuardPaint() && this.guardApps <4) {
+	            if(this.guardApps <3 && nextSpace.shouldGuardPaint()) {
 	            	nextSpace.incGuardApps();
 	            	inCombat = true;
 	            	combatState = new CombatRoom();
