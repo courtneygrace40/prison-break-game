@@ -866,7 +866,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//four types of trigger events: 0, 1, 2, 3 corresponding to someone going through the top of a screen, right, bottom, or left 
 	//need to program that, but we need to declare action events somehow; maybe an action handler? 
-	//not sure how we wanna do this, I can research this today/tomorrow 
+	//not sure how we want do this, I can research this today/tomorrow 
 	public void advanceList(int bg) {
 		//get action event types
 		//this.currentBackground = worldMap.get(this.currentBackground).get(bg);

@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.awt.Color;
+//import java.awt.Color;
 
 import javax.imageio.ImageIO;
 
@@ -535,6 +535,7 @@ public class Background extends JPanel implements Space{
     		return(true);
     	}
     	else {
+    		this.guardPaint = false;
     		return(false);
     	}
     	
