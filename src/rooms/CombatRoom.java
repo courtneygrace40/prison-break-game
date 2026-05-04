@@ -14,7 +14,7 @@ public class CombatRoom {
 	}
 	
 	public void guardAttack() {
-		playerHealth -= 2;
+		playerHealth -= 5;
 	}
 	
 	public boolean isOver() {

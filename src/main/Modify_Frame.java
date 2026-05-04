@@ -75,6 +75,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public CombatRoom combatState = null;
 	public int combatCount = 0;
 	public int combatDelay = 60; //slower attacks to not make guard win immediatly 
+	public boolean guardDefeated = false;
+	public int guardDefeatedCount = 0;
+	public int guardDefeatedDelay= 90; //1 second @ 90 fps
+	
 	
 	
 	//set background
@@ -559,14 +563,15 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 			g2.dispose();
 		}
+	
+	
 				
 	
 	//updated code to allow the character switch to work between screens
 	public void update() {
-		
 		if (showDeathScreen) {
 	        gameOverDelayCounter++;
-	        System.out.println("HELLO!!!!! I AM THE TIMER!!!!");
+	        //System.out.println("HELLO!!!!! I AM THE TIMER!!!!");
 
 	        // 90 frames per second * 120 seconds = 10,800 frames
 	        if (gameOverDelayCounter >= 200) {
@@ -576,6 +581,19 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            repaint();
 	        }
 	    }
+//If guard is defeated, will jump here to have him disappear with a delay
+		if (guardDefeated) {
+			guardDefeatedCount++;
+			if (guardDefeatedCount >= guardDefeatedDelay) {
+				guardDefeated = false;
+				guardDefeatedCount = 0;
+				if (currentBackground instanceof Background) {
+					((Background) currentBackground).setGuardBool(false);
+				}	
+			}
+			repaint();
+			return;
+		}
 		
 		if (currentBackground == gameOverScreen) {
 			return;
@@ -583,11 +601,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		mainScreen.update();
 		
+		// -- START OF COMBAT --
+		
 		if(inCombat) {
 			player1.update();
 			guard1.update();
 			if (combatCount > 0) {
-				combatCount--;
+				combatCount--; 
 			}
 			if (isPlayerTouchingGuard() && combatCount == 0) {
 				if (controls.enterpressed) {
@@ -600,11 +620,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				}
 				combatCount = 60;
 			}
-			
 			if (combatState.isOver()) {
 				if (combatState.playerWon()) {
 					System.out.println("Player won! Move to next hallway!");
 					inCombat = false;
+					guardDefeated = true;
+					guardDefeatedCount = 0;
+					
 				}
 				else if (combatState.guardWon()) {
 					System.out.println("Guard won! Game over!");
@@ -615,6 +637,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				}
 			}
 		}
+		
+		// -- COMBAT FINISHED --
 		
 		else { 
 			player1.update(); 
@@ -629,7 +653,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				    }
 
 			}
-			
 			}
 		}
 		}
@@ -653,7 +676,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		}
 		
 	}*/
-	
+
 	public boolean isPlayerTouchingGuard() {
 		int playerLeft = player1.x;
 		int playerRight = player1.x + charSize;
