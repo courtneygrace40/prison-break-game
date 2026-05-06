@@ -29,10 +29,14 @@ public class Guard extends Entity {
         getGuardImage();
         
     }
+    
+    public void setXAgain() {
+    	y = 270;
+    }
 
     public void setDefaults() {
         x = 200;
-        y = 270;
+        y = 230;
         speed = 1; 
         leftBoundry = 100;
         rightBoundry = 500;

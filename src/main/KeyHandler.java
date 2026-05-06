@@ -84,6 +84,19 @@ public class KeyHandler implements KeyListener{
 		
 	}
 	
+	public void resetKeys() {
+		this.playerUp = false;
+		this.playerDown = false;
+		this.playerLeft = false;
+		this.playerRight = false;
+		this.enterpressed = false;
+		
+		this.guardUp = false;
+		this.guardDown = false;
+		this.guardLeft = false;
+		this.guardRight = false;
+	}
+	
 	
 	
 	

@@ -20,6 +20,7 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 	private static final long serialVersionUID = 1L;
 	KeyHandler kh;
 	Modify_Frame mf;
+	String direction;
 	JButton a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4;
 	ArrayList <JButton> buttons = new ArrayList <JButton>();
 	ArrayList <ImageIcon> positions = new ArrayList <ImageIcon>();
@@ -44,6 +45,7 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 	public GuessingGameRoom(Modify_Frame mf, KeyHandler kh) {
 		this.mf = mf;
 		this.kh = kh;
+		this.direction = "bottom";
 		
         setLayout(null);
         setSize(400, 410);
@@ -222,8 +224,9 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 			// the inmate slides you a note 
 			noteShown= true;
 			slideNote();
-			System.out.println("Done!");		}
-
+			System.out.println("Done!");
+			mf.advanceList(direction);
+		}
 		
 	}
 
@@ -239,6 +242,8 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 		        }
 		    });
 		    slideTimer.start();
+		    
+		    
 		}
 		
 

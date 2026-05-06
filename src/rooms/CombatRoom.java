@@ -5,7 +5,7 @@ public class CombatRoom {
 	public int guardHealth;
 	
 	public CombatRoom() {
-		playerHealth = 60;
+		playerHealth = 50;
 		guardHealth = 10;
 
 	}
@@ -14,7 +14,7 @@ public class CombatRoom {
 	}
 	
 	public void guardAttack() {
-		playerHealth -= 2;
+		playerHealth -= 5;
 	}
 	
 	public boolean isOver() {

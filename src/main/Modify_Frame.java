@@ -45,6 +45,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public Player player1;
 	public int guardApps = 0;
 	
+	public int gameOverDelayCounter = 0;
+	public boolean showDeathScreen = false;
+	
 	//This is the progression type information and implementation of JPanel
 	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP}; //Can this be some sort of component that we are able to just use? should i create a sep class?
 	CardLayout bgLayout;
@@ -72,6 +75,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public CombatRoom combatState = null;
 	public int combatCount = 0;
 	public int combatDelay = 60; //slower attacks to not make guard win immediatly 
+	public boolean guardDefeated = false;
+	public int guardDefeatedCount = 0;
+	public int guardDefeatedDelay= 90; //1 second @ 90 fps
+	
 	
 	
 	//set background
@@ -466,6 +473,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(sliderRoom, "sliderRoom");
 		this.add(keyPadRoom, "keyPadRoom");
 		this.add(library, "library");		
+		this.add(death, "death");
+		
 		// ----- ADD HALLWAYS TO MODIFY FRAME -----
 		
 		for (Background h : allHallways) {
@@ -473,12 +482,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			this.add(h, h.getKey());
 			h.setProb(0.2);
 			h.setZeroProb();
-			
 		}
 		
 		h4.setProb(0.8);
 		h11.setProb(0.8);
-		h22.setProb(0.8);
 		h19.setProb(0.7);
 		h13.setProb(0.7);
 		h2.setProb(0.6);
@@ -507,6 +514,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		timeline.start();
 	}
 
+	
+	// ----- GAME LOOP -----
+	
 	@Override
 	public void run() {
 		//when you call modify_frame, it calls run automatically
@@ -550,30 +560,54 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			if (indexBG == 4) { 
 				startGame = true;
 			}
-			//if (bg.get(indexBG).characterPaint){
-				//mazeBackground.draw(g2);
-				//player1.draw(g2);
-				//playerGuard.draw(g2);
-				//guard1.draw(g2);
-				//door1.draw(g2);
-			//} //had to comment it out to paint characters the right way 
+		
 			g2.dispose();
 		}
+	
+	
 				
 	
 	//updated code to allow the character switch to work between screens
 	public void update() {
+		if (showDeathScreen) {
+	        gameOverDelayCounter++;
+	        //System.out.println("HELLO!!!!! I AM THE TIMER!!!!");
+
+	        // 90 frames per second * 120 seconds = 10,800 frames
+	        if (gameOverDelayCounter >= 200) {
+	            showDeathScreen = false;
+	            currentBackground = gameOverScreen;
+	            bgLayout.show(this, "gameOver");
+	            repaint();
+	        }
+	    }
+//If guard is defeated, will jump here to have him disappear with a delay
+		if (guardDefeated) {
+			guardDefeatedCount++;
+			if (guardDefeatedCount >= guardDefeatedDelay) {
+				guardDefeated = false;
+				guardDefeatedCount = 0;
+				if (currentBackground instanceof Background) {
+					((Background) currentBackground).setGuardBool(false);
+				}	
+			}
+			repaint();
+			return;
+		}
 		
 		if (currentBackground == gameOverScreen) {
 			return;
 		}
+		
 		mainScreen.update();
+		
+		// -- START OF COMBAT --
 		
 		if(inCombat) {
 			player1.update();
 			guard1.update();
 			if (combatCount > 0) {
-				combatCount--;
+				combatCount--; 
 			}
 			if (isPlayerTouchingGuard() && combatCount == 0) {
 				if (controls.enterpressed) {
@@ -586,11 +620,13 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				}
 				combatCount = 60;
 			}
-			
 			if (combatState.isOver()) {
 				if (combatState.playerWon()) {
 					System.out.println("Player won! Move to next hallway!");
 					inCombat = false;
+					guardDefeated = true;
+					guardDefeatedCount = 0;
+					
 				}
 				else if (combatState.guardWon()) {
 					System.out.println("Guard won! Game over!");
@@ -602,7 +638,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			}
 		}
 		
-		//if (indexBG < 5) {
+		// -- COMBAT FINISHED --
+		
 		else { 
 			player1.update(); 
 			guard1.update();
@@ -614,22 +651,15 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				        this.advanceList(e.entranceType);
 				        break; // 
 				    }
-				//}
+
 			}
-			
-			
-			/*if ((door1.x == player1.x && door1.y == player1.y) && bg.get(indexBG).lastBackground == false) {
-				player1.setDefaults();
-				this.advanceScreen();
-			}	
-		} else {
-			playerGuard.update();
-			if ((door1.x == playerGuard.x && door1.y == playerGuard.y) && bg.get(indexBG).lastBackground == false) {
-				playerGuard.setDefaults();
-				this.advanceScreen();*/
 			}
 		}
 		}
+	
+	
+	//----- GAME LOOP OVER ----
+	
 		//door1.update();
 
 	//}
@@ -646,7 +676,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		}
 		
 	}*/
-	
+
 	public boolean isPlayerTouchingGuard() {
 		int playerLeft = player1.x;
 		int playerRight = player1.x + charSize;
@@ -711,6 +741,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	}
 	
 	public void advanceList(String direction) {
+		this.guard1.setXAgain();
 	    HashMap<String, Space> exits = worldMap.get(this.currentBackground);
 	    if(exits.get(direction) == doorCell) {
 	    	this.endingSequence();
@@ -720,7 +751,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        Space nextSpace = exits.get(direction);
 	        if (nextSpace != null) {
 	            this.currentBackground = nextSpace;
-	            if(nextSpace.shouldGuardPaint() && this.guardApps <4) {
+	            if(this.guardApps <3 && nextSpace.shouldGuardPaint()) {
 	            	nextSpace.incGuardApps();
 	            	inCombat = true;
 	            	combatState = new CombatRoom();
@@ -731,8 +762,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	            repaint();
 	            if (nextSpace instanceof Room) {
 	            	System.out.println("Entered a room");
-	                handleRoomEntry((Room) nextSpace);
-	            }
+	                handleRoomEntry((Room) nextSpace); 
+	            } 
 	            
 	            System.out.println("Moved to: " + nextSpace.getKey());
 	        }
@@ -741,6 +772,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 
 	//ash generated
 	private void handleRoomEntry(Room room) {
+		this.controls.resetKeys();
 		if(visitedRooms.get(room) == false) {
 		if (room.getChallengeType().equals("Slider Puzzle") && room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
@@ -750,7 +782,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 // Assuming SliderPuzzleRoom extends JDialog
                 SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
                 visitedRooms.replace(this.sliderRoom, true);
-                puzzle.setModal(true); // This stops the user from moving the player while puzzling
+                //puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });  
@@ -783,6 +815,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
+            this.controls.resetKeys();
             	
 		}
 		else if (room.getChallengeType().equals("Decoder")&& room.getActiveChallenge()) {
@@ -799,7 +832,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	        });
             	
 			}
-		}
+		
 
 
 		else if (room.getChallengeType().equals("Guessing Game")&& room.getActiveChallenge()) {
@@ -814,10 +847,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
+            this.controls.resetKeys();
             	
 		}
 		else if (room.getChallengeType().equals("Library")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
+			this.controls.resetKeys();
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
@@ -828,14 +863,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
 	        });
-            	
+		}
 		}
 		}
 	
 	public void showGameOverScreen() {
-		this.currentBackground = gameOverScreen;
-		bgLayout.show(this, "gameOver");
-		repaint();
+		this.currentBackground = death;
+	    bgLayout.show(this, "death");
+	    repaint();
+
+	    // Start tracking the counter
+	    showDeathScreen = true;
+	    gameOverDelayCounter = 0;
 
 	}
 	
@@ -850,7 +889,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//four types of trigger events: 0, 1, 2, 3 corresponding to someone going through the top of a screen, right, bottom, or left 
 	//need to program that, but we need to declare action events somehow; maybe an action handler? 
-	//not sure how we wanna do this, I can research this today/tomorrow 
+	//not sure how we want do this, I can research this today/tomorrow 
 	public void advanceList(int bg) {
 		//get action event types
 		//this.currentBackground = worldMap.get(this.currentBackground).get(bg);

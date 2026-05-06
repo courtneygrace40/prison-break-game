@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.awt.Color;
+//import java.awt.Color;
 
 import javax.imageio.ImageIO;
 
@@ -438,9 +438,12 @@ public class Background extends JPanel implements Space{
 					//mf.door1.draw(g2);
 				}
 				if (this.guardPaint) {
-					if (mf.guardApps < 4) {
-						mf.guard1.draw(g2); 
-					}	
+					if (mf.indexBG == 4) {
+						mf.guard1.draw(g2);
+					}
+					else if (mf.guardApps <= 3 && mf.inCombat) {
+						mf.guard1.draw(g2);
+					}
 				}
 				
 				if(this.doorLocation != null) {
@@ -532,6 +535,7 @@ public class Background extends JPanel implements Space{
     		return(true);
     	}
     	else {
+    		this.guardPaint = false;
     		return(false);
     	}
     	
@@ -552,7 +556,8 @@ public class Background extends JPanel implements Space{
 
     
     public void setZeroProb() {
-    	if(this.bgHType == HType.HType7 | this.bgHType == HType.HType2) {
+    	if(this.bgHType == HType.HType7 | this.bgHType == HType.HType2 | this.bgHType == HType.HType11 | this.bgHType == HType.HType12 | this.bgHType == HType.HType3
+    			| this.bgHType == HType.HType5 | this.bgHType == HType.HType6) {
     		this.setProb(0.0);  	
     		}
     	}
