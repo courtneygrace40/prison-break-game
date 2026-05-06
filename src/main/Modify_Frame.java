@@ -854,18 +854,40 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 			System.out.println("start puzzle ");
 			this.controls.resetKeys();
 	    	room.setActiveChallenge(false);
-	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
-            	javax.swing.SwingUtilities.invokeLater(() -> {
-                // Assuming SliderPuzzleRoom extends JDialog
-                LibraryRoom puzzle = new LibraryRoom(this, this.controls);
-                visitedRooms.replace(this.library, true);
-                puzzle.setModal(true); // This stops the user from moving the player while puzzling
-                puzzle.setLocationRelativeTo(this); 
-                puzzle.setVisible(true);
+	    	java.net.URL bookCover = getClass().getResource("/pages/bookCover.png");
+	    	ImageIcon book = new ImageIcon(bookCover);
+	    	JButton solvePuzzleButton = new JButton(book);
+	    	solvePuzzleButton.setBounds(this.frameHeight/2, frameWidth/2, 150, 200);
+	    	
+	    	solvePuzzleButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                // Use invokeLater to smoothly launch the modal dialog
+	                javax.swing.SwingUtilities.invokeLater(() -> {
+	                    LibraryRoom puzzle = new LibraryRoom(Modify_Frame.this, Modify_Frame.this.controls);
+	                    visitedRooms.replace(Modify_Frame.this.library, true);
+	                    
+	                    puzzle.setModal(true); // Prevents player movement behind the dialog
+	                   
+	                    
+	                    puzzle.setLocationRelativeTo(Modify_Frame.this); 
+	                    puzzle.setVisible(true);
+	                    room.remove(solvePuzzleButton);
+	                    
+	                    Modify_Frame.this.advanceList("right");
+	                });
+	            }
 	        });
+
+	    	// thx gemini
+	        room.add(solvePuzzleButton);
+	        
+	        // Refresh the room layout hierarchy
+	        room.revalidate();
+	        room.repaint();
 		}
 		}
-		}
+	    }
 	
 	public void showGameOverScreen() {
 		this.currentBackground = death;
