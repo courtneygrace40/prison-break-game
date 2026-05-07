@@ -21,12 +21,14 @@ public class LibraryRoom extends JDialog implements RoomChallenge, ActionListene
 	JLabel book;
 	Modify_Frame mf;
 	KeyHandler kh;
+	String direction;
 
 	private static final long serialVersionUID = 1L;
 	
 	public LibraryRoom(Modify_Frame mf, KeyHandler kh) {
 		this.mf= mf;
 		this.kh = kh;
+		this.direction = "right";
 		
 		this.setLayout(null);
 		setSize(400, 300);

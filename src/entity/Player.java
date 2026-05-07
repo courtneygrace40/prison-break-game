@@ -65,7 +65,7 @@ public class Player extends Entity{
 		case "bottom":
 			//70y, 320x
 			x = 290;
-			y = 70;
+			y = 100;
 			break;
 		}
 		
@@ -137,6 +137,7 @@ public class Player extends Entity{
 		if (playerPunch) {
 			image = punch;
 		}
+		
 		if (direction.equals("front")) {
 			image = front;
 		}

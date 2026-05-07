@@ -23,7 +23,7 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
         
         this.mf = mf;
         this.kh = kh;
-        
+
         
         setSize(300, 250);
         setResizable(false);
@@ -165,6 +165,8 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 	        JButton[] buttons = {b1, b2, b3, b4, b5, b6, b7, b8, b9};
 	        for (JButton x : buttons) x.setEnabled(false);
 	        setVisible(false);
+	        this.dispose();
+	        mf.endingSequence();
 			}
 			else {
 				setVisible(false);

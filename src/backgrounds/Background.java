@@ -30,6 +30,7 @@ public class Background extends JPanel implements Space{
 	Background nextBackground;
 	Background previousBackground;
 	boolean currBackground;
+	public boolean brotherPaint = false;
 	
 	public enum ProgressionType {CLICK, AUTO, TRIGGER, SKIP};
 	public ProgressionType currentProgressionType;
@@ -446,6 +447,10 @@ public class Background extends JPanel implements Space{
 					}
 				}
 				
+				if(this.brotherPaint) {
+					mf.brother.draw(g2);
+				}
+				
 				if(this.doorLocation != null) {
 				
 					
@@ -576,6 +581,9 @@ public class Background extends JPanel implements Space{
     		this.addEntrance("left", 400, 300, 50, 100);
     	}
     }
+    
+    public void brotherPaint() {
+    	this.brotherPaint = true;  }
 
 }
 

@@ -137,7 +137,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
 	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room5.png", true);
 	//KeyPad room is the room right before the user enters the brother's cell
-	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/DoorCell.png", true);
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/PrisonYard.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room3.png", true);
 	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
@@ -154,7 +154,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//guard
 	public Guard guard1 = new Guard(this, controls);
-	
+	public Brother brother = new Brother(this, controls);
 	
 	//player in guard costume
 	public PlayerGuardCostume playerGuard = new PlayerGuardCostume(this, controls);
@@ -181,6 +181,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		outside.setCharPaint(true);
 		mazeBackground.setCharPaint(true);
 		testRoom.setCharPaint(true);
+		cell.setCharPaint(true); 
+		cellHole.setCharPaint(true); 
 		
 		outside.setKey("outside");
 		testRoom.setKey("testRoom");
@@ -195,6 +197,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		killBugRoom.setKey("killBugRoom");
 		decoderRoom.setKey("decoderRoom");
 		library.setKey("library");
+		
+		cell.brotherPaint();
+		cellHole.brotherPaint();
 		
 		endingSequence.add(doorCell);
 		endingSequence.add(keyPadRoom);
@@ -215,11 +220,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		prologue2.setButtons(true, false);
 		prologue3.setButtons(true, false);
 		
-		testRoom.setButtons(true);
+		/*testRoom.setButtons(true);
 		sliderRoom.setButtons(true);
 		keyPadRoom.setButtons(true);
 		killBugRoom.setButtons(true);
-		library.setButtons(true);
+		library.setButtons(true);*/
 		
 		// ----- SET CHAR PAINT -----
 		
@@ -399,7 +404,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h22, new HashMap<>());
 		worldMap.get(h22).put("bottom", h23);
 		worldMap.get(h22).put("left", h21);
-		worldMap.get(h22).put("top", doorCell);
+		worldMap.get(h22).put("top", keyPadRoom);
 		h22.addEntrance("bottom");
 		h22.addEntrance("left");
 		h22.addEntrance("top");
@@ -428,6 +433,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(library, new HashMap<>());
 		worldMap.get(library).put("right", h16);
 		library.addEntrance("right");
+		
+		worldMap.put(keyPadRoom, new HashMap<>());
+		/*worldMap.get(keyPadRoom).put("bottom", h22);
+		keyPadRoom.addEntrance("bottom");*/
 		
 
 		// ----- SETUP FOR MODIYFY FRAME -----
@@ -474,6 +483,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(keyPadRoom, "keyPadRoom");
 		this.add(library, "library");		
 		this.add(death, "death");
+		this.add(decoderRoom, "decoderRoom");
+		this.add(cell, "cell");
 		
 		// ----- ADD HALLWAYS TO MODIFY FRAME -----
 		
@@ -489,7 +500,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h19.setProb(0.7);
 		h13.setProb(0.7);
 		h2.setProb(0.6);
-	
+		h15.setProb(0);
 		//make player inside of this frame
 		player1 = new Player(this, controls);
 		this.player1.startGamePosition();
@@ -504,7 +515,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.myTimer = new Timer(7000, this);
 		this.myTimer.start();
 		
-		Brother brother = new Brother(this, controls);
+		//Brother brother = new Brother(this, controls);
 
 
 		}
@@ -744,9 +755,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void advanceList(String direction) {
 		this.guard1.setXAgain();
 	    HashMap<String, Space> exits = worldMap.get(this.currentBackground);
-	    if(exits.get(direction) == doorCell) {
+	    /*if(exits.get(direction) == doorCell) {
 	    	this.endingSequence();
-	    }
+	    }*/
 	    
 	    if (exits != null) {
 	        Space nextSpace = exits.get(direction);
@@ -788,7 +799,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setVisible(true);
 	        });  
 	    }
-		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge() && visitedRooms.get(this.sliderRoom) == true) {
+		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge() /*&& visitedRooms.get(this.sliderRoom) == true*/) {
 			System.out.println("start puzzle ");
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
@@ -902,7 +913,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	}
 	
 	public void endingSequence() {
-		
+		this.currentBackground = cell;
+		bgLayout.show(this, "cell");
+		repaint();
 	}
 	
 

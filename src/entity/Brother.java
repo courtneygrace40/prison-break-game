@@ -37,10 +37,10 @@ public class Brother extends Entity{
 	}
 	
 	public void setDefaults() {
-		x = mf.currentBackground.getPlayerX();
-		y = mf.currentBackground.getPlayerY();
+		x = 300;
+		y = 300;
 		speed = 2;
-		direction = "back";
+		direction = "front";
 		
 	}
 	

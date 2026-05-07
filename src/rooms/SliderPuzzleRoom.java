@@ -13,6 +13,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
     KeyHandler kh;
     JButton  b1, b2, b3, b4, b5, b6, b7, b8, b9, fake;
     JLabel winnerLabel;
+    String direction;
 	ImageIcon img1 = new ImageIcon(getClass().getResource("/Key1.png"));
 	ImageIcon img2 = new ImageIcon(getClass().getResource("/Key2.png"));
 	ImageIcon img3 = new ImageIcon(getClass().getResource("/Key3.png"));
@@ -27,6 +28,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
         
         this.mf = mf;
         this.kh = kh;
+        this.direction = "top";
         
         setLayout(null);
         setSize(400, 400);
@@ -296,6 +298,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 	        // Disable all buttons
 	        JButton[] buttons = {b1, b2, b3, b4, b5, b6, b7, b8, b9};
 	        for (JButton x : buttons) x.setEnabled(false);
+	        mf.advanceList(direction);
 	      
 	    }
 		

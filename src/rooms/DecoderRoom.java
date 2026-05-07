@@ -15,7 +15,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 	
 	//should decode to PAGE TEN
 	// Caeser Cipher: Shifts all letters + 3
-	
+	String direction;
 	KeyHandler kh;
 	Modify_Frame mf;
 	JButton b1, b2, b3, b4, b5, b6, b7, reset;
@@ -25,6 +25,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 	public DecoderRoom(Modify_Frame mf, KeyHandler kh) {
 		this.kh = kh;
 		this.mf = mf;
+		this.direction = "left";
 		
         setLayout(null);
         setSize(450, 300);
@@ -164,6 +165,7 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 			
 			hint.setText("Nice job-- remember this message for later");
 			hint2.setText(" ");
+			mf.advanceList(direction);
 		}
 		//}
 
