@@ -15,7 +15,7 @@ import javax.swing.*;
 public class LibraryRoom extends JDialog implements RoomChallenge, ActionListener{
 	
 	JButton forward, back;
-	int pageNum = 1;
+	int pageNum = 0;
 	ImageIcon page1_2, page3_4, page5_6, page7_8, page9_10;
 	ArrayList <ImageIcon> bookPages = new ArrayList <ImageIcon>();
 	JLabel book;
@@ -28,6 +28,7 @@ public class LibraryRoom extends JDialog implements RoomChallenge, ActionListene
 		this.mf= mf;
 		this.kh = kh;
 		
+		this.setLayout(null);
 		setSize(400, 300);
         setResizable(false);
         setLocationRelativeTo(mf);
@@ -35,10 +36,34 @@ public class LibraryRoom extends JDialog implements RoomChallenge, ActionListene
 		setImages();
 		bookPages.add(page1_2);bookPages.add(page3_4);bookPages.add(page5_6);bookPages.add(page7_8);bookPages.add(page9_10);
 		
-		book = new JLabel(bookPages.get(1));
+		initializeButtons();
+        addButtons();
+        addActionListener();
+		
+		book = new JLabel(bookPages.get(pageNum));
+		book.setBounds(0,0, 400,300);
 		this.add(book);
 		
+
 	}
+	
+	private void initializeButtons() {
+		forward = new JButton("Next");
+		back = new JButton("Back");
+		
+		forward.setBounds(350,220,50,50);
+		back.setBounds(10, 220, 50, 50);
+	}
+	
+	private void addButtons() {
+		add(forward);add(back);
+	}
+	
+	private void addActionListener() {
+		forward.addActionListener(this);
+		back.addActionListener(this);
+	}
+	
 	private void setImages() {
 		java.net.URL page1 = getClass().getResource("/pages/page1_2.png");
 		java.net.URL page2 = getClass().getResource("/pages/page3_4.png");
@@ -58,18 +83,20 @@ public class LibraryRoom extends JDialog implements RoomChallenge, ActionListene
 		Object b = e.getSource();
 		
 		if (b.equals(forward)) {
-			if (pageNum>5) {
+			if (pageNum<4) {
 				pageNum ++;
-			}
+				}
 		}
+		
 		else if (b.equals(back)) {
-			if (pageNum > 1) {
+			if (pageNum > 0) {
 			pageNum--;
 			}
 			
 		
 		}
-		
+		book.setIcon(bookPages.get(pageNum));
+		this.repaint();
 	}
 
 	@Override
