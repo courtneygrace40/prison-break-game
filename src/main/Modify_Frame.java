@@ -918,6 +918,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		repaint();
 	}
 	
+	public void brotherGreeting() {
+		
+	}
+	
+	public void jumpUpAndDown() {
+		
+	}
+	
 
 	
 
