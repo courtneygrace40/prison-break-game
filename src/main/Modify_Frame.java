@@ -647,7 +647,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				}
 				else {
 					combatState.guardAttack();
-					player1.playerPunch();
+					//player1.playerPunch();
 					System.out.println("Guard Attacked! Player Health: " + combatState.playerHealth);
 				}
 				combatCount = 60;
@@ -689,25 +689,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		}
 		}
 	
-	
-	//----- GAME LOOP OVER ----
-	
-		//door1.update();
-
-	//}
-
-	
-	
-	//This is the screenProgression Logic, which checks to make sure that the type of screen matches the action
-	/*public void screenProgressionLogic(MouseEvent actionType) {
-		if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK){
-				this.advanceScreen();
-		} 
-		else if (bg.get(indexBG).secondaryProgressionType == Background.ProgressionType.SKIP){
-				this.skipToMain(indexBG);
-		}
-		
-	}*/
 
 	public boolean isPlayerTouchingGuard() {
 		int playerLeft = player1.x;
@@ -817,6 +798,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 //puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.h20.removeEntrance("bottom");
 	        });  
 	    }
 		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge()) {
@@ -846,6 +828,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.h6.removeEntrance("left");
 	        });
             this.controls.resetKeys();
             	
@@ -861,6 +844,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.h13.removeEntrance("right");
 	        });
             	
 			}
@@ -878,6 +862,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.h1.removeEntrance("top");
 	        });
             this.controls.resetKeys();
             	
@@ -907,6 +892,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	                    room.remove(solvePuzzleButton);
 	                    
 	                    Modify_Frame.this.advanceList("right");
+	              
 	                });
 	            }
 	        });
@@ -957,66 +943,22 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 
 	
-
-	
-	
-	//four types of trigger events: 0, 1, 2, 3 corresponding to someone going through the top of a screen, right, bottom, or left 
-	//need to program that, but we need to declare action events somehow; maybe an action handler? 
-	//not sure how we want do this, I can research this today/tomorrow 
 	public void advanceList(int bg) {
-		//get action event types
-		//this.currentBackground = worldMap.get(this.currentBackground).get(bg);
-		System.out.println("made it here!");
-		//ArrayList <Space> current = this.locations.get(indexBGCollection); //this stores the current node that it is on
-		//String[] currentRoom = this.mapLayout[indexBGCollection];
-		//String nextRoom = currentRoom[index];
-		//System.out.println(nextRoom);
-		//System.out.println(current.toString());
-		//System.out.println(current.get(index));
 		
-		//if (index == 5) {
-			//if currently in a room... 
-			//return to previous hallway based on room number
-			//this is unimplemented so far
-		//}
+		System.out.println("THE RANDOM ADVANCE LIST SECTION GOT USED.");
 		
-		//else {
 			
 			if (this.currentBackground instanceof Background) {
 				
-				//Space nextSpace = current.get(index); //switches to this background 
-				//Background next = (Background) nextSpace;
-				//String bgName = next.getKey(); //gets the key/string that represents that specific card
-				//indexBGCollection = next.getMyLocation(); //gets the location integer so we know which list to access in the future
 				bgLayout.show(this, this.currentBackground.getKey()); //shows the correct card
-				//this.currentBackground = next;
+		
 			}
 			
 		else if (this.currentBackground instanceof Room) {
-		    //Space nextSpace = current.get(index); 
-		    //Room next = (Room) nextSpace;
-		    
-		    /*String bgName = next.getKey(); 
-		    bgLayout.show(this, bgName); 
-		    this.currentRoom = next;
-
-		    if (next.getChallengeType().equals("Slider Puzzle") && next.getActiveChallenge()) {
-		    	next.setActiveChallenge(false);
-		        // Use invokeLater to ensure the window pops up smoothly over the JPanel
-		        javax.swing.SwingUtilities.invokeLater(() -> {
-		        SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
-		            
-		            // Center it on the Modify_Frame
-		            puzzle.setLocationRelativeTo(this); 
-		            puzzle.setVisible(true);
-		            puzzle.toFront();
-		        });*/
+		   
 		    }
 		}
 	
-
-		
-	//}
 	}
 
 	

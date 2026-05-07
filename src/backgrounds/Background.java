@@ -298,26 +298,6 @@ public class Background extends JPanel implements Space{
 	
 	public void addEntrance(String entranceType, int xMin, int yMin, int xMax, int yMax) {
 		Entrance newEntrance = new Entrance(this, entranceType, xMin, yMin, xMax, yMax);
-		System.out.println("Inside AddEntrance!");
-		
-		/*switch(entranceType) {
-			case "top":
-				this.top = newEntrance;
-				break;
-			case "right":
-				this.right = newEntrance;
-				break;
-			case "bottom": 
-				this.bottom = newEntrance;
-				break;
-			case "left":
-				this.left = newEntrance;	
-				break;
-			case "room":
-				this.room = newEntrance;
-				break;
-			}*/
-		
 		this.entrances.add(newEntrance);
 		
 	}
@@ -369,6 +349,11 @@ public class Background extends JPanel implements Space{
 		
 	}
 	
+	public void removeEntrance(String entranceType) {
+		entrances.removeIf(e -> e.entranceType.equals(entranceType));
+		
+	}
+	
 	public void addOutsideBounds() {
 		Area wall1 = new Area(new Rectangle(0, 350, 640, 340));
 		this.walkable_map = wall1;
@@ -390,8 +375,6 @@ public class Background extends JPanel implements Space{
 		
 		
 		if (sb) {
-			//JButton skipButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "SKIP");
-		
 			int w = 64;
 			int h = 64;
 			int x = mf.frameWidth - w - 20;
@@ -402,8 +385,6 @@ public class Background extends JPanel implements Space{
 			}
 		
 		if (main) {
-			//JButton startButton = this.buttonCreator("/buttons/buttontest.png", "RIGHT", "SOUTH", "START");
-			//startButton.addActionListener(mf);
 			int w = 64;
 			int h = 64;
 			int x = mf.frameWidth - w - 20;
@@ -471,18 +452,7 @@ public class Background extends JPanel implements Space{
 						break;
 					}
 				}
-			} //paints the character in the specific order needed (for now, we can change if we need to)
-			/*if (this.walkable_map != null) {
-		        
-		        g2.setColor(new Color(0, 255, 0, 100)); 
-		        
-		        // Use fill() to color the entire area
-		        g2.fill(this.walkable_map);
-		        
-		        // Optional: Draw a solid green outline to see the edges better
-		        g2.setColor(Color.GREEN);
-		        g2.draw(this.walkable_map);
-		    }*/
+			} 
 
 		}
 
