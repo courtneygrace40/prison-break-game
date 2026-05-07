@@ -81,6 +81,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	
 	
+	
 	//set background
 	//this will change to implementing a linked list at some point?
 	Background prologue1 = new Background(this, controls, "/backgrounds/prologue1.png", false);
@@ -116,6 +117,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background h22 = new Background(this, controls, false, 7, "h22");
 	Background h23 = new Background(this, controls, false, 5, "h23");
 	
+	public int endingIndex = 0;
+	Timer endingTimer;
+	
 	
 	Background[] allHallways = {h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23};
 	
@@ -133,6 +137,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background cell = new Background (this, controls, "/backgrounds/Cell.png", false);
 	Background death = new Background (this, controls, "/backgrounds/Death.png", false);
 	Background doorCell = new Background(this, controls, "/backgrounds/DoorCell.png", false);
+	Background instructions = new Background(this, controls, "/backgrounds/Instructions.png", false);
+	Background youDidIt = new Background(this, controls, "/backgrounds/youditit.png", false);
+	Background letsgo = new Background(this, controls, "/backgrounds/letsgo.png", false);
 			
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
 	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room5.png", true);
@@ -183,12 +190,16 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		testRoom.setCharPaint(true);
 		cell.setCharPaint(true); 
 		cellHole.setCharPaint(true); 
+		letsgo.setCharPaint(true);
+		youDidIt.setCharPaint(true);
 		
 		outside.setKey("outside");
 		testRoom.setKey("testRoom");
 		winScreen.setKey("winScreen");
 		cellHole.setKey("cellHole");
 		cell.setKey("cell");
+		youDidIt.setKey("youDidIt");
+		letsgo.setKey("letsgo");
 		death.setKey("death");	
 		doorCell.setKey("doorCell");
 		guessingGame.setKey("guessingGame");
@@ -200,11 +211,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		
 		cell.brotherPaint();
 		cellHole.brotherPaint();
+		youDidIt.brotherPaint();
+		letsgo.brotherPaint();
 		
-		endingSequence.add(doorCell);
-		endingSequence.add(keyPadRoom);
+
 		endingSequence.add(cell);
+		endingSequence.add(youDidIt);
 		endingSequence.add(cellHole);
+		endingSequence.add(letsgo);
 		endingSequence.add(winScreen);
 		
 		outside.setGuardBool(true);
@@ -443,7 +457,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 
 		
 		gameOverScreen.setKey("gameOver");
-		
 
 		
 		this.setPreferredSize(new Dimension(frameWidth ,frameHeight));
@@ -466,13 +479,14 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.bg.add(prologue2);
 		this.bg.add(prologue3);
 		this.bg.add(mainScreen);
-		
+		this.bg.add(instructions);
 		this.bg.add(outside);
 		
 		this.add(prologue1, "prologue1");
 		this.add(prologue2, "prologue2");
 		this.add(prologue3, "prologue3");
 		this.add(mainScreen, "mainScreen");
+		this.add(instructions, "instructions");
 		this.add(outside, "outside");
 		this.add(testRoom, "testRoom");
 		this.add(winScreen, "winScreen");
@@ -485,14 +499,18 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		this.add(death, "death");
 		this.add(decoderRoom, "decoderRoom");
 		this.add(cell, "cell");
+		this.add(youDidIt, "youDidIt");
+		this.add(letsgo, "letsgo"); 
+		this.add(cellHole, "cellHole");
+		
+		instructions.setProgressionType("AUTO", null);
 		
 		// ----- ADD HALLWAYS TO MODIFY FRAME -----
 		
 		for (Background h : allHallways) {
 			h.setCharPaint(true);
 			this.add(h, h.getKey());
-			h.setProb(0.2);
-			h.setZeroProb();
+			h.setProb(0);
 		}
 		
 		h4.setProb(0.8);
@@ -500,7 +518,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h19.setProb(0.7);
 		h13.setProb(0.7);
 		h2.setProb(0.6);
-		h15.setProb(0);
 		//make player inside of this frame
 		player1 = new Player(this, controls);
 		this.player1.startGamePosition();
@@ -568,7 +585,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void paintComponent(Graphics g) {
 			super.paintComponent(g); // calls j panel and class (set by java to make this work)
 			Graphics2D g2 = (Graphics2D)g;
-			if (indexBG == 4) { 
+			if (indexBG == 5) { 
 				startGame = true;
 			}
 		
@@ -580,8 +597,11 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	
 	//updated code to allow the character switch to work between screens
 	public void update() {
+		
+
 		if (showDeathScreen) {
 	        gameOverDelayCounter++;
+	        
 	        //System.out.println("HELLO!!!!! I AM THE TIMER!!!!");
 
 	        // 90 frames per second * 120 seconds = 10,800 frames
@@ -709,7 +729,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	public void screenProgressionLogic(ActionEvent actionType, Object source, String command) {
 		if (source == this.myTimer) {
 			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.AUTO){
-				if (this.indexBG < 3) {
+				if (this.indexBG < 5) {
 					this.advanceScreen();
 				} 
 				//AFTER updating to the next one (here, the door), the timer needs to stop 
@@ -725,7 +745,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		} 
 		else if (command.equals("START")){
 			if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK){
-				this.advanceScreen();
+				this.advanceScreen();	
 		} 
 		}
 		
@@ -911,19 +931,28 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    gameOverDelayCounter = 0;
 
 	}
-	
 	public void endingSequence() {
-		this.currentBackground = cell;
-		bgLayout.show(this, "cell");
-		repaint();
+		this.charSize = 128;
+	    endingIndex = 0;
+	    showEndingScreen(endingIndex);
+	    
+	    endingTimer = new Timer(3000, null); // 3 seconds per screen
+	    endingTimer.addActionListener(e -> {
+	        endingIndex++;
+	        if (endingIndex < endingSequence.size()) {
+	            showEndingScreen(endingIndex);
+	        } else {
+	            endingTimer.stop();
+	        }
+	    });
+	    endingTimer.start();
 	}
-	
-	public void brotherGreeting() {
-		
-	}
-	
-	public void jumpUpAndDown() {
-		
+
+	private void showEndingScreen(int index) {
+	    Space screen = endingSequence.get(index);
+	    this.currentBackground = screen;
+	    bgLayout.show(this, screen.getKey());
+	    repaint();
 	}
 	
 

@@ -428,18 +428,18 @@ public class Background extends JPanel implements Space{
 			//this is not rly a great fix but it just changes the draw order and put it on the correct baackground 
 			
 			if(this.characterPaint) {
-				if (mf.indexBG >=4 && mf.indexBG < 5) {
+				if (mf.indexBG >=5 && mf.indexBG < 6) {
 					mf.player1.draw(g2);
 					//mf.guard1.draw(g2);
 					//mf.door1.draw(g2);
 				}
-				else if (mf.indexBG >= 5) {
+				else if (mf.indexBG >= 6) {
 					mf.playerGuard.draw(g2);
 					//mf.guard1.draw(g2);
 					//mf.door1.draw(g2);
 				}
 				if (this.guardPaint) {
-					if (mf.indexBG == 4) {
+					if (mf.indexBG == 5) {
 						mf.guard1.draw(g2);
 					}
 					else if (mf.guardApps <= 3 && mf.inCombat) {

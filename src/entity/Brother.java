@@ -37,8 +37,8 @@ public class Brother extends Entity{
 	}
 	
 	public void setDefaults() {
-		x = 300;
-		y = 300;
+		x = 250;
+		y = 350;
 		speed = 2;
 		direction = "front";
 		
