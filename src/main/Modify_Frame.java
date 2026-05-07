@@ -819,7 +819,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setVisible(true);
 	        });  
 	    }
-		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge() /*&& visitedRooms.get(this.sliderRoom) == true*/) {
+		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge()) {
 			System.out.println("start puzzle ");
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
