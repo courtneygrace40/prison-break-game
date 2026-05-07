@@ -10,7 +10,7 @@ public class Entity {
 	
 	public int speed;
 	
-	public BufferedImage front, back;
+	public BufferedImage front, back, punch;
 	public String direction;
 	
 	public void update() {

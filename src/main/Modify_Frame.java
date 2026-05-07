@@ -616,6 +616,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 				}
 				else {
 					combatState.guardAttack();
+					player1.playerPunch();
 					System.out.println("Guard Attacked! Player Health: " + combatState.playerHealth);
 				}
 				combatCount = 60;
