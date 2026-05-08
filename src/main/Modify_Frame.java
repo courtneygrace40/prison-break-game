@@ -142,12 +142,12 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	Background letsgo = new Background(this, controls, "/backgrounds/letsgo.png", false);
 			
 	ChallengeRoom testRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true); //test
-	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room5.png", true);
+	ChallengeRoom sliderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
 	//KeyPad room is the room right before the user enters the brother's cell
 	ChallengeRoom keyPadRoom = new ChallengeRoom(this, controls, "/backgrounds/DoorCell.png", true);
 	ChallengeRoom killBugRoom = new ChallengeRoom(this, controls, "/backgrounds/PrisonYard.png", true);
 	ChallengeRoom decoderRoom = new ChallengeRoom(this, controls, "/backgrounds/Room3.png", true);
-	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room1.png", true);
+	ChallengeRoom guessingGame = new ChallengeRoom(this, controls, "/backgrounds/Room5.png", true);
 	ChallengeRoom library = new ChallengeRoom(this,controls, "/backgrounds/Room4.png", true);
 	
 	Image doorImage = new ImageIcon("/Door.png").getImage();
@@ -433,16 +433,16 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(winScreen, new HashMap<>());
 		
 		worldMap.put(guessingGame, new HashMap<>());
-		worldMap.get(guessingGame).put("bottom", h1);
-		guessingGame.addEntrance("bottom");
+		worldMap.get(guessingGame).put("top", h20);
+		guessingGame.addEntrance("top");
 		
 		worldMap.put(decoderRoom, new HashMap<>());
 		worldMap.get(decoderRoom).put("left", h13);
 		decoderRoom.addEntrance("left");
 		
 		worldMap.put(sliderRoom, new HashMap<>());
-		worldMap.get(sliderRoom).put("top", h20);
-		sliderRoom.addEntrance("top");
+		worldMap.get(sliderRoom).put("bottom", h1);
+		sliderRoom.addEntrance("bottom");
 		
 		worldMap.put(killBugRoom, new HashMap<>());
 		worldMap.get(killBugRoom).put("right", h6);
@@ -802,6 +802,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 //puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.controls.resetKeys();
                 this.h20.removeEntrance("bottom");
 	        });  
 	    }
@@ -816,6 +817,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.controls.resetKeys();
 	        });
             	
 		}
@@ -832,9 +834,10 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.controls.resetKeys();
                 this.h6.removeEntrance("left");
 	        });
-            this.controls.resetKeys();
+            
             	
 		}
 		else if (room.getChallengeType().equals("Decoder")&& room.getActiveChallenge()) {
@@ -848,6 +851,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.controls.resetKeys();
                 this.h13.removeEntrance("right");
 	        });
             	
@@ -866,6 +870,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
+                this.controls.resetKeys();
                 this.h1.removeEntrance("top");
 	        });
             this.controls.resetKeys();
@@ -893,6 +898,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	                    
 	                    puzzle.setLocationRelativeTo(Modify_Frame.this); 
 	                    puzzle.setVisible(true);
+	                    
 	                    room.remove(solvePuzzleButton);
 	                    
 	                    Modify_Frame.this.advanceList("right");
@@ -900,6 +906,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	                });
 	            }
 	        });
+	    	
+	    	this.controls.resetKeys();
 
 	    	// thx gemini
 	        room.add(solvePuzzleButton);
