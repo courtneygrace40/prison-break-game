@@ -6,7 +6,7 @@ public class CombatRoom {
 	
 	public CombatRoom() {
 		playerHealth = 50;
-		guardHealth = 10;
+		guardHealth = 20;
 
 	}
 	public void playerAttack() {
