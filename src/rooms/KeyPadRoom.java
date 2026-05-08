@@ -174,6 +174,7 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 					    "Uhoh... you hear alarms begin to sound...",
 					    "The code is NOT CORRECT.",
 					    JOptionPane.PLAIN_MESSAGE);
+				mf.showGameOverScreen();
 			}
 	    }
 		
