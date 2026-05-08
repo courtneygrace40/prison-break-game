@@ -45,6 +45,171 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
         shuffle();
         //initializeGameLoop();
       
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
     }
 	
 	private void addActionListener() {
