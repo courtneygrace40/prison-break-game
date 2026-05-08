@@ -44,6 +44,17 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
         addActionListener();
         shuffle();
         //initializeGameLoop();
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
+        
     }
 	
 	private void addActionListener() {

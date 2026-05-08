@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,6 +71,16 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
         positions.add(card2);positions.add(card2);positions.add(card2);positions.add(card2);
         positions.add(card3);positions.add(card3);positions.add(card3);positions.add(card3);
         positions.add(card4);positions.add(card4);positions.add(card4);positions.add(card4);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (!hasFinished()) {
+        	        setVisible(false);
+        	        mf.showGameOverScreen(); 
+                }
+            }
+        });
         
         shuffle();
         cardsFlipped = 0;
