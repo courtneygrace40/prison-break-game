@@ -798,6 +798,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
+            	this.h1.removeEntrance("bottom");
                 // Assuming SliderPuzzleRoom extends JDialog
                 SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
                 visitedRooms.replace(this.sliderRoom, true);
@@ -805,7 +806,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
                 this.controls.resetKeys();
-                this.h1.removeEntrance("bottom");
+                
 	        });  
 	    }
 		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge()) {
@@ -829,6 +830,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
+            		  this.h6.removeEntrance("left");
                 // Assuming SliderPuzzleRoom extends JDialog
                 WhackAMoleRoom puzzle = new WhackAMoleRoom(this, this.controls);
                 visitedRooms.replace(this.killBugRoom, true);
@@ -836,7 +838,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
                 this.controls.resetKeys();
-                this.h6.removeEntrance("left");
+              
 	        });
             
             	
@@ -846,6 +848,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
+            	this.h13.removeEntrance("right");
                 // Assuming SliderPuzzleRoom extends JDialog
                 DecoderRoom puzzle = new DecoderRoom(this, this.controls);
                 visitedRooms.replace(this.decoderRoom, true);
@@ -853,7 +856,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
                 this.controls.resetKeys();
-                this.h13.removeEntrance("right");
+                
 	        });
             	
 			}
@@ -865,19 +868,21 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
+            	this.h20.removeEntrance("top");
                 // Assuming SliderPuzzleRoom extends JDialog
                 GuessingGameRoom puzzle = new GuessingGameRoom(this, this.controls);
                 visitedRooms.replace(this.guessingGame, true);
+                
                 puzzle.setModal(true); // This stops the user from moving the player while puzzling
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
                 this.controls.resetKeys();
-                this.h20.removeEntrance("top");
 	        });
             this.controls.resetKeys();
             	
 		}
 		else if (room.getChallengeType().equals("Library")&& room.getActiveChallenge()) {
+			this.h16.removeEntrance("left");
 			System.out.println("start puzzle ");
 			this.controls.resetKeys();
 	    	room.setActiveChallenge(false);
