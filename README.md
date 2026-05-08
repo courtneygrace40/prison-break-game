@@ -7,3 +7,5 @@
 *You are left with two options:
 a) let your brother spend the rest of his life in prison, or
 b) break him out.*
+
+Developed by Courtney Sweeney, Asha Kulp, Kawsar Abdisalan, and Kalea Fields
