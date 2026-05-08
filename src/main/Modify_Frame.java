@@ -227,7 +227,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		prologue1.setProgressionType("AUTO", "SKIP");
 		prologue2.setProgressionType("AUTO", "SKIP");
 		prologue3.setProgressionType("AUTO", "SKIP");
-		
+		h1.setProgressionType("TRIGGER", null);		
 		// ----- BUTTON SETTING -----
 		
 		prologue1.setButtons(true, false);
@@ -276,11 +276,15 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		 3. Add entrances 
 		 */
 		
+		/*
+		 * Room Order
+		 * 1. slider puzzle 2. bug smasher 3. decoder 4.library 5. matching game 6. keypad/cell
+		 * */
 		
 
 		worldMap.put(h1, new HashMap<>());
 		worldMap.get(h1).put("right", h2);
-		worldMap.get(h1).put("top", guessingGame);
+		worldMap.get(h1).put("top", sliderRoom);
 		h1.addEntrance("right");
 		h1.addEntrance("left");
 		h1.addEntrance("top");
@@ -404,7 +408,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		worldMap.put(h20, new HashMap<>());
 		worldMap.get(h20).put("right", h21);
 		worldMap.get(h20).put("left", h19);
-		worldMap.get(h20).put("bottom", sliderRoom);
+		worldMap.get(h20).put("bottom", guessingGame);
 		h20.addEntrance("right");
 		h20.addEntrance("left");
 		h20.addEntrance("bottom");
@@ -714,7 +718,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 					this.advanceScreen();
 				} 
 				//AFTER updating to the next one (here, the door), the timer needs to stop 
-				if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.CLICK) {
+				if (bg.get(indexBG).currentProgressionType == Background.ProgressionType.TRIGGER) {
 					this.myTimer.stop();
 				}
 			} 
