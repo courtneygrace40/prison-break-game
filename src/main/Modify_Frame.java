@@ -805,7 +805,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
                 this.controls.resetKeys();
-                this.h20.removeEntrance("bottom");
+                this.h1.removeEntrance("bottom");
 	        });  
 	    }
 		else if (room.getChallengeType().equals("Key Pad")&& room.getActiveChallenge()) {
@@ -872,7 +872,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setLocationRelativeTo(this); 
                 puzzle.setVisible(true);
                 this.controls.resetKeys();
-                this.h1.removeEntrance("top");
+                this.h20.removeEntrance("top");
 	        });
             this.controls.resetKeys();
             	
