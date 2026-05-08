@@ -28,7 +28,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
         
         this.mf = mf;
         this.kh = kh;
-        this.direction = "top";
+        this.direction = "bottom";
         
         setLayout(null);
         setSize(400, 400);

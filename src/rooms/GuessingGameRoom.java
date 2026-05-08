@@ -45,7 +45,7 @@ public class GuessingGameRoom extends JDialog implements RoomChallenge, ActionLi
 	public GuessingGameRoom(Modify_Frame mf, KeyHandler kh) {
 		this.mf = mf;
 		this.kh = kh;
-		this.direction = "bottom";
+		this.direction = "top";
 		
         setLayout(null);
         setSize(400, 410);

@@ -428,9 +428,9 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h22.addEntrance("top");
 		
 		worldMap.put(h23, new HashMap<>());
-		worldMap.get(h23).put("top", winScreen);
+		worldMap.get(h23).put("top", h22);
 		h23.addEntrance("top");
-		worldMap.put(winScreen, new HashMap<>());
+		
 		
 		worldMap.put(guessingGame, new HashMap<>());
 		worldMap.get(guessingGame).put("top", h20);
