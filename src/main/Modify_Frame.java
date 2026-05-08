@@ -798,7 +798,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
-            	this.h1.removeEntrance("bottom");
+            	this.h1.removeEntrance("top");
                 // Assuming SliderPuzzleRoom extends JDialog
                 SliderPuzzleRoom puzzle = new SliderPuzzleRoom(this, this.controls);
                 visitedRooms.replace(this.sliderRoom, true);
@@ -868,7 +868,7 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 	    	room.setActiveChallenge(false);
 	        // Use invokeLater to ensure the window pops up smoothly over the JPanel
             	javax.swing.SwingUtilities.invokeLater(() -> {
-            	this.h20.removeEntrance("top");
+            	this.h20.removeEntrance("bottom");
                 // Assuming SliderPuzzleRoom extends JDialog
                 GuessingGameRoom puzzle = new GuessingGameRoom(this, this.controls);
                 visitedRooms.replace(this.guessingGame, true);

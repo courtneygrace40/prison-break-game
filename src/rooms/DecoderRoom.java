@@ -49,6 +49,8 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
         hintTimer.setRepeats(false);
         hintTimer.start();
         
+      
+        
         
 	}
 
@@ -190,6 +192,9 @@ public class DecoderRoom extends JDialog implements RoomChallenge, ActionListene
 			i ++;
 			b.setText(alphabet[i]);
 		}
+		
+		
+		
 		
 //		if (b.equals(b1)) {
 //			if (b.getText().equals("P")) {

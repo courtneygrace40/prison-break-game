@@ -44,6 +44,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
         addActionListener();
         shuffle();
         //initializeGameLoop();
+      
     }
 	
 	private void addActionListener() {
@@ -122,6 +123,7 @@ public class SliderPuzzleRoom extends JDialog implements RoomChallenge, ActionLi
 		return false;
 	}
   
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
