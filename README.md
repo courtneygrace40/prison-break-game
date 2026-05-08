@@ -8,4 +8,6 @@
 a) let your brother spend the rest of his life in prison, or
 b) break him out.*
 
+A prison break simulation game written in Java, developed in Eclipse. The game features **six** challenge rooms, hallway navigation, and prisoner/guard combat. 
+
 Developed by Courtney Sweeney, Asha Kulp, Kawsar Abdisalan, and Kalea Fields
