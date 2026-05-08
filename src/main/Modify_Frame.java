@@ -821,7 +821,6 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
                 puzzle.setVisible(true);
                 this.controls.resetKeys();
 	        });
-            	
 		}
 		else if (room.getChallengeType().equals("Kill Bugs")&& room.getActiveChallenge()) {
 			System.out.print(room.returnBackground());

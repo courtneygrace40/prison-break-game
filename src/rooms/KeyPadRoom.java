@@ -32,7 +32,14 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
         setBackground(Color.gray);
         
         // Change close operation so it doesn't kill the whole game
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                handleManualClose();
+            }
+        });
         
         initializeButtons();
         addButtons();
@@ -178,6 +185,15 @@ public class KeyPadRoom extends JDialog implements RoomChallenge, ActionListener
 			}
 	    }
 		
+	}
+	
+	private void handleManualClose() {{
+	        // Play losing sequence since no input was provided -- you dont try, you lose
+	        setVisible(false);
+	        this.dispose();
+	        mf.showGameOverScreen(); 
+
+	    }
 	}
 
 
