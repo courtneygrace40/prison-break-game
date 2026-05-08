@@ -505,7 +505,10 @@ public class Background extends JPanel implements Space{
     	Random r = new Random();
     	int r1 = r.nextInt(100);
     	double num = r1/100.0;
-    	if (num<=this.gpProbability) {
+    	if(this.gpProbability ==0) {
+    		return(false);
+    	}
+    	else if (num<=this.gpProbability) {
     		this.guardPaint = true;
     		return(true);
     	}

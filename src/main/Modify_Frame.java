@@ -522,6 +522,8 @@ public class Modify_Frame extends JPanel implements Runnable, ActionListener{
 		h19.setProb(0.7);
 		h13.setProb(0.7);
 		h2.setProb(0.6);
+
+		
 		//make player inside of this frame
 		player1 = new Player(this, controls);
 		this.player1.startGamePosition();
